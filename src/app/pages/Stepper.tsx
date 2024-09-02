@@ -72,7 +72,7 @@ function Stepper() {
           transition={{ duration: 0.3 }}
         />
       </div>
-      <div className="overflow-y-auto custom-scrollbar">
+      <div className="overflow-auto custom-scrollbar">
         <CurrentStepComponent />
       </div>
 
