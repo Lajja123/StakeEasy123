@@ -33,7 +33,7 @@ function Stepper() {
   const CurrentStepComponent = steps[currentStep].component;
 
   return (
-    <div className="w-[80%] h-[70vh] mx-auto my-[50px] p-8 bg-transparent rounded-xl shadow-lg flex flex-col justify-between">
+    <div className="w-[100%] h-[70vh] mx-auto my-[10px] p-8 bg-transparent rounded-xl  flex flex-col justify-between">
       <div className="mb-12 relative">
         <div className="flex justify-between items-center">
           {steps.map((step, index) => (
@@ -43,7 +43,7 @@ function Stepper() {
             >
               <motion.div
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
-                  index <= currentStep ? "bg-red-500 z-10" : "bg-gray-300 z-10"
+                  index <= currentStep ? "bg-gradient-to-b from-[#FC8151] to-[#C951C0] z-10" : "bg-[#585858] z-10"
                 }`}
                 animate={{
                   scale: index === currentStep ? 1.2 : 1,
@@ -66,7 +66,7 @@ function Stepper() {
 
         <div className="absolute top-5 left-0 right-0 h-0.5 bg-gray-300 " />
         <motion.div
-          className="absolute top-5 left-0 h-0.5 bg-red-500"
+          className="absolute top-5 left-0 h-0.5 bg-gradient-to-b from-[#FC8151] to-[#C951C0]"
           initial={{ width: "0%" }}
           animate={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
           transition={{ duration: 0.3 }}
@@ -76,11 +76,11 @@ function Stepper() {
         <CurrentStepComponent />
       </div>
 
-      <div className="flex justify-between mt-12">
+      <div className="flex justify-end mt-12">
         <button
           onClick={prevStep}
           disabled={currentStep === 0}
-          className="px-6 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors flex items-center"
+          className="px-6 py-2 mx-2.5 my-0 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors flex items-center"
         >
           <ChevronLeft size={20} className="mr-2" />
           Back
