@@ -126,7 +126,7 @@ function KeyGeneration() {
                     permanent loss of access to your funds.
                   </p>
                   <p className="text-gray-600 mb-4">
-                    If possible, use an "air-gapped" computer during the key
+                    If possible, use an air-gapped computer during the key
                     generation process. An air-gapped computer is one that is
                     not and has not been connected to any network, minimizing
                     the risk of exposing your secret recovery phrase. If an
@@ -164,7 +164,7 @@ function KeyGeneration() {
                     permanent loss of access to your funds.
                   </p>
                   <p className="text-gray-600 mb-4">
-                    If possible, use an "air-gapped" computer during the key
+                    If possible, use an air-gapped computer during the key
                     generation process. An air-gapped computer is one that is
                     not and has not been connected to any network, minimizing
                     the risk of exposing your secret recovery phrase. If an
