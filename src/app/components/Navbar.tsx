@@ -25,6 +25,7 @@ const NavBar = () => {
                 animation: "typing 4s steps(40, end) 4s infinite",
                 overflow: "hidden",
                 whiteSpace: "nowrap",
+                color: "white",
               }}
             >
               StakeEasy

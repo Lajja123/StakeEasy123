@@ -12,10 +12,18 @@ function EigenpodAddress() {
   const [address, setAddress] = useState("EigenPod Address not created yet");
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const hasSeenPopup = localStorage.getItem("hasSeenEigenPodPopup");
+    if (!hasSeenPopup) {
+      setShowPopup(true);
+      localStorage.setItem("hasSeenEigenPodPopup", "true");
+    }
+  }, []);
 
   const createPodAddress = () => {
     setLoading(true);
-    // Simulating address creation with a delay
     setTimeout(() => {
       setAddress("0x1234...5678");
       setLoading(false);
@@ -30,6 +38,14 @@ function EigenpodAddress() {
     navigator.clipboard.writeText(address);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
+  const openPopup = () => {
+    setShowPopup(true);
   };
 
   return (
@@ -130,7 +146,7 @@ function EigenpodAddress() {
                 onClick={copyToClipboard}
               >
                 {copied ? (
-                  <CheckCircle className="w-5 h-5" />
+                  <CheckCircle className="w-6 h-6" />
                 ) : (
                   <Copy className="w-6 h-6" />
                 )}
