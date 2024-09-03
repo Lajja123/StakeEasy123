@@ -93,20 +93,35 @@ function Stepper() {
         <CurrentStepComponent />
       </div>
 
-      <div className="flex justify-end mt-12">
+      <div className="flex justify-end mt-12 w-[90%]">
         <button
           onClick={prevStep}
           disabled={currentStep === 0}
-          className="px-6 py-2 mx-2.5 my-0 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors flex items-center"
+          style={{
+            border: "1px solid transparent",
+            borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+            borderImageSlice: 1,
+            color: "white",
+            background: "linear-gradient(to right, #121212, #252525)",
+            borderRadius: "15px",
+          }}
+          className="px-6 py-2 mx-2.5 my-0  rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors flex items-center"
         >
-          <ChevronLeft size={20} className="mr-2" />
+          <ChevronLeft size={20} className="mr-2 text-white" />
           Back
         </button>
 
         <button
           onClick={nextStep}
           disabled={currentStep === steps.length - 1}
-          className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:opacity-50 transition-colors flex items-center"
+          className="px-6 py-2  disabled:opacity-50 transition-colors flex items-center"
+          style={{
+            border: "1px solid transparent",
+            borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+            borderImageSlice: 1,
+            color: "white",
+            background: "linear-gradient(to right, #121212, #252525)",
+          }}
         >
           {currentStep === steps.length - 1 ? "Finish" : "Next"}
           <ChevronRight size={20} className="ml-2" />

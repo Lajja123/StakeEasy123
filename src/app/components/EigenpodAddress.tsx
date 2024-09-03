@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { ClipboardCopy, CheckCircle, X, Info } from "lucide-react";
+import {
+  Copy,
+  CheckCircle,
+  X,
+  Info,
+  MessageCircleQuestionIcon,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 function EigenpodAddress() {
@@ -43,7 +49,15 @@ function EigenpodAddress() {
   };
 
   return (
-    <div className="relative  shadow-lg p-8 mx-auto transition-all duration-300 w-[80%] ">
+    <div
+      className="relative   mx-auto transition-all duration-300 w-[80%]"
+      style={{
+        background: "linear-gradient(to right, #1D1D1D 0%, #191919 100%)",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        padding: "80px 40px",
+        borderRadius: "20px",
+      }}
+    >
       {/* Popup */}
       <AnimatePresence>
         {showPopup && (
@@ -90,10 +104,16 @@ function EigenpodAddress() {
         }`}
       >
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-red-500 mb-6">
+          <h2
+            className="text-2xl font-bold text-white mb-7"
+            style={{ letterSpacing: "1px", fontWeight: "bold " }}
+          >
             EigenPod Address Creation
           </h2>
-          <p className="text-gray-600 leading-relaxed">
+          <p
+            className="text-white leading-relaxed w-[70%]"
+            style={{ fontWeight: "200", fontSize: "14px" }}
+          >
             Programmatically generate an EigenPod address for users, reducing
             manual setup and enhancing convenience.
           </p>
@@ -101,26 +121,34 @@ function EigenpodAddress() {
 
         <div className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              className="block text-sm font-medium text-[#CACACA] mb-2 "
+              style={{
+                fontWeight: "200",
+                fontSize: "15px",
+                letterSpacing: "1px",
+              }}
+            >
               EigenPod Address
             </label>
-            <div className="flex items-center bg-gray-50 border border-gray-300 rounded-md overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-500">
+            <div className="flex items-center bg-[#161515] border focus:outline-none rounded-md overflow-hidden transition-all duration-300 focus-within:ring-2 ">
               <input
                 type="text"
                 value={address}
                 readOnly
-                className="flex-grow bg-transparent px-4 py-3 text-gray-800 focus:outline-none"
+                className="flex-grow bg-transparent px-4 py-3 focus:outline-none"
+                style={{ color: "rgba(202, 202, 202, 0.40)" }}
               />
               <button
-                className={`p-3 text-gray-500 hover:text-gray-700 transition-colors ${
-                  copied ? "text-green-500" : ""
+                className={`p-3 text-[#FC8150] transition-colors ${
+                  copied ? "text-[#FC8150]" : ""
                 }`}
                 onClick={copyToClipboard}
               >
                 {copied ? (
                   <CheckCircle className="w-6 h-6" />
                 ) : (
-                  <ClipboardCopy className="w-6 h-6" />
+                  <Copy className="w-6 h-6" />
                 )}
               </button>
             </div>
@@ -130,15 +158,31 @@ function EigenpodAddress() {
             <button
               onClick={createPodAddress}
               disabled={loading}
-              className={`flex-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-md text-sm transition-all duration-300 ${
+              className={`flex-1 bg-[#161515] text-white font-medium py-3 px-4 rounded-md text-sm transition-all duration-300 ${
                 loading ? "opacity-75 cursor-not-allowed" : ""
               }`}
+              style={{
+                border: "1px solid transparent",
+                borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+                borderImageSlice: 1,
+                background: "linear-gradient(to right, #DA619C, #FF844A)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
             >
               {loading ? "Creating..." : "Create Pod Address"}
             </button>
             <button
               onClick={getPodAddress}
-              className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-md text-sm transition-all duration-300"
+              style={{
+                border: "1px solid transparent",
+                borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+                borderImageSlice: 1,
+                background: "linear-gradient(to right, #DA619C, #FF844A)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+              className="flex-1  font-medium py-3 px-4 rounded-md text-sm transition-all duration-300"
             >
               Get Pod Address
             </button>
@@ -147,14 +191,13 @@ function EigenpodAddress() {
       </div>
 
       {/* Button to Reopen Popup */}
-      <button className="bg-gray-800 rounded-full p-2"></button>
-      <div className="mt-8 text-center">
+
+      <div className="mt-8 text-center relative">
         <button
           onClick={openPopup}
-          className="inline-flex items-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg"
+          className=" absolute right-0 inline-flex items-center text-white py-2 px-4 rounded-md "
         >
-          <Info className="w-5 h-5 mr-2" />
-          Show Welcome Message
+          <MessageCircleQuestionIcon />
         </button>
       </div>
     </div>
