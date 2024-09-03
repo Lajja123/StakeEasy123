@@ -1,12 +1,11 @@
-import React, { useState, useContext } from "react";
-import styles from "../css/BtnShine.module.css";
+import React from "react";
 import Image from "next/image";
 import Hero from "../assets/logo.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const NavBar = () => {
   return (
-    <div className="px-[60px] py-5 mx-auto sm:max-w-xl md:max-w-full  md:px-24 lg:px-8 w-[100%] ">
+    <div className="px-[60px] py-5 mx-auto sm:max-w-xl md:max-w-full  md:px-24 lg:px-8 w-[90%] ">
       <div className="relative flex items-center justify-between">
         <div className="flex items-center">
           <a
@@ -15,12 +14,12 @@ const NavBar = () => {
             title="StakeEasy"
             className="inline-flex items-center mr-8"
           >
-            {/* <Image
+            <Image
               src={Hero}
               alt="My Image"
               style={{ width: "40px", color: "white" }}
-            /> */}
-            {/* <div
+            />
+            <div
               className="ml-2 text-[26px] font-semibold tracking-wide logo"
               style={{
                 animation: "typing 4s steps(40, end) 4s infinite",
@@ -29,7 +28,7 @@ const NavBar = () => {
               }}
             >
               StakeEasy
-            </div> */}
+            </div>
           </a>
         </div>
         <div className="flex items-center">
