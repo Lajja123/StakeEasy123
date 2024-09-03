@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Joyride, { Step } from "react-joyride";
-import EigenpodAddress from "../components/Eigenpodaddress";
-import KeyGeneration from "../components/Keygeneration";
+import EigenpodAddress from "../components/EigenpodAddress";
+import KeyGeneration from "../components/KeyGeneration";
 import UploadDepositData from "../components/UploadDepositData";
 import ValidatorRegistration from "../components/ValidatorRegistration";
 import { Check, ChevronRight, ChevronLeft } from "lucide-react";
