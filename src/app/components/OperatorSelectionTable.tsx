@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/OperatorSelectionTable.css";
 
 // Define the type for an operator
@@ -60,14 +60,30 @@ export default function OperatorSelectionTable() {
     direction: null,
   });
 
+  const [totalFee, setTotalFee] = useState<number>(0); // State for total fee
+
+  // Function to calculate the total fee
+  const calculateTotalFee = (selectedOps: Operator[]) => {
+    const total = selectedOps.reduce(
+      (sum, op) => sum + parseInt(op.yearlyFee.split(" ")[0]),
+      0
+    );
+    setTotalFee(total);
+  };
+
   const handleRowSelection = (operator: Operator) => {
     setSelectedOperators((prev) => {
+      let updatedOperators;
       if (prev.find((op) => op.id === operator.id)) {
-        return prev.filter((op) => op.id !== operator.id);
+        updatedOperators = prev.filter((op) => op.id !== operator.id);
       } else if (prev.length < clusterSize) {
-        return [...prev, operator];
+        updatedOperators = [...prev, operator];
+      } else {
+        updatedOperators = prev;
       }
-      return prev;
+
+      calculateTotalFee(updatedOperators); // Calculate fee whenever selection changes
+      return updatedOperators;
     });
   };
 
@@ -183,23 +199,35 @@ export default function OperatorSelectionTable() {
           </tbody>
         </table>
       </div>
-      <div className="selected-operators">
-        <h3>
-          Selected Operators {selectedOperators.length}/{clusterSize}
-        </h3>
-        {selectedOperators.map((operator, index) => (
-          <div key={operator.id} className="selected-operator">
-            {operator.name} (Operator {String(index + 1).padStart(2, "0")})
-          </div>
-        ))}
-        {Array(clusterSize - selectedOperators.length)
-          .fill(null)
-          .map((_, index) => (
-            <div key={index} className="empty-operator">
-              Select Operator{" "}
-              {String(selectedOperators.length + index + 1).padStart(2, "0")}
+      <div className="flex flex-col justify-between">
+        <div className="selected-operators">
+          <h3>
+            Selected Operators {selectedOperators.length}/{clusterSize}
+          </h3>
+          {selectedOperators.map((operator, index) => (
+            <div key={operator.id} className="selected-operator">
+              {operator.name} (Operator {String(index + 1).padStart(2, "0")})
             </div>
           ))}
+          {Array(clusterSize - selectedOperators.length)
+            .fill(null)
+            .map((_, index) => (
+              <div key={index} className="empty-operator">
+                Select Operator{" "}
+                {String(selectedOperators.length + index + 1).padStart(2, "0")}
+              </div>
+            ))}
+        </div>
+        {/* Display the total fee */}
+        <div className="total-fee">
+          <div className="flex justify-between mb-1">
+            <h4>Operators Yearly Fee:</h4>
+            <p>{totalFee} SSV</p>
+          </div>
+          <button className="w-full bg-blue-600 text-white py-[6px] px-4 rounded-[6px] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
