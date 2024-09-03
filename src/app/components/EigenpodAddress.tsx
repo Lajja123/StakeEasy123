@@ -43,7 +43,7 @@ function EigenpodAddress() {
   };
 
   return (
-    <div className="relative bg-white border border-gray-200 rounded-lg shadow-lg p-8 mx-auto transition-all duration-300 hover:shadow-xl">
+    <div className="relative  shadow-lg p-8 mx-auto transition-all duration-300 w-[80%] ">
       {/* Popup */}
       <AnimatePresence>
         {showPopup && (
@@ -54,7 +54,7 @@ function EigenpodAddress() {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg relative"
+              className=" p-6 rounded-lg shadow-xl w-[80%] max-w-lg relative"
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
@@ -147,6 +147,7 @@ function EigenpodAddress() {
       </div>
 
       {/* Button to Reopen Popup */}
+      <button className="bg-gray-800 rounded-full p-2"></button>
       <div className="mt-8 text-center">
         <button
           onClick={openPopup}

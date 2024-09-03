@@ -1,21 +1,31 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import {
+  ChevronRight,
+  ChevronLeft,
+  Plus,
+  Key,
+  Pencil,
+  Upload,
+} from "lucide-react";
+import starImg from "../assets/Frame 5.png";
+
+// Import your step components here
 import EigenpodAddress from "../components/EigenpodAddress";
 import KeyGeneration from "../components/KeyGeneration";
 import UploadDepositData from "../components/UploadDepositData";
 import ValidatorRegistration from "../components/ValidatorRegistration";
-import { Check, ChevronRight, ChevronLeft } from "lucide-react";
+
+const steps = [
+  { title: "Personal Info", component: EigenpodAddress, icon: Plus },
+  { title: "Account Setup", component: KeyGeneration, icon: Key },
+  { title: "Completion", component: ValidatorRegistration, icon: Pencil },
+  { title: "Confirmation", component: UploadDepositData, icon: Upload },
+];
 
 function Stepper() {
-  const steps = [
-    { title: "Personal Info", component: EigenpodAddress },
-    { title: "Account Setup", component: KeyGeneration },
-
-    { title: "Completion", component: ValidatorRegistration },
-    { title: "Confirmation", component: UploadDepositData },
-  ];
-
   const [currentStep, setCurrentStep] = useState(0);
 
   const nextStep = () => {
@@ -33,46 +43,53 @@ function Stepper() {
   const CurrentStepComponent = steps[currentStep].component;
 
   return (
-    <div className="w-[100%] h-[70vh] mx-auto my-[10px] p-8 bg-transparent rounded-xl  flex flex-col justify-between">
-      <div className="mb-12 relative">
-        <div className="flex justify-between items-center">
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              className={`step-${index} flex flex-col items-center relative`}
-            >
-              <motion.div
-                className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
-                  index <= currentStep ? "bg-gradient-to-b from-[#FC8151] to-[#C951C0] z-10" : "bg-[#585858] z-10"
-                }`}
-                animate={{
-                  scale: index === currentStep ? 1.2 : 1,
-                }}
+    <div className="w-full h-[80vh] my-[10px] bg-transparent rounded-xl flex flex-col justify-between">
+      <Image
+        src={starImg}
+        alt=""
+        className="w-70 h-70 absolute bottom-16 left-0"
+      />
+      <div className="mb-12 relative w-full">
+        <div className="flex justify-between items-center w-full relative">
+          {steps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={index}
+                className={`step flex flex-col items-center relative w-full`}
               >
-                {index + 1}
-              </motion.div>
-              {/* <p
-                className={`mt-2 text-sm ${
-                  index === currentStep
-                    ? "font-medium text-gray-800"
-                    : "text-gray-500"
-                }`}
-              >
-                {step.title}
-              </p> */}
-            </div>
-          ))}
+                <motion.div
+                  className={`w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center text-white font-bold ${
+                    index <= currentStep
+                      ? "bg-gradient-to-b from-[#FC8151] to-[#C951C0]"
+                      : "bg-[#585858]"
+                  } ${
+                    index === 0 && currentStep === 0 ? "  ring-opacity-50" : ""
+                  } z-10`}
+                  animate={{
+                    scale: index === currentStep ? 1.2 : 1,
+                  }}
+                >
+                  <Icon className="w-6 h-6" />
+                </motion.div>
+              </div>
+            );
+          })}
         </div>
 
-        <div className="absolute top-5 left-0 right-0 h-0.5 bg-gray-300 " />
+        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-[#414141] transform -translate-y-1/2" />
+
         <motion.div
-          className="absolute top-5 left-0 h-0.5 bg-gradient-to-b from-[#FC8151] to-[#C951C0]"
-          initial={{ width: "0%" }}
-          animate={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
+          className="absolute top-1/2 left-0 h-0.5 bg-gradient-to-r from-[#FC8151] to-[#C951C0] transform -translate-y-1/2 z-0"
+          initial={{ width: "14%" }}
+          animate={{
+            width: `${Math.max(14, (currentStep / (steps.length - 1)) * 100)}%`,
+          }}
           transition={{ duration: 0.3 }}
         />
       </div>
-      <div className="overflow-auto custom-scrollbar">
+
+      <div className="overflow-auto custom-scrollbar ">
         <CurrentStepComponent />
       </div>
 
@@ -85,6 +102,7 @@ function Stepper() {
           <ChevronLeft size={20} className="mr-2" />
           Back
         </button>
+
         <button
           onClick={nextStep}
           disabled={currentStep === steps.length - 1}
