@@ -22,7 +22,7 @@ function Stepper() {
   const joyrideSteps: Step[] = [
     {
       target: ".step-0", // Targeting the first step in the stepper
-      content: "This is where you create an EigenPod address for users.",
+      content: "This is where you create an EigenPod address for users",
     },
     {
       target: ".step-1",
