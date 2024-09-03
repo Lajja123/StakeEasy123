@@ -45,7 +45,15 @@ function UploadDepositData() {
   };
 
   return (
-    <div className="relative bg-white border border-gray-200 rounded-lg shadow-sm p-8 mx-auto">
+    <div
+      className="relative mx-auto transition-all duration-300 w-[80%]"
+      style={{
+        background: "linear-gradient(to right, #1D1D1D 0%, #191919 100%)",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        padding: "80px 40px",
+        borderRadius: "20px",
+      }}
+    >
       {/* Popup */}
       <AnimatePresence>
         {showPopup && (

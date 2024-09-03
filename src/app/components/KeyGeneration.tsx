@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X, Info, ArrowLeft } from "lucide-react";
+import { X, Info, ArrowLeft, MessageCircleQuestionIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 function KeyGeneration() {
@@ -37,7 +37,7 @@ function KeyGeneration() {
     }
     setPopupType("");
   };
-  
+
   const goBack = () => {
     setShowTerminalSteps(false);
     setShowGUISteps(false);
@@ -64,7 +64,15 @@ function KeyGeneration() {
   ];
 
   return (
-    <div className="relative bg-white border border-gray-200 rounded-lg shadow-sm p-8 mx-auto max-w-4xl">
+    <div
+      className="relative   mx-auto transition-all duration-300 w-[80%]"
+      style={{
+        background: "linear-gradient(to right, #1D1D1D 0%, #191919 100%)",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        padding: "80px 40px",
+        borderRadius: "20px",
+      }}
+    >
       {/* Popup */}
       <AnimatePresence>
         {showPopup && (
@@ -75,57 +83,65 @@ function KeyGeneration() {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg relative max-h-[80vh] overflow-y-auto"
+              style={{
+                border: "1px solid transparent",
+                borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+                borderImageSlice: 1,
+                color: "white",
+                background: "linear-gradient(to right, #121212, #252525)",
+                boxShadow: "18px 26px 70px 0px rgba(255, 231, 105, 0.09);",
+                padding: "4rem 3rem",
+              }}
+              className=" p-6 rounded-lg shadow-xl w-full max-w-lg relative max-h-[80vh] overflow-y-auto"
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
             >
               <button
                 onClick={closePopup}
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                style={{
+                  borderRadius: "15px",
+                  border: "1px solid white",
+                  padding: "2px",
+                }}
+                className="absolute top-2 right-2 text-white "
               >
                 <X className="w-5 h-5" />
               </button>
-              {popupType === "main" && (
-                <>
-                  <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-                    Validator Key Generation Guide
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    Learn how to generate your validator key using either the
-                    Terminal method or the Wagyu GUI app. Follow the steps
-                    carefully to ensure your key is generated and stored
-                    securely.
-                  </p>
-                  <button
-                    onClick={closePopup}
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg"
-                  >
-                    Got it!
-                  </button>
-                </>
-              )}
+
               {popupType === "terminal" && (
                 <>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                  <h3
+                    className="text-xl font-semibold text-white mb-4"
+                    style={{ letterSpacing: "1px" }}
+                  >
                     Before you begin the key generation process, there are a few
                     important points to keep in mind
                   </h3>
-                  <p className="text-gray-600 mb-4">
+                  <p
+                    className="text-white mb-4 text-sm"
+                    style={{ textAlign: "justify" }}
+                  >
                     Prepare pen and paper to write down important information.
                     This includes the 24-word secret recovery phrase (also
                     called the “mnemonic”, or the “seed phrase”) and the
                     keystore password. Safely storing and keeping these details
                     secure is your responsibility.
                   </p>
-                  <p className="text-gray-600 mb-4">
+                  <p
+                    className="text-white mb-4 text-sm"
+                    style={{ textAlign: "justify" }}
+                  >
                     It is vital to have multiple secure backups of your secret
                     recovery phrase and password. The secret recovery phrase is
                     the only way to withdraw your stake, so treat it with
                     extreme care. Losing this information will result in
                     permanent loss of access to your funds.
                   </p>
-                  <p className="text-gray-600 mb-4">
+                  <p
+                    className="text-white mb-4 text-sm"
+                    style={{ textAlign: "justify" }}
+                  >
                     If possible, use an air-gapped computer during the key
                     generation process. An air-gapped computer is one that is
                     not and has not been connected to any network, minimizing
@@ -137,7 +153,12 @@ function KeyGeneration() {
                   </p>
                   <button
                     onClick={acceptTerms}
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg"
+                    style={{
+                      background: "linear-gradient(to right, #A257EC, #D360A6)",
+                      borderRadius: "20px",
+                      color: "white",
+                    }}
+                    className=" text-white py-2 px-4 rounded-md shadow-lg"
                   >
                     Accept Terms
                   </button>
@@ -145,25 +166,37 @@ function KeyGeneration() {
               )}
               {popupType === "gui" && (
                 <>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                  <h3
+                    className="text-xl font-semibold text-white mb-4"
+                    style={{ letterSpacing: "1px" }}
+                  >
                     Before you begin the key generation process, there are a few
                     important points to keep in mind
                   </h3>
-                  <p className="text-gray-600 mb-4">
+                  <p
+                    className="text-white mb-4 text-sm"
+                    style={{ textAlign: "justify" }}
+                  >
                     Prepare pen and paper to write down important information.
                     This includes the 24-word secret recovery phrase (also
                     called the “mnemonic”, or the “seed phrase”) and the
                     keystore password. Safely storing and keeping these details
                     secure is your responsibility.
                   </p>
-                  <p className="text-gray-600 mb-4">
+                  <p
+                    className="text-white mb-4 text-sm"
+                    style={{ textAlign: "justify" }}
+                  >
                     It is vital to have multiple secure backups of your secret
                     recovery phrase and password. The secret recovery phrase is
                     the only way to withdraw your stake, so treat it with
                     extreme care. Losing this information will result in
                     permanent loss of access to your funds.
                   </p>
-                  <p className="text-gray-600 mb-4">
+                  <p
+                    className="text-white mb-4 text-sm"
+                    style={{ textAlign: "justify" }}
+                  >
                     If possible, use an air-gapped computer during the key
                     generation process. An air-gapped computer is one that is
                     not and has not been connected to any network, minimizing
@@ -175,7 +208,12 @@ function KeyGeneration() {
                   </p>
                   <button
                     onClick={acceptTerms}
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg"
+                    style={{
+                      background: "linear-gradient(to right, #A257EC, #D360A6)",
+                      borderRadius: "20px",
+                      color: "white",
+                    }}
+                    className=" text-white py-2 px-4 rounded-md shadow-lg"
                   >
                     Accept Terms
                   </button>
@@ -189,27 +227,28 @@ function KeyGeneration() {
       <div
         className={`transition-all duration-300 ${showPopup ? "blur-sm" : ""}`}
       >
-        {(showTerminalSteps || showGUISteps) && (
+        {/* {(showTerminalSteps || showGUISteps) && (
           <button
             onClick={goBack}
-            className="flex items-center mb-4 text-blue-500 hover:text-blue-700"
+            className="flex items-center mb-4 text-white "
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back
           </button>
-        )}
+        )} */}
         {showTerminalSteps && (
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-blue-500 mb-4 text-center">
+            <h3
+              className="text-xl font-semibold text-white mb-4 text-start"
+              // style={{
+              //   background: "linear-gradient(to right, #DA619C, #FF844A)",
+              //   WebkitBackgroundClip: "text",
+              //   WebkitTextFillColor: "transparent",
+              // }}
+            >
               Terminal Key Generation Steps
             </h3>
-            <ol className="list-decimal list-inside space-y-2">
-              {terminalSteps.map((step, index) => (
-                <li key={index} className="text-gray-800">
-                  {step}
-                </li>
-              ))}
-            </ol>
+            
           </div>
         )}
         {showGUISteps && (
@@ -228,45 +267,55 @@ function KeyGeneration() {
         )}
         {!showTerminalSteps && !showGUISteps && (
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-red-500 mb-4 text-center">
+            <h1
+              className="text-xl font-semibold text-white mb-4 text-center"
+              style={{ letterSpacing: "1px", fontWeight: "bold " }}
+            >
               Generate Keys
-            </h3>
-            <div>
+            </h1>
+            <div className="text-white pl-[40px] p-[40px] pt-3 pb-3 text-center">
               Staking keys play a crucial role in Ethereum staking as validators
               use them to sign attestations and proposals. These keys are also
               necessary for depositing the 32 ETH stake. Additionally, the
               staking keys will be used to set the Withdrawal Address for
               receiving rewards and making final withdrawals.
             </div>
-            <div>
+            <div className="text-white pl-[40px] p-[40px] pt-0 pb-3 text-center">
               As a user looking to participate in staking, you will need to
               generate your own staking keys.
             </div>
-            <div>
+            <div style={{ textAlign: "center" }}>
               <button
                 onClick={() => openPopup("terminal")}
-                className="inline-flex items-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg mr-4"
+                style={{
+                  border: "1px solid transparent",
+                  borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+                  borderImageSlice: 1,
+                  background: "linear-gradient(to right, #DA619C, #FF844A)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+                className="inline-flex items-center  py-2 px-4 rounded-md shadow-lg mr-4"
               >
                 Terminal commands
               </button>
               <button
                 onClick={() => openPopup("gui")}
-                className="inline-flex items-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg"
+                style={{
+                  border: "1px solid transparent",
+                  borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+                  borderImageSlice: 1,
+                  background: "linear-gradient(to right, #DA619C, #FF844A)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+                className="inline-flex items-center  py-2 px-4 rounded-md shadow-lg"
               >
                 GUI commands
               </button>
             </div>
           </div>
         )}
-        <div className="mt-8 text-center">
-          <button
-            onClick={() => openPopup("main")}
-            className="inline-flex items-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg"
-          >
-            <Info className="w-5 h-5 mr-2" />
-            Show Key Generation Guide
-          </button>
-        </div>
       </div>
     </div>
   );
