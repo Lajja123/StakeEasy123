@@ -58,45 +58,6 @@ function EigenpodAddress() {
         borderRadius: "20px",
       }}
     >
-      {/* Popup */}
-      <AnimatePresence>
-        {showPopup && (
-          <motion.div
-            className="absolute inset-0 flex justify-center items-center z-20"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className=" p-6 rounded-lg shadow-xl w-[80%] max-w-lg relative"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-            >
-              <button
-                onClick={closePopup}
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-                Welcome to EigenPod Address Creation
-              </h3>
-              <p className="text-gray-600 mb-4">
-                This tool allows you to programmatically generate an EigenPod
-                address, making the setup process easier and more convenient.
-              </p>
-              <button
-                onClick={closePopup}
-                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg"
-              >
-                Got it!
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Main Content with Blur Effect */}
       <div
         className={`grid grid-cols-1 md:grid-cols-2 gap-8 items-center transition-all duration-300 ${
@@ -188,17 +149,6 @@ function EigenpodAddress() {
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Button to Reopen Popup */}
-
-      <div className="mt-8 text-center relative">
-        <button
-          onClick={openPopup}
-          className=" absolute right-0 inline-flex items-center text-white py-2 px-4 rounded-md "
-        >
-          <MessageCircleQuestionIcon />
-        </button>
       </div>
     </div>
   );
