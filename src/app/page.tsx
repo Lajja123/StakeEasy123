@@ -7,6 +7,7 @@ import KeyShareConfirmation from "./components/KeyShareConfirmation";
 import GreetingAtDashboard from "./components/GreetingAtDashboard";
 import ClusterDashboard from "./components/ClusterDashboard";
 import ValidatorCluster from "./components/ValidatorCluster";
+import Landing from "./components/Landing";
 
 const operators = [
   {
@@ -50,6 +51,7 @@ export default function Home() {
       <ClusterDashboard operators={operators} />
       <ValidatorCluster /> */}
       <Stepper />
+      {/* <Landing /> */}
       <Footer />
     </div>
   );

@@ -64,7 +64,7 @@ function KeyGeneration() {
   ];
 
   return (
-    <div className="relative bg-white border border-gray-200 rounded-lg shadow-sm p-8 mx-auto max-w-4xl">
+    <div className="relative bg-white border border-gray-200 rounded-lg shadow-sm p-8 mx-auto max-w-4xl h-[700px] overflow-hidden">
       {/* Popup */}
       <AnimatePresence>
         {showPopup && (

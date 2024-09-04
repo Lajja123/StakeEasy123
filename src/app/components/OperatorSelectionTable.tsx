@@ -1,5 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import UpArrow2 from "../assets/UpArrow2-New.png";
+import DownArrow2 from "../assets/DownArrow2.png";
+import UpDownArrow from "../assets/UpDownArrow.png";
+import Filter from "../assets/Filter.png";
 import "../css/OperatorSelectionTable.css";
 
 // Define the type for an operator
@@ -60,6 +66,8 @@ export default function OperatorSelectionTable() {
     direction: null,
   });
 
+  const router = useRouter();
+
   const [totalFee, setTotalFee] = useState<number>(0); // State for total fee
 
   // Function to calculate the total fee
@@ -98,9 +106,13 @@ export default function OperatorSelectionTable() {
 
   const renderSortIcon = (key: keyof Operator) => {
     if (sortConfig.key === key) {
-      return sortConfig.direction === "ascending" ? "🔼" : "🔽";
+      return sortConfig.direction === "ascending" ? (
+        <Image src={DownArrow2} alt="Descending" width={20} height={20} />
+      ) : (
+        <Image src={UpArrow2} alt="Ascending" width={20} height={20} />
+      );
     }
-    return "🔼"; // Default unsorted state
+    return <Image src={UpDownArrow} alt="Default" width={20} height={20} />; // Default unsorted state
   };
 
   // Apply search filter and sorting
@@ -121,20 +133,38 @@ export default function OperatorSelectionTable() {
       return 0;
     });
 
+  const handleKeyshareUpload = () => {
+    router.push("/validator/upload-keystore");
+  };
+
   return (
-    <div className="operator-selection-container">
+    <div className="operator-selection-container z-10">
       <div className="table-container">
-        <h2>Pick the cluster of network operators to run your validator</h2>
-        <div className="cluster-size-selector">
-          {[4, 7, 10, 13].map((size) => (
-            <button
-              key={size}
-              className={clusterSize === size ? "active" : ""}
-              onClick={() => setClusterSize(size)}
-            >
-              {size}
-            </button>
-          ))}
+        <div className="flex justify-between">
+          <h2>Pick the cluster of network operators to run your validator</h2>
+          <div className="cluster-size-selector">
+            {[4, 7, 10, 13].map((size) => (
+              <button
+                key={size}
+                onClick={() => setClusterSize(size)}
+                style={{
+                  border: "1px solid transparent",
+                  // borderImage: "linear-gradient(180deg, #A257EC 0%, #DA619C 100%)",
+                  borderImage:
+                    "linear-gradient(to right, #A257EC 0% , #DA619C 60%)",
+                  borderImageSlice: 1,
+                  color: "white",
+                  // background: "linear-gradient(180deg, #A257EC 0%, #DA619C 100%)",
+                  background:
+                    "linear-gradient(to right, #121212 0%, #252525 60%)",
+                  borderRadius: "15px",
+                }}
+                className={clusterSize === size ? "active" : ""}
+              >
+                <span className="text-white">{size}</span>
+              </button>
+            ))}
+          </div>
         </div>
         <div className="search-filter">
           <div className="search-container">
@@ -146,39 +176,63 @@ export default function OperatorSelectionTable() {
             />
             <span className="search-icon">🔍</span>
           </div>
-          <button className="filter-button">
-            <span className="filter-icon">⚙️</span> Filters
+          <button
+            className="filter-button"
+            style={{
+              border: "1px solid transparent",
+              borderImage: "linear-gradient(180deg, #FFA800 0%, #DA619C 100%",
+              borderImageSlice: 1,
+              background: "linear-gradient(180deg, #FFA800 0%, #DA619C 100%",
+              WebkitBackgroundClip: "text",
+            }}
+          >
+            <span className="filter-icon">
+              <Image src={Filter} alt="Ascending" width={20} height={20} />
+            </span>{" "}
+            Filters
           </button>
         </div>
         <table>
           <thead>
-            <tr>
+            <tr className="border border-gray-500">
               <th className="cursor-pointer" onClick={() => handleSort("id")}>
-                ID {renderSortIcon("id")}
+                <span className="flex items-center gap-2">
+                  ID {renderSortIcon("id")}
+                </span>
               </th>
               <th className="cursor-pointer" onClick={() => handleSort("name")}>
-                Name {renderSortIcon("name")}
+                <span className="flex items-center gap-2">
+                  Name {renderSortIcon("name")}
+                </span>
               </th>
               <th
                 className="cursor-pointer"
                 onClick={() => handleSort("validators")}
               >
-                Validators {renderSortIcon("validators")}
+                <span className="flex items-center gap-2">
+                  Validators {renderSortIcon("validators")}
+                </span>
               </th>
               <th
                 className="cursor-pointer"
                 onClick={() => handleSort("performance")}
               >
-                30d performance {renderSortIcon("performance")}
+                <span className="flex items-center gap-2">
+                  30d performance {renderSortIcon("performance")}
+                </span>
               </th>
               <th
                 className="cursor-pointer"
                 onClick={() => handleSort("yearlyFee")}
               >
-                Yearly Fee {renderSortIcon("yearlyFee")}
+                <span className="flex items-center gap-2">
+                  Yearly Fee {renderSortIcon("yearlyFee")}
+                </span>
               </th>
               <th className="cursor-pointer" onClick={() => handleSort("mev")}>
-                MEV {renderSortIcon("mev")}
+                <span className="flex items-center gap-2">
+                  MEV {renderSortIcon("mev")}
+                </span>
               </th>
             </tr>
           </thead>
@@ -187,6 +241,7 @@ export default function OperatorSelectionTable() {
               <tr
                 key={operator.id}
                 onClick={() => handleRowSelection(operator)}
+                className="border border-gray-400"
               >
                 <td>{operator.id}</td>
                 <td>{operator.name}</td>
@@ -198,33 +253,58 @@ export default function OperatorSelectionTable() {
             ))}
           </tbody>
         </table>
+        {/* linear-gradient(180deg, #FFA800 0%, #DA619C 100% */}
       </div>
       <div className="flex flex-col justify-between">
         <div className="selected-operators">
-          <h3>
-            Selected Operators {selectedOperators.length}/{clusterSize}
-          </h3>
+          <div className="mb-[6px] flex justify-between items-center">
+            <div className="text-lg">Selected Operators</div>
+            <div className="text-xl">
+              {selectedOperators.length}/
+              <span className="text-orange-400">{clusterSize}</span>
+            </div>
+          </div>
+
           {selectedOperators.map((operator, index) => (
-            <div key={operator.id} className="selected-operator">
-              {operator.name} (Operator {String(index + 1).padStart(2, "0")})
+            <div
+              key={operator.id}
+              className="relative p-[1px] rounded-lg bg-gradient-to-b from-[#A257EC] to-[#DA619C] mb-2"
+            >
+              <div className="flex items-center justify-center h-full w-full bg-[#161515] rounded-lg text-white py-3">
+                {operator.name} (Operator {String(index + 1).padStart(2, "0")})
+              </div>
             </div>
           ))}
+
           {Array(clusterSize - selectedOperators.length)
             .fill(null)
             .map((_, index) => (
-              <div key={index} className="empty-operator">
-                Select Operator{" "}
-                {String(selectedOperators.length + index + 1).padStart(2, "0")}
+              <div
+                key={index}
+                className="relative p-[1px] rounded-lg bg-gradient-to-b from-[#A257EC] to-[#DA619C] mb-2"
+              >
+                <div className="flex items-center justify-center h-full w-full bg-[#161515] rounded-lg text-white py-3">
+                  Select Operator{" "}
+                  {String(selectedOperators.length + index + 1).padStart(
+                    2,
+                    "0"
+                  )}
+                </div>
               </div>
             ))}
         </div>
         {/* Display the total fee */}
         <div className="total-fee">
-          <div className="flex justify-between mb-1">
+          <div className="flex justify-between items-center mt-2 mb-1">
             <h4>Operators Yearly Fee:</h4>
-            <p>{totalFee} SSV</p>
+            <p>
+              <span className="text-orange-400">{totalFee}</span> SSV
+            </p>
           </div>
-          <button className="w-full bg-blue-600 text-white py-[6px] px-4 rounded-[6px] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+          <button
+            onClick={handleKeyshareUpload}
+            className="w-full bg-blue-600 text-white py-[6px] px-4 rounded-[6px] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+          >
             Next
           </button>
         </div>
