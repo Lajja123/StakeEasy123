@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "next/image";
-import starImg from "../assets/Frame 5.png";
+import { HelpCircle } from "lucide-react";
 
 const Landing = () => {
   return (
-    <div className="w-full my-[10px] bg-transparent rounded-xl flex flex-col justify-between">
+    <div className="w-full my-[10px] bg-transparent rounded-xl flex flex-col justify-center items-center">
       {/* <Image
         src={starImg}
         alt=""
@@ -12,21 +12,8 @@ const Landing = () => {
       /> */}
       <div
         className="text-white flex flex-col items-center justify-center gap-4 relative mx-auto transition-all duration-300 w-[80%]"
-        // style={{
-        //   background: "linear-gradient(to right, #1D1D1D 0%, #191919 100%)",
-        //   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        //   padding: "80px 40px",
-        //   borderRadius: "20px",
-        // }}
       >
-        <h1
-          className="text-5xl"
-          style={{
-            background: "linear-gradient(to right, #DA619C, #FF844A)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
+        <h1 className="text-5xl">
           Stake, Earn, Spend
         </h1>
         <h3 className="text-2xl">
@@ -34,7 +21,7 @@ const Landing = () => {
           across DeFi.
         </h3>
         <button
-          className={`min-w-16 bg-[#161515] text-white font-medium py-3 px-4 rounded-md text-sm transition-all duration-300`}
+          className="w-[25%] bg-[#161515] text-white font-medium py-3 px-4 rounded-md text-sm transition-all duration-300"
           style={{
             border: "1px solid transparent",
             borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
@@ -45,6 +32,41 @@ const Landing = () => {
         >
           <span className="text-2xl">Stake</span>
         </button>
+        <div className="flex items-center gap-3">
+          <a
+            href="https://faucet.ssv.network/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-2/3 text-center font-bold text-white py-2 px-4 rounded"
+            style={{
+              border: "1px solid transparent",
+              borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+              borderImageSlice: 1,
+              background: "linear-gradient(to right, #DA619C, #FF844A)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Don't have SSV faucets? Click here to get it
+          </a>
+
+          <a
+            href="https://wagyu.gg/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 text-center font-bold text-white py-2 px-4 rounded"
+            style={{
+              border: "1px solid transparent",
+              borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+              borderImageSlice: 1,
+              background: "linear-gradient(to right, #DA619C, #FF844A)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Download Wagyu
+          </a>
+        </div>
       </div>
     </div>
   );
