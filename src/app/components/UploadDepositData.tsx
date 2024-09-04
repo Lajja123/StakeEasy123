@@ -54,6 +54,75 @@ function UploadDepositData() {
         borderRadius: "20px",
       }}
     >
+      <AnimatePresence>
+        {showPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              style={{
+                border: "1px solid transparent",
+                borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+                borderImageSlice: 1,
+                color: "white",
+                textAlign: "center",
+                background: "linear-gradient(to right, #121212, #252525)",
+                boxShadow: "18px 26px 70px 0px rgba(255, 231, 105, 0.09);",
+                padding: "4rem 3rem",
+              }}
+              className=" rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative"
+            >
+              <div className="flex justify-between items-center mb-4 ">
+                <div
+                  className="inline-block 3 py-1  text-sm mb-3"
+                  style={{
+                    borderRadius: "8px",
+                    fontSize: "1.7rem",
+                    textAlign: "justify",
+                  }}
+                >
+                  Upload deposit data
+                </div>
+
+                <button
+                  onClick={closePopup}
+                  style={{
+                    padding: "5px",
+                  }}
+                  className="absolute top-2 right-2 text-[#FC8150] "
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div style={{ textAlign: "justify", paddingBottom: "10px" }}>
+                Here, you have to upload the deposit file and confirm the
+                transaction for staking 32 ETH for Validator beacon node
+                activation.
+              </div>
+
+              <button
+                onClick={closePopup}
+                style={{
+                  background: "linear-gradient(to right, #A257EC, #D360A6)",
+                  textAlign: "center",
+                  color: "white",
+                  marginTop: "30px",
+                }}
+                className=" text-white py-2 px-4 rounded-md shadow-lg text-center"
+              >
+                Got it
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="relative text-white rounded-xl shadow-sm p-4 mx-auto">
         <div
           className={`grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 ${
