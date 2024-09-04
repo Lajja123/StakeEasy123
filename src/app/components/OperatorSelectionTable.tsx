@@ -66,8 +66,6 @@ export default function OperatorSelectionTable() {
     direction: null,
   });
 
-  const router = useRouter();
-
   const [totalFee, setTotalFee] = useState<number>(0); // State for total fee
 
   // Function to calculate the total fee
@@ -132,10 +130,6 @@ export default function OperatorSelectionTable() {
       }
       return 0;
     });
-
-  const handleKeyshareUpload = () => {
-    router.push("/validator/upload-keystore");
-  };
 
   return (
     <div className="operator-selection-container z-10">
@@ -302,8 +296,11 @@ export default function OperatorSelectionTable() {
             </p>
           </div>
           <button
-            onClick={handleKeyshareUpload}
-            className="w-full bg-blue-600 text-white py-[6px] px-4 rounded-[6px] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+            style={{
+              background: "linear-gradient(to right, #A257EC, #D360A6)",
+              color: "white",
+            }}
+            className="w-full text-white py-[6px] px-4 rounded-[6px] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
           >
             Next
           </button>

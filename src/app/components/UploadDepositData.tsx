@@ -54,66 +54,34 @@ function UploadDepositData() {
         borderRadius: "20px",
       }}
     >
-      <div className="relative text-white border border-gray-200 rounded-xl shadow-sm p-8 mx-auto">
-        {/* Popup */}
-        <AnimatePresence>
-          {showPopup && (
-            <motion.div
-              className="absolute inset-0 flex justify-center items-center z-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <motion.div
-                className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg relative"
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.8 }}
-              >
-                <button
-                  onClick={closePopup}
-                  className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-                  Welcome to Upload Deposit Data
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  This tool allows you to securely upload deposit data and
-                  generate a validator key.
-                </p>
-                <button
-                  onClick={closePopup}
-                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg"
-                >
-                  Got it!
-                </button>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Main Content with Blur Effect */}
+      <div className="relative text-white rounded-xl shadow-sm p-4 mx-auto">
         <div
           className={`grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 ${
             showPopup ? "blur-sm" : ""
           }`}
         >
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-red-500 mb-6">
+          <div className="flex flex-col justify-center">
+            <h2
+              className="text-2xl font-bold mb-3"
+              style={{
+                background: "linear-gradient(to right, #DA619C, #FF844A)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
               Upload Deposit Data
             </h2>
 
-            <p className="text-sm text-white">
-              Programmatically generate an Eigenpod address for users, reducing
-              manual setup and enhancing convenience
+            <p className="text-white text-md">
+              Learn how to seamlessly upload deposit data, ensuring your
+              validator registration is complete and processed on the stake-easy
+              network
             </p>
           </div>
 
           <div className="space-y-6">
             <div>
-              <div className="flex flex-col items-center justify-center bg-gray-50 border border-gray-300 rounded-md overflow-hidden p-6 transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-500">
+              <div className="flex flex-col items-center justify-center bg-[#161515] rounded-md overflow-hidden p-6 transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-500">
                 <label
                   htmlFor="file-upload"
                   className="cursor-pointer flex flex-col items-center"
@@ -121,9 +89,9 @@ function UploadDepositData() {
                   {file ? (
                     <CheckCircle className="h-12 w-12 text-gray-500 mb-4" />
                   ) : (
-                    <CloudUpload className="h-12 w-12 text-gray-500 mb-4" />
+                    <CloudUpload className="h-16 w-16 mb-4 p-4 bg-gradient-to-b from-[#FC8151] to-[#C951C0] text-white rounded-full" />
                   )}
-                  <p className="text-gray-500 mb-2">
+                  <p className="text-white mb-2">
                     {file ? file.name : "Drag file to upload or browse"}
                   </p>
                 </label>
@@ -137,17 +105,6 @@ function UploadDepositData() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Button to Reopen Popup */}
-        <div className="mt-8 text-center">
-          <button
-            onClick={openPopup}
-            className="inline-flex items-center bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg"
-          >
-            <Info className="w-5 h-5 mr-2" />
-            Show Welcome Message
-          </button>
         </div>
       </div>
     </div>
