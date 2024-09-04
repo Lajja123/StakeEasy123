@@ -7,6 +7,7 @@ import DownArrow2 from "../assets/DownArrow2.png";
 import UpDownArrow from "../assets/UpDownArrow.png";
 import Filter from "../assets/Filter.png";
 import "../css/OperatorSelectionTable.css";
+import KeyStoreFile from "./KeyStoreFile";
 
 // Define the type for an operator
 interface Operator {
@@ -56,6 +57,7 @@ const operators: Operator[] = [
 
 export default function OperatorSelectionTable() {
   const [selectedOperators, setSelectedOperators] = useState<Operator[]>([]);
+  const [showKeystoreUpload, setShowKeystoreUpload] = useState(false);
   const [clusterSize, setClusterSize] = useState<number>(4);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortConfig, setSortConfig] = useState<{
@@ -133,9 +135,13 @@ export default function OperatorSelectionTable() {
       return 0;
     });
 
-  const handleKeyshareUpload = () => {
-    router.push("/validator/upload-keystore");
+  const handleKeystoreUpload = () => {
+    setShowKeystoreUpload(true);
   };
+
+  if (showKeystoreUpload) {
+    return <KeyStoreFile />;
+  }
 
   return (
     <div className="operator-selection-container z-10">
@@ -302,7 +308,7 @@ export default function OperatorSelectionTable() {
             </p>
           </div>
           <button
-            onClick={handleKeyshareUpload}
+            onClick={handleKeystoreUpload}
             className="w-full bg-blue-600 text-white py-[6px] px-4 rounded-[6px] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
           >
             Next

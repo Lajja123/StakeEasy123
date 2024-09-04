@@ -13,6 +13,7 @@ import {
   MessageCircleQuestionIcon,
 } from "lucide-react";
 import starImg from "../assets/Frame 5.png";
+import { useRouter } from "next/navigation";
 
 // Import your step components here
 import EigenpodAddress from "../components/EigenpodAddress";
@@ -31,10 +32,14 @@ function Stepper() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const router = useRouter();
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+    } else if (currentStep === steps.length - 1) {
+      // Navigate to dashboard when on the last step
+      router.push("/dashboard"); // Adjust the path as needed
     }
   };
 
@@ -57,7 +62,7 @@ function Stepper() {
   const CurrentStepComponent = steps[currentStep].component;
 
   return (
-    <div className="w-full h-[80vh] my-[10px] bg-transparent rounded-xl flex flex-col justify-between">
+    <div className="w-full my-[10px] bg-transparent rounded-xl flex flex-col justify-between">
       <Image
         src={starImg}
         alt=""
@@ -127,7 +132,6 @@ function Stepper() {
 
         <button
           onClick={nextStep}
-          disabled={currentStep === steps.length - 1}
           className="px-6 py-2  disabled:opacity-50 transition-colors flex items-center"
           style={{
             border: "1px solid transparent",

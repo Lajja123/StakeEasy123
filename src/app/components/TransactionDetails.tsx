@@ -3,7 +3,7 @@ import Operator from "./Operator";
 
 const Tx: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className=" flex items-center justify-center ">
       <div className="max-w-2xl mx-auto bg-gray-900 text-white rounded-lg shadow-md">
         <div className="bg-gray-800 text-white p-4 rounded-t-lg">
           <h1 className="text-xl font-bold">Transaction Details</h1>
