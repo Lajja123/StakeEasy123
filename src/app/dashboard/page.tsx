@@ -3,18 +3,6 @@ import OperatorCard from "../components/OperatorCard";
 import Footer from "@/app/components/Footer";
 import Navbar from "@/app/components/Navbar";
 
-interface Operator {
-  name: string;
-  id: number;
-  status: string;
-  performance: string;
-  fee: string;
-}
-
-interface ClusterDashboardProps {
-  operators: Operator[];
-}
-
 const operators = [
   {
     name: "ChainUp",
@@ -46,7 +34,7 @@ const operators = [
   },
 ];
 
-const ClusterDashboard: React.FC<ClusterDashboardProps> = () => {
+const ClusterDashboard = () => {
   return (
     <>
       <Navbar />
