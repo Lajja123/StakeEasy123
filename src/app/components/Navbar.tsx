@@ -5,7 +5,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const NavBar = () => {
   return (
-    <div className="px-[60px] py-5 mx-auto sm:max-w-xl md:max-w-full  md:px-24 lg:px-8 w-[90%] ">
+    <div className="pt-5 pb-5 mx-auto  w-[90%] ">
       <div className="relative flex items-center justify-between">
         <a
           href="/"
