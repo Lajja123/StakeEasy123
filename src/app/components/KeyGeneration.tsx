@@ -114,8 +114,8 @@ function KeyGeneration() {
               </div>
 
               <div style={{ textAlign: "justify", paddingBottom: "10px" }}>
-                Here, you'll generate your validator key using the Eigenpod
-                address you created earlier. You'll need to set a keystore
+                Here, you will generate your validator key using the Eigenpod
+                address you created earlier. You will need to set a keystore
                 password, which will be used to decrypt your key file later
               </div>
               <div style={{ textAlign: "justify", paddingBottom: "10px" }}>

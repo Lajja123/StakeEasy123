@@ -86,7 +86,7 @@ function ValidatorRegistration() {
               </div>
 
               <div style={{ textAlign: "justify", paddingBottom: "10px" }}>
-                Here, you'll select operators to run your validator on the SSV
+                Here, you will select operators to run your validator on the SSV
                 network. The 3m+1 criteria will ensure that your validator
                 remains operational even if one operator fails. For example, if
                 you select four operators, at least three of them must sign
@@ -95,7 +95,7 @@ function ValidatorRegistration() {
               <div style={{ textAlign: "justify" }}>
                 You can choose from a variety of operators, view detailed
                 statistics about their performance and reliability, and make an
-                informed decision. Additionally, you'll manage the fees
+                informed decision. Additionally, you will manage the fees
                 associated with each operator, ensuring that your validator is
                 set up with the right balance of cost and redundancy
               </div>
@@ -105,13 +105,14 @@ function ValidatorRegistration() {
                 Enter Validator Key step
               </div>
               <div style={{ textAlign: "justify" }}>
-                You'll also configure the duration for which your selected
+                You will also configure the duration for which your selected
                 operators will run. You can choose from predefined time periods
                 or enter a custom duration that suits your needs. The fees for
                 running your operators will vary based on the selected time
-                period. Once you've made your selection, a comprehensive summary
-                of the total fees will be displayed, showing the amount you need
-                to pay to register your validator on the Stake Easy network
+                period. Once you have made your selection, a comprehensive
+                summary of the total fees will be displayed, showing the amount
+                you need to pay to register your validator on the Stake Easy
+                network
               </div>
               <button
                 onClick={closePopup}

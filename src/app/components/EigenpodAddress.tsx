@@ -106,7 +106,7 @@ function EigenpodAddress() {
               </div>
 
               <div style={{ textAlign: "justify" }}>
-                You'll generate an EigenPod address, which will serve as the
+                You will generate an EigenPod address, which will serve as the
                 withdrawal address for any amounts restaked by your validator.
                 This address is used to manage the funds restaked between
                 different operators
