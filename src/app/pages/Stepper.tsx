@@ -122,14 +122,12 @@ function Stepper() {
             borderImageSlice: 1,
             color: "white",
             background: "linear-gradient(to right, #121212, #252525)",
-            borderRadius: "15px",
           }}
           className="px-6 py-2 mx-2.5 my-0  rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors flex items-center"
         >
           <ChevronLeft size={20} className="mr-2 text-white" />
           Back
         </button>
-
         <button
           onClick={nextStep}
           className="px-6 py-2  disabled:opacity-50 transition-colors flex items-center"
