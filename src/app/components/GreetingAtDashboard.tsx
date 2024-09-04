@@ -35,7 +35,7 @@ const GreetingAtDashboard: React.FC = () => {
           Your cluster operators have been notified and will start your validator operation instantly.
         </p>
         <div className="mt-6 flex justify-center w-full">
-          <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-[8px] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+          <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-[8px] hover:bg-blue-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:ring-opacity-50">
             Manage Cluster
           </button>
         </div>

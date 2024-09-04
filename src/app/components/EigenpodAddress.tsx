@@ -92,7 +92,7 @@ function EigenpodAddress() {
             >
               EigenPod Address
             </label>
-            <div className="flex items-center bg-[#161515] border focus:outline-none rounded-md overflow-hidden transition-all duration-300 focus-within:ring-2 ">
+            <div className="flex items-center bg-[#161515] border focus:outline-none rounded-md overflow-hidden transition-all duration-300 focus-within:ring-1 ">
               <input
                 type="text"
                 value={address}
@@ -119,7 +119,7 @@ function EigenpodAddress() {
             <button
               onClick={createPodAddress}
               disabled={loading}
-              className={`flex-1 bg-[#161515] text-white font-medium py-3 px-4 rounded-md text-sm transition-all duration-300 ${
+              className={`flex-1 bg-[#161515] text-white font-bold py-3 px-4 rounded-md text-sm transition-all duration-300 ${
                 loading ? "opacity-75 cursor-not-allowed" : ""
               }`}
               style={{
@@ -143,7 +143,7 @@ function EigenpodAddress() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
-              className="flex-1  font-medium py-3 px-4 rounded-md text-sm transition-all duration-300"
+              className="flex-1 font-bold py-3 px-4 rounded-md text-sm transition-all duration-300"
             >
               Get Pod Address
             </button>

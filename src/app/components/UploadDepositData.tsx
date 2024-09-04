@@ -81,13 +81,13 @@ function UploadDepositData() {
 
           <div className="space-y-6">
             <div>
-              <div className="flex flex-col items-center justify-center bg-[#161515] rounded-md overflow-hidden p-6 transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-500">
+              <div className="flex flex-col items-center justify-center bg-[#161515] rounded-md overflow-hidden p-6 transition-all duration-300 focus-within:ring-1 focus-within:ring-blue-500">
                 <label
                   htmlFor="file-upload"
                   className="cursor-pointer flex flex-col items-center"
                 >
                   {file ? (
-                    <CheckCircle className="h-12 w-12 text-gray-500 mb-4" />
+                    <CheckCircle className="h-16 w-16 p-4 bg-gradient-to-b from-[#FC8151] to-[#C951C0] text-white rounded-full" />
                   ) : (
                     <CloudUpload className="h-16 w-16 mb-4 p-4 bg-gradient-to-b from-[#FC8151] to-[#C951C0] text-white rounded-full" />
                   )}

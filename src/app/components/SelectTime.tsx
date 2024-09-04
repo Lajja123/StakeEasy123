@@ -26,7 +26,7 @@ const StakingInterface: React.FC = () => {
   }
 
   return (
-    <div className="max-w-lg  mx-auto  text-white shadow-md rounded-lg border-2 border-gray-200">
+    <div className="max-w-lg mx-auto text-white shadow-md rounded-lg border-2 border-gray-200 p-6">
       <h2 className="text-2xl font-bold mb-4">
         Select your validator funding period
       </h2>
@@ -43,7 +43,7 @@ const StakingInterface: React.FC = () => {
               type="checkbox"
               checked={selectedPeriod === "6 Months"}
               onChange={() => handlePeriodChange("6 Months")}
-              className="mr-2"
+              className="mr-2 custom-checkbox"
             />
             <span>6 Months</span>
           </label>
@@ -55,7 +55,7 @@ const StakingInterface: React.FC = () => {
               type="checkbox"
               checked={selectedPeriod === "1 Year"}
               onChange={() => handlePeriodChange("1 Year")}
-              className="mr-2"
+              className="mr-2 custom-checkbox"
             />
             <span>1 Year</span>
           </label>
@@ -67,7 +67,7 @@ const StakingInterface: React.FC = () => {
               type="checkbox"
               checked={selectedPeriod === "Custom Period"}
               onChange={() => handlePeriodChange("Custom Period")}
-              className="mr-2"
+              className="mr-2 custom-checkbox"
             />
             <span>Custom Period</span>
           </label>
@@ -75,13 +75,26 @@ const StakingInterface: React.FC = () => {
             type="number"
             value={customPeriod}
             onChange={handleCustomPeriodChange}
-            className="border p-2 rounded w-20"
+            className="border p-2 rounded w-24 text-white bg-[#161515]"
           />
+          <span className="ml-0 pl-0">days</span>
           <span className="font-bold">{Number(customPeriod) * 0.02} SSV</span>
         </div>
       </div>
 
-      <h3 className="text-xl font-bold mt-6">Funding Summary</h3>
+      <div className="w-[calc(100%+48px)] border-b-2 border-gray-400 mt-4 -ml-6">
+      </div>
+
+      <h3
+        className="text-xl font-bold mt-3"
+        style={{
+          background: "rgba(252, 129, 81, 1)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
+        Funding Summary
+      </h3>
       <div className="space-y-2">
         <div className="flex justify-between">
           <span>Operator fee</span>
@@ -95,18 +108,65 @@ const StakingInterface: React.FC = () => {
           <span>Liquidation collateral</span>
           <span>1 SSV</span>
         </div>
+        <div className="w-[calc(100%+48px)] border-b-2 border-gray-600 mt-4 -ml-6"></div>
         <div className="flex justify-between font-bold">
           <span>Total</span>
-          <span>{8 + Number(customPeriod) * 0.02} SSV</span>
+          <span className="">{8 + Number(customPeriod) * 0.02} SSV</span>
         </div>
       </div>
 
       <button
-        className="mt-6 w-full bg-blue-500 text-white py-2 rounded"
+        // className="mt-6 w-full bg-blue-500 text-white py-2 rounded"
         onClick={handleTxDeatils}
+        style={{
+          border: "1px solid transparent",
+          borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+          borderImageSlice: 1,
+          background: "linear-gradient(to right, #DA619C, #FF844A)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}
+        className="font-bold mt-4 w-full text-white py-[6px] px-4 rounded-[6px] focus:outline-none focus:ring-1 focus:ring-orange-600 focus:ring-opacity-50"
       >
         Next
       </button>
+
+      <style jsx>{`
+        .custom-checkbox {
+          cursor: pointer;
+          appearance: none;
+          -webkit-appearance: none;
+          width: 20px;
+          height: 20px;
+          border-radius: 4px;
+          background: black;
+          border: 2px solid transparent;
+          background-image: linear-gradient(black, black),
+            linear-gradient(90deg, orange, purple);
+          background-origin: border-box;
+          background-clip: content-box, border-box;
+          position: relative;
+          transition: background 0.3s ease-in-out;
+        }
+
+        .custom-checkbox:checked {
+          background-image: linear-gradient(black, black),
+            linear-gradient(90deg, orange, purple);
+          background-clip: content-box, border-box;
+        }
+
+        .custom-checkbox:checked::before {
+          content: "✔";
+          color: white;
+          position: absolute;
+          font-size: 16px;
+          line-height: 20px;
+          text-align: center;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      `}</style>
     </div>
   );
 };

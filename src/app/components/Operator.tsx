@@ -11,7 +11,13 @@ const Operator: React.FC<OperatorProps> = ({ name, id, ssv, days }) => {
   return (
     <div className="flex justify-between items-center p-2 border-b border-gray-700">
       <div>
-        <p className="text-sm">{name}</p>
+        <p className="text-md font-medium" 
+        style={{
+          background: "rgba(252, 129, 81, 1)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}
+        >{name}</p>
         <p className="text-xs">ID: {id}</p>
       </div>
       <div className="text-right">

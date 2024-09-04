@@ -199,6 +199,7 @@ export default function OperatorSelectionTable() {
         <table>
           <thead>
             <tr className="border border-gray-500">
+              <th className=""></th>
               <th className="cursor-pointer" onClick={() => handleSort("id")}>
                 <span className="flex items-center gap-2">
                   ID {renderSortIcon("id")}
@@ -244,9 +245,12 @@ export default function OperatorSelectionTable() {
             {filteredAndSortedOperators.map((operator) => (
               <tr
                 key={operator.id}
-                onClick={() => handleRowSelection(operator)}
-                className="border border-gray-400"
+                // onClick={() => handleRowSelection(operator)}
+                className="border border-gray-400 cursor-none"
               >
+                <td>
+                  <input onClick={() => handleRowSelection(operator)} type="checkbox" className="mr-2 custom-checkbox" />
+                </td>
                 <td>{operator.id}</td>
                 <td>{operator.name}</td>
                 <td>{operator.validators}</td>
@@ -308,15 +312,55 @@ export default function OperatorSelectionTable() {
           <button
             onClick={handleKeystoreUpload}
             style={{
-              background: "linear-gradient(to right, #A257EC, #D360A6)",
-              color: "white",
+              border: "1px solid transparent",
+              borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+              borderImageSlice: 1,
+              background: "linear-gradient(to right, #DA619C, #FF844A)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
             }}
-            className="w-full text-white py-[6px] px-4 rounded-[6px] focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+            className="w-full text-white py-[6px] px-4 rounded-[6px] focus:outline-none focus:ring-1 focus:ring-orange-600 focus:ring-opacity-50 font-bold"
           >
             Next
           </button>
         </div>
       </div>
+      <style jsx>{`
+        .custom-checkbox {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 20px;
+          height: 20px;
+          border-radius: 4px;
+          background: black;
+          border: 2px solid transparent;
+          background-image: linear-gradient(black, black),
+            linear-gradient(90deg, orange, purple);
+          background-origin: border-box;
+          background-clip: content-box, border-box;
+          position: relative;
+          transition: background 0.3s ease-in-out;
+          cursor: pointer;
+        }
+
+        .custom-checkbox:checked {
+          background-image: linear-gradient(black, black),
+            linear-gradient(90deg, orange, purple);
+          background-clip: content-box, border-box;
+        }
+
+        .custom-checkbox:checked::before {
+          content: "✔";
+          color: white;
+          position: absolute;
+          font-size: 16px;
+          line-height: 20px;
+          text-align: center;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      `}</style>
     </div>
   );
 }

@@ -295,7 +295,7 @@ function KeyGeneration() {
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
-                className="inline-flex items-center  py-2 px-4 rounded-md shadow-lg mr-4"
+                className="inline-flex items-center font-bold py-2 px-4 rounded-md shadow-lg mr-4"
               >
                 Terminal commands
               </button>
@@ -309,7 +309,7 @@ function KeyGeneration() {
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
-                className="inline-flex items-center  py-2 px-4 rounded-md shadow-lg"
+                className="inline-flex items-center font-bold py-2 px-4 rounded-md shadow-lg"
               >
                 GUI commands
               </button>
