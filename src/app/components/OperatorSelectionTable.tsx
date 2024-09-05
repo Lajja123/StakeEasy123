@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+
 import Image from "next/image";
+
 import UpArrow2 from "../assets/UpArrow2-New.png";
 import DownArrow2 from "../assets/DownArrow2.png";
 import UpDownArrow from "../assets/UpDownArrow.png";

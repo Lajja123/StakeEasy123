@@ -7,8 +7,93 @@ import Navbar from "@/app/components/Navbar";
 import { Copy, Info, CheckCircle, ArrowLeft } from "lucide-react";
 import icon from "../assets/icon.png";
 import Image from "next/image";
+import { Tooltip, Carousel } from "antd";
 
 const operators = [
+  {
+    name: "ChainUp",
+    id: 23,
+    status: "Active",
+    performance: "99.02%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "Lido - Meria",
+    id: 29,
+    status: "Active",
+    performance: "98.09%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "Lido - Stakely",
+    id: 30,
+    status: "Active",
+    performance: "89.85%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "Lido - Openbitlab",
+    id: 37,
+    status: "Active",
+    performance: "54.72%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "ChainUp",
+    id: 23,
+    status: "Active",
+    performance: "99.02%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "Lido - Meria",
+    id: 29,
+    status: "Active",
+    performance: "98.09%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "Lido - Stakely",
+    id: 30,
+    status: "Active",
+    performance: "89.85%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "Lido - Openbitlab",
+    id: 37,
+    status: "Active",
+    performance: "54.72%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "ChainUp",
+    id: 23,
+    status: "Active",
+    performance: "99.02%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "Lido - Meria",
+    id: 29,
+    status: "Active",
+    performance: "98.09%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "Lido - Stakely",
+    id: 30,
+    status: "Active",
+    performance: "89.85%",
+    fee: "0.0 SSV",
+  },
+  {
+    name: "Lido - Openbitlab",
+    id: 37,
+    status: "Active",
+    performance: "54.72%",
+    fee: "0.0 SSV",
+  },
   {
     name: "ChainUp",
     id: 23,
@@ -42,9 +127,27 @@ const operators = [
 const ValidatorDashboard = () => {
   const [copied, setCopied] = useState(false);
   const router = useRouter();
+  const itemsPerPage = 4;
+  const pages = Math.ceil(operators.length / itemsPerPage);
 
+  const slides = [];
+  for (let i = 0; i < pages; i++) {
+    const startIndex = i * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentItems = operators.slice(startIndex, endIndex);
+
+    slides.push(
+      <div key={i}>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          {currentItems.map((operator) => (
+            <OperatorCard key={operator.id} {...operator} />
+          ))}
+        </div>
+      </div>
+    );
+  }
   const copyToClipboard = () => {
-    // navigator.clipboard.writeText(address);
+    navigator.clipboard.writeText("  76668699....887797");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -73,14 +176,16 @@ const ValidatorDashboard = () => {
                 Cluster | <span style={{ fontSize: "12px" }}>6040...7c3e</span>
               </h2>
             </div>
-
             {/* Operator Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               {operators.map((operator, index) => (
                 <OperatorCard key={index} {...operator} />
               ))}
-            </div>
+            </div> */}
 
+            <Carousel dots={true} arrows className="carousel mb-2">
+              {slides}
+            </Carousel>
             {/* Balance & Validators Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Balance Card */}
@@ -103,10 +208,21 @@ const ValidatorDashboard = () => {
 
                 <div className="text-xs flex items-center p-4">
                   <span className="mr-1 text-sm font-semibold ">
-                    {" "}
                     Est. Operational Runway
                   </span>
-                  <Info size={10} />
+                  <Tooltip
+                    title="Estimated amount of days the cluster balance is sufficient to run all it’s validators"
+                    color="#121212"
+                    overlayInnerStyle={{
+                      border: "1px solid transparent",
+                      borderImage:
+                        "linear-gradient(to right, #A257EC , #DA619C )",
+                      borderImageSlice: 1,
+                      fontSize: "12px",
+                    }}
+                  >
+                    <Info size={10} />
+                  </Tooltip>
                 </div>
                 <p className="text-md font-bold p-4 pt-0">
                   182 <span className="text-[#A6A6A6] font-[300] ">days</span>
@@ -189,7 +305,19 @@ const ValidatorDashboard = () => {
                     <p className="text-sm">Public Key</p>
                     <div className="text-xs flex items-center">
                       <span className="mr-1 text-sm font-semibold">Status</span>
-                      <Info size={10} />
+                      <Tooltip
+                        title="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to the last 2 epochs)"
+                        color="#121212"
+                        overlayInnerStyle={{
+                          border: "1px solid transparent",
+                          borderImage:
+                            "linear-gradient(to right, #A257EC , #DA619C )",
+                          borderImageSlice: 1,
+                          fontSize: "12px",
+                        }}
+                      >
+                        <Info size={10} />
+                      </Tooltip>
                     </div>
                   </div>
                   <div style={{ borderBottom: "1px solid #A6A6A6" }}></div>
