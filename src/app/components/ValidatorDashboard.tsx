@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation"
 import OperatorCard from "./OperatorCard";
 import Footer from "@/app/components/Footer";
 import Navbar from "@/app/components/Navbar";
-import { Copy, Info, CheckCircle } from "lucide-react";
+import { Copy, Info, CheckCircle, ArrowLeft } from "lucide-react";
 import icon from "../assets/icon.png";
 import Image from "next/image";
 
@@ -40,32 +41,31 @@ const operators = [
 
 const ValidatorDashboard = () => {
   const [copied, setCopied] = useState(false);
+  const router = useRouter();
 
   const copyToClipboard = () => {
     // navigator.clipboard.writeText(address);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const goBack = () => {
+    router.push("clusters-dashboard")
+  };
+
   return (
     <>
       <div className="main">
         <div className=" flex items-center justify-center p-8 ">
           <div className=" p-6 rounded-lg  text-white w-full max-w-7xl">
-            {/* Header */}
+            <button
+              onClick={goBack}
+              className="flex items-center mb-4 text-white "
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back
+            </button>
             <div className="mb-6 flex">
-              <Image
-                src={icon}
-                alt=""
-                className=" p-1 mr-3"
-                style={{
-                  border: "1px solid #A6A6A6",
-
-                  borderRadius: "20px",
-                  textAlign: "center",
-                  color: "white",
-                  background: "linear-gradient(to right, #121212, #252525)",
-                }}
-              />
               <h2
                 className="text-xl font-semibold"
                 style={{ letterSpacing: "1px", fontSize: "20px" }}
@@ -162,7 +162,7 @@ const ValidatorDashboard = () => {
                   >
                     Validators{" "}
                   </h3>
-                  <button
+                  {/* <button
                     className=" text-white py-2 px-4 rounded-md focus:outline-none"
                     style={{
                       border: "1px solid transparent",
@@ -175,7 +175,7 @@ const ValidatorDashboard = () => {
                     }}
                   >
                     Add Validator +
-                  </button>
+                  </button> */}
                 </div>
                 <div
                   className="bg-gray-800  m-2 mt-7"

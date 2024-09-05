@@ -1,9 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { Copy, CheckCircle } from "lucide-react";
+import { Copy, CheckCircle, ArrowLeft } from "lucide-react";
 import Operator from "./Operator";
 
-const Tx: React.FC = () => {
+interface TransactionProps {
+  goBack: () => void; 
+}
+
+const Tx = ({ goBack }: TransactionProps) => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -15,7 +19,14 @@ const Tx: React.FC = () => {
   return (
     <div className="flex items-center justify-center ">
       <div className="max-w-2xl mx-auto text-white rounded-lg shadow-md border border-gray-200">
-        <div className="bg-gray-800 text-white p-4 rounded-t-lg border">
+        <div className="text-white p-4 rounded-t-lg border">
+          <button
+            onClick={goBack}
+            className="flex items-center mb-4 text-white "
+          >
+            <ArrowLeft className="w-5 h-5 mr-2" />
+            Back
+          </button>
           <h1 className="text-xl font-bold mb-2">Transaction Details</h1>
           <p className="text-sm">Validator Public Key</p>
           <div
@@ -84,19 +95,6 @@ const Tx: React.FC = () => {
             }}
           >
             Approve SSV
-          </button>
-          <button
-            className="flex-1 font-bold text-white py-2 px-4 rounded"
-            style={{
-              border: "1px solid transparent",
-              borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
-              borderImageSlice: 1,
-              background: "linear-gradient(to right, #DA619C, #FF844A)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            Register Validator
           </button>
         </div>
       </div>

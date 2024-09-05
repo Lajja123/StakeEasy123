@@ -11,13 +11,13 @@ const GreetingAtDashboard = () => {
   }
 
   return (
-    <div className="flex items-center justify-center bg-opacity-50 z-50">
-      <div className="p-12 rounded-lg shadow-lg max-w-lg w-full text-white"
+    <div className="flex items-center justify-center">
+      <div className="p-12 rounded-lg max-w-lg w-full text-white"
       style={{
         borderRadius: "35px",
         color: "white",
         boxShadow: "0px 4px 52.9px 0px rgba(0, 0, 0, 0.25)",
-        background: "linear-gradient(to right, #171717, #252525)",
+        // background: "linear-gradient(to right, #171717, #252525)",
       }}>
         <h2 className="text-2xl font-medium mb-4">Welcome to the SSV Network!</h2>
         <p className="mb-4 text-base font-light">

@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { CheckCircle, Eye, EyeOff, CloudUpload, X, Info } from "lucide-react";
+import { CheckCircle, Eye, EyeOff, CloudUpload, X, Info, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import SelectTime from "./SelectTime";
 
-function KeyStoreFile() {
+interface KeyStoreFileProps {
+  goBack: () => void; 
+}
+
+function KeyStoreFile({ goBack }: KeyStoreFileProps) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -23,12 +27,20 @@ function KeyStoreFile() {
     setShowSelectTime(true);
   };
 
+  const goBackToSelectTime = () => {
+    setShowSelectTime(false);
+  };
+
   if (showSelectTime) {
-    return <SelectTime />;
+    return <SelectTime goBack={goBackToSelectTime} />;
   }
 
   return (
     <div className="">
+      <button onClick={goBack} className="flex items-center mb-4 text-white ">
+        <ArrowLeft className="w-5 h-5 mr-2" />
+        Back
+      </button>
       {/* Main Content with Blur Effect */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 ">
         <div className="flex flex-col justify-center">

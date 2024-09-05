@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const ClusterDashboard: React.FC = () => {
@@ -9,6 +9,14 @@ const ClusterDashboard: React.FC = () => {
   const handleValidatorDashboard = () => {
     router.push("/my-account/validator-dashboard");
   };
+
+  const goBack = () => {
+    router.push("/join/success");
+  };
+
+  const handleAddCluster = () => {
+    router.push("/join");
+  }
 
   return (
     <div
@@ -20,11 +28,14 @@ const ClusterDashboard: React.FC = () => {
         borderRadius: "27px",
       }}
     >
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
+      <button onClick={goBack} className="flex items-center mb-4 text-white ">
+        <ArrowLeft className="w-5 h-5 mr-2" />
+        Back
+      </button>
+      <div className="flex justify-between items-center mb-4 pl-[0.8rem] pr-[1.5rem]">
         <h1 className="text-2xl font-bold text-white">Validator Clusters</h1>
         <div className="flex space-x-4">
-          <button
+          {/* <button
             className="text-white px-4 py-2 rounded-lg flex items-center"
             style={{
               border: "1px solid transparent",
@@ -36,7 +47,7 @@ const ClusterDashboard: React.FC = () => {
             }}
           >
             Fee Address
-          </button>
+          </button> */}
           <button
             className="text-white px-4 py-2 rounded-lg"
             style={{
@@ -47,8 +58,9 @@ const ClusterDashboard: React.FC = () => {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
+            onClick={handleAddCluster}
           >
-            Add Cluster
+            Add Cluster +
           </button>
         </div>
       </div>
@@ -109,9 +121,9 @@ const ClusterDashboard: React.FC = () => {
           </div>
           <div className="flex-1">1</div>
           <div className="flex-1">182 Days</div>
-          <div className="w-16 flex justify-end">
-            <button className="text-gray-400 hover:text-white">
-              <ArrowRight />
+          <div className="w-16 flex justify-center p-2 bg-[#FC8151] rounded-full">
+            <button className="text-gray-400 hover:text-white animate-bounce-custom shadow-orange-glow">
+              <ArrowRight color="white" />
             </button>
           </div>
         </div>

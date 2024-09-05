@@ -1,8 +1,13 @@
 "use client";
 import React, { useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import TransactionDetails from "./TransactionDetails";
 
-const StakingInterface: React.FC = () => {
+interface SelectTimeProps {
+  goBack: () => void; 
+}
+
+const StakingInterface = ({ goBack }: SelectTimeProps) => {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("");
   const [customPeriod, setCustomPeriod] = useState<number | string>(0);
   const [showTxDetails, setShowTxDetails] = useState(false);
@@ -21,8 +26,13 @@ const StakingInterface: React.FC = () => {
   const handleTxDeatils = () => {
     setShowTxDetails(true);
   };
+
+  const goBackToTransactionDetails = () => {
+    setShowTxDetails(false);
+  };
+
   if (showTxDetails) {
-    return <TransactionDetails />;
+    return <TransactionDetails goBack={goBackToTransactionDetails} />;
   }
 
   const getNetworkFee = () => {
@@ -37,6 +47,10 @@ const StakingInterface: React.FC = () => {
 
   return (
     <div className="max-w-lg mx-auto text-white shadow-md rounded-lg border-2 border-gray-200 p-6">
+      <button onClick={goBack} className="flex items-center mb-4 text-white ">
+        <ArrowLeft className="w-5 h-5 mr-2" />
+        Back
+      </button>
       <h2 className="text-2xl font-bold mb-4">
         Select your validator funding period
       </h2>

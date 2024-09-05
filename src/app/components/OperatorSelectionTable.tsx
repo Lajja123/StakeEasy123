@@ -70,6 +70,19 @@ export default function OperatorSelectionTable() {
 
   const [totalFee, setTotalFee] = useState<number>(0); // State for total fee
 
+  const handleKeystoreUpload = () => {
+    setShowKeystoreUpload(true);
+  };
+
+  // Function to go back to the operator selection table
+  const goBackToOperatorSelection = () => {
+    setShowKeystoreUpload(false);
+  };
+
+  if (showKeystoreUpload) {
+    return <KeyStoreFile goBack={goBackToOperatorSelection} />;
+  }
+
   // Function to calculate the total fee
   const calculateTotalFee = (selectedOps: Operator[]) => {
     const total = selectedOps.reduce(
@@ -133,14 +146,6 @@ export default function OperatorSelectionTable() {
       return 0;
     });
 
-  const handleKeystoreUpload = () => {
-    setShowKeystoreUpload(true);
-  };
-
-  if (showKeystoreUpload) {
-    return <KeyStoreFile />;
-  }
-
   return (
     <div className="operator-selection-container z-10">
       <div className="table-container">
@@ -153,15 +158,10 @@ export default function OperatorSelectionTable() {
                 onClick={() => setClusterSize(size)}
                 style={{
                   border: "1px solid transparent",
-                  // borderImage: "linear-gradient(180deg, #A257EC 0%, #DA619C 100%)",
-                  borderImage:
-                    "linear-gradient(to right, #A257EC 0% , #DA619C 60%)",
+                  borderImage: "linear-gradient(to right, #A257EC 0% , #DA619C 60%)",
                   borderImageSlice: 1,
                   color: "white",
-                  // background: "linear-gradient(180deg, #A257EC 0%, #DA619C 100%)",
-                  background:
-                    "linear-gradient(to right, #121212 0%, #252525 60%)",
-                  borderRadius: "15px",
+                  background: "linear-gradient(to right, #121212 0%, #252525 60%)",
                 }}
                 className={clusterSize === size ? "active" : ""}
               >
@@ -177,10 +177,11 @@ export default function OperatorSelectionTable() {
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              // style={{width: '60px'}}
             />
             <span className="search-icon">🔍</span>
           </div>
-          <button
+          {/* <button
             className="filter-button"
             style={{
               border: "1px solid transparent",
@@ -194,7 +195,7 @@ export default function OperatorSelectionTable() {
               <Image src={Filter} alt="Ascending" width={20} height={20} />
             </span>{" "}
             Filters
-          </button>
+          </button> */}
         </div>
         <table>
           <thead>
@@ -249,7 +250,11 @@ export default function OperatorSelectionTable() {
                 className="border border-gray-400 cursor-none"
               >
                 <td>
-                  <input onClick={() => handleRowSelection(operator)} type="checkbox" className="mr-2 custom-checkbox" />
+                  <input
+                    onClick={() => handleRowSelection(operator)}
+                    type="checkbox"
+                    className="mr-2 custom-checkbox"
+                  />
                 </td>
                 <td>{operator.id}</td>
                 <td>{operator.name}</td>
