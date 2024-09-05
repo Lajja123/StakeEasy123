@@ -89,7 +89,6 @@ const ValidatorDashboard = () => {
                 style={{
                   border: "1px solid #A6A6A6",
                   borderRadius: "10px",
-
                   color: "white",
                   background: "linear-gradient(to right, #171717, #252525)",
                 }}
@@ -164,7 +163,7 @@ const ValidatorDashboard = () => {
                     Validators{" "}
                   </h3>
                   <button
-                    className=" text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none"
+                    className=" text-white py-2 px-4 rounded-md focus:outline-none"
                     style={{
                       border: "1px solid transparent",
                       borderImage:
