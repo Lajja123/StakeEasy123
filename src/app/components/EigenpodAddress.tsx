@@ -7,11 +7,24 @@ import {
   MessageCircleQuestionIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAccount } from 'wagmi';
+import { BrowserProvider, Contract } from 'ethers';
+import eigenPodManagerAbi from '../../../abi.json';
 
-function EigenpodAddress() {
-  const [address, setAddress] = useState("EigenPod Address not created yet");
+interface WindowWithEthereum extends Window {
+  ethereum?: any;
+}
+
+declare let window: WindowWithEthereum;
+
+
+const EigenpodAddress: React.FC = () => {
+  const { address, isConnected } = useAccount();
+  const [contract, setContract] = useState<Contract | null>(null);
+  const [podAddress, setPodAddress] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [currentAddress, setCurrentAddress] = useState("EigenPod Address not created yet");
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
@@ -22,20 +35,168 @@ function EigenpodAddress() {
     }
   }, []);
 
-  const createPodAddress = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setAddress("0x1234...5678");
-      setLoading(false);
-    }, 1000);
+  useEffect(() => {
+    const initializeContract = async () => {
+      if (typeof window !== 'undefined' && window.ethereum) {
+        const provider = new BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const contractInstance = new Contract(
+          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string,
+          eigenPodManagerAbi,
+          signer
+        );
+        setContract(contractInstance);
+      }
+    };
+
+    initializeContract();
+  }, []);
+
+  useEffect(() => {
+    if (!isConnected) {
+      // Reset current address if no wallet is connected
+      setCurrentAddress("");
+    } else if (podAddress) {
+      setCurrentAddress(podAddress);
+    }
+  }, [isConnected, podAddress]);
+
+
+  const createPod = async (): Promise<string | null> => {
+    if (!contract) {
+      console.error('Contract not available');
+      return null;
+    }
+
+    try {
+      console.log('Checking if pod already exists...');
+      console.log("Address: ", address);
+      const podExists = await contract.hasPod(address);
+
+      if (podExists) {
+        const existingPod = await contract.getPod(address);
+        alert(`Pod is already created! Pod address: ${existingPod}`);
+        console.log('Existing EigenPod address:', existingPod);
+        setPodAddress(existingPod);
+        return existingPod;
+      }
+
+      console.log('Creating pod...');
+      const tx = await contract.createPod();
+      console.log('Transaction sent:', tx.hash);
+      const receipt = await tx.wait();
+      console.log('Transaction confirmed:', receipt.transactionHash);
+
+      // Get the new pod address
+      const newPodAddress = await contract.getPod(address);
+      console.log('Your EigenPod address:', newPodAddress);
+
+      alert(`Pod created successfully! Pod address: ${newPodAddress}`);
+      setPodAddress(newPodAddress);
+      return newPodAddress;
+    } catch (error) {
+      console.error('Error creating EigenPod:', error);
+      alert('Error creating EigenPod. Check the console for details.');
+      return null;
+    }
   };
 
-  const getPodAddress = () => {
-    alert(`Current EigenPod Address: ${address}`);
+
+  const checkPodExists = async (): Promise<boolean> => {
+    if (!contract || !address) {
+      console.error('Contract or address not available');
+      return false;
+    }
+
+    try {
+      console.log('Checking if pod exists...');
+      const podExists = await contract.hasPod(address);
+      console.log("Pod exists:", podExists);
+      return podExists;
+    } catch (error) {
+      console.error('Error checking if pod exists:', error);
+      return false;
+    }
   };
+
+  const getPodAddress = async (): Promise<string | null> => {
+    console.log("getPodAddress called"); 
+    if (!contract || !address) {
+      console.error('Contract or address not available');
+      return null;
+    }
+  
+    try {
+      console.log('Checking if pod exists...');
+      const podExists = await contract.hasPod(address);
+      console.log("Pod exists:", podExists);
+  
+      if (podExists) {
+        const existingPod = await contract.getPod(address);
+        console.log("Pod address:", existingPod);
+        setPodAddress(existingPod);
+        return existingPod;
+      } else {
+        console.log("Pod does not exist."); 
+        return null;
+      }
+    } catch (error) {
+      console.error('Error retrieving pod information:', error);
+      return null;
+    }
+  };
+
+  const saveAddresses = async (walletAddress: string | undefined, eigenPodAddress: string) => {
+    try {
+      console.log("FETCHING...")
+      const response = await fetch('/api/storeAddress', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ walletAddress, eigenPodAddress }),
+      });
+  
+      if (!response.ok) {
+        console.error('Failed to store addresses:', response.statusText);
+        alert('Error storing addresses.');
+      } else {
+        console.log('Addresses stored successfully.');
+      }
+    } catch (error) {
+      console.error('Error in storing addresses:', error);
+      alert('Error in storing addresses.');
+    }
+  };
+
+  const handleCreatePodAddress = async () => {
+    setLoading(true);
+    const newPodAddress = await createPod();
+    if (newPodAddress) {
+      await saveAddresses(address, newPodAddress);
+    }
+    setLoading(false);
+  };
+  
+
+ const handleGetPodAddress = async () => {
+  console.log("handleGetPodAddress called");
+  const existingAddress = await getPodAddress();
+  console.log("Existing address:", existingAddress); 
+  
+  if (existingAddress) {
+    console.log("Calling API call function");
+    await saveAddresses(address, existingAddress);
+    alert(`Current EigenPod Address: ${existingAddress}`);
+  } else {
+    console.log("No EigenPod Address found.");
+    alert("No EigenPod Address found.");
+  }
+};
+
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(address);
+    navigator.clipboard.writeText(currentAddress);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -117,7 +278,7 @@ function EigenpodAddress() {
 
           <div className="flex space-x-4">
             <button
-              onClick={createPodAddress}
+              onClick={handleCreatePodAddress}
               disabled={loading}
               className={`flex-1 bg-[#161515] text-white font-medium py-3 px-4 rounded-md text-sm transition-all duration-300 ${
                 loading ? "opacity-75 cursor-not-allowed" : ""
@@ -134,7 +295,8 @@ function EigenpodAddress() {
               {loading ? "Creating..." : "Create Pod Address"}
             </button>
             <button
-              onClick={getPodAddress}
+              onClick={handleGetPodAddress}
+              disabled={!isConnected}
               style={{
                 border: "1px solid transparent",
                 borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
