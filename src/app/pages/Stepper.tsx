@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import starImg from "../assets/Frame 5.png";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 
 // Import your step components here
 import EigenpodAddress from "../components/EigenpodAddress";
@@ -109,14 +108,8 @@ function Stepper() {
   const [showPopup, setShowPopup] = useState(false);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  // Read the query parameter from the URL
-  const startAtLastStep = searchParams.get("startAtLastStep") === "true";
-
-  const [currentStep, setCurrentStep] = useState(
-    startAtLastStep ? steps.length - 1 : 0
-  );
+  const [currentStep, setCurrentStep] = useState(0);
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
