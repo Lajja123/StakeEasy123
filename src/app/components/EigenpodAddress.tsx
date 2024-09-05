@@ -91,7 +91,7 @@ function EigenpodAddress() {
                     textAlign: "justify",
                   }}
                 >
-                  Eigenpod address
+                  Eigenpod Address
                 </div>
 
                 <button

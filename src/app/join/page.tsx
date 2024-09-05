@@ -1,16 +1,16 @@
-import React from 'react'
-import NavBar from '../components/Navbar';
-import Stepper from '../pages/Stepper';
-import Footer from '../components/Footer';
+import React from "react";
+import Navbar from "../components/Navbar";
+import Stepper from "../pages/Stepper";
+import Footer from "../components/Footer";
 
 const page = () => {
   return (
-    <div>
-      <NavBar />
+    <div className="main">
+      <Navbar />
       <Stepper />
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

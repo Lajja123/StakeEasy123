@@ -87,7 +87,7 @@ function UploadDepositData() {
                     textAlign: "justify",
                   }}
                 >
-                  Upload deposit data
+                  Upload Deposit Data
                 </div>
 
                 <button
@@ -160,7 +160,7 @@ function UploadDepositData() {
                   ) : (
                     <CloudUpload className="h-16 w-16 mb-4 p-4 bg-gradient-to-b from-[#FC8151] to-[#C951C0] text-white rounded-full" />
                   )}
-                  <p className="text-white mb-2">
+                  <p className="text-white mt-2">
                     {file ? file.name : "Drag file to upload or browse"}
                   </p>
                 </label>

@@ -71,7 +71,7 @@ function ValidatorRegistration() {
                     textAlign: "justify",
                   }}
                 >
-                  Select operators
+                  Select Operators
                 </div>
 
                 <button

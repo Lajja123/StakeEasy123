@@ -49,7 +49,6 @@ const ValidatorDashboard = () => {
   return (
     <>
       <div className="main">
-        <Navbar />
         <div className=" flex items-center justify-center p-8 ">
           <div className=" p-6 rounded-lg  text-white w-full max-w-7xl">
             {/* Header */}
@@ -232,7 +231,6 @@ const ValidatorDashboard = () => {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     </>
   );
