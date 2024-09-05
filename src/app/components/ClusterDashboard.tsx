@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -11,22 +11,58 @@ const ClusterDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 p-8">
+    <div
+      className="mb-[500px] mx-44 p-6"
+      style={{
+        background: "linear-gradient(274.46deg, #1D1D1D 3.75%, #191919 95.45%)",
+        boxShadow: "0px 3.18px 42.01px 0px rgba(0, 0, 0, 0.25)",
+        border: "0.4px solid #A6A6A6",
+        borderRadius: "27px",
+      }}
+    >
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-white">Validator Clusters</h1>
         <div className="flex space-x-4">
-          <button className="bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center">
+          <button
+            className="text-white px-4 py-2 rounded-lg flex items-center"
+            style={{
+              border: "1px solid transparent",
+              borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+              borderImageSlice: 1,
+              background: "linear-gradient(to right, #DA619C, #FF844A)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             Fee Address
           </button>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg">
+          <button
+            className="text-white px-4 py-2 rounded-lg"
+            style={{
+              border: "1px solid transparent",
+              borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+              borderImageSlice: 1,
+              background: "linear-gradient(to right, #DA619C, #FF844A)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             Add Cluster
           </button>
         </div>
       </div>
 
       {/* Table */}
-      <div className="bg-gray-800 rounded-lg p-4">
+      <div
+        className="rounded-lg p-4"
+        style={{
+          background:
+            "linear-gradient(344.04deg, #1D1D1D 24.05%, #0F0F0F 92.03%)",
+          // border: "0.4px solid #A6A6A6",
+          borderRadius: "15px",
+        }}
+      >
         {/* Table Header */}
         <div className="flex text-gray-400 mb-4">
           <div className="flex-1">Cluster ID</div>
@@ -38,8 +74,14 @@ const ClusterDashboard: React.FC = () => {
 
         {/* Table Row */}
         <div
-          className="flex items-center bg-gray-700 text-white rounded-lg p-4 hover:bg-gray-600 transition"
+          className="flex items-center text-white rounded-lg p-4 hover:bg-gray-700 transition duration-300 hover:cursor-pointer"
           onClick={handleValidatorDashboard}
+          style={{
+            background:
+              "linear-gradient(344.04deg, #1D1D1D 24.05%, #0F0F0F 92.03%)",
+            border: "0.4px solid #A6A6A6",
+            borderRadius: "15px",
+          }}
         >
           <div className="flex-1 truncate">6040...7c3e</div>
           <div className="flex-1 flex space-x-2">
