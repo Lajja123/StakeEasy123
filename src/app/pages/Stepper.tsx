@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { Tooltip } from "antd";
 import {
   ChevronRight,
   ChevronLeft,
@@ -27,10 +28,30 @@ interface StepDetails {
 }
 
 const steps = [
-  { title: "Personal Info", component: EigenpodAddress, icon: Plus },
-  { title: "Account Setup", component: KeyGeneration, icon: Key },
-  { title: "Completion", component: ValidatorRegistration, icon: Pencil },
-  { title: "Confirmation", component: UploadDepositData, icon: Upload },
+  {
+    component: EigenpodAddress,
+    icon: Plus,
+    tooltip:
+      "Generate your Eigenpod address automatically, simplifying the setup process and saving time",
+  },
+  {
+    component: KeyGeneration,
+    icon: Key,
+    tooltip:
+      "Walk through the process of creating your validator key, follow the steps and create your staking keys.",
+  },
+  {
+    component: ValidatorRegistration,
+    icon: Pencil,
+    tooltip:
+      "Register your validator on the stake-easy network and securely distribute keys to selected operators",
+  },
+  {
+    component: UploadDepositData,
+    icon: Upload,
+    tooltip:
+      "Seamlessly upload deposit data, ensuring your validator registration is complete and processed on the stake-easy network",
+  },
 ];
 
 const stepDetails: { [key: number]: StepDetails } = {
@@ -120,30 +141,43 @@ function Stepper() {
         alt=""
         className="w-70 h-70 absolute bottom-16 left-0"
       />
-      <div className="mb-12 relative w-full">
-        <div className="flex justify-between items-center w-full relative">
+      <div className="mb-12 relative w-[80%] m-auto">
+        <div className="flex justify-between items-center  relative">
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
-              <div
+              <Tooltip
                 key={index}
-                className={`step flex flex-col items-center relative w-full`}
+                title={step.tooltip}
+                color="#121212"
+                overlayInnerStyle={{
+                  border: "1px solid transparent",
+                  borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+                  borderImageSlice: 1,
+                }}
               >
-                <motion.div
-                  className={`w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white font-bold ${
-                    index <= currentStep
-                      ? "bg-gradient-to-b from-[#FC8151] to-[#C951C0]"
-                      : "bg-[#585858]"
-                  } ${
-                    index === 0 && currentStep === 0 ? "  ring-opacity-50" : ""
-                  } z-10`}
-                  animate={{
-                    scale: index === currentStep ? 1.2 : 1,
-                  }}
+                <div
+                  key={index}
+                  className={`step flex flex-col items-center relative `}
                 >
-                  <Icon className="w-6 h-6" />
-                </motion.div>
-              </div>
+                  <motion.div
+                    className={`w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white font-bold cursor-pointer ${
+                      index <= currentStep
+                        ? "bg-gradient-to-b from-[#FC8151] to-[#C951C0]"
+                        : "bg-[#585858]"
+                    } ${
+                      index === 0 && currentStep === 0
+                        ? "  ring-opacity-50"
+                        : ""
+                    } z-10`}
+                    animate={{
+                      scale: index === currentStep ? 1.2 : 1,
+                    }}
+                  >
+                    <Icon className="w-6 h-6" />
+                  </motion.div>
+                </div>
+              </Tooltip>
             );
           })}
         </div>
@@ -152,10 +186,8 @@ function Stepper() {
 
         <motion.div
           className="absolute top-1/2 left-0 h-0.5 bg-gradient-to-r from-[#FC8151] to-[#C951C0] transform -translate-y-1/2 z-0"
-          initial={{ width: "14%" }}
-          animate={{
-            width: `${Math.max(14, (currentStep / (steps.length - 1)) * 100)}%`,
-          }}
+          initial={{ width: "0" }}
+          animate={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
           transition={{ duration: 0.3 }}
         />
       </div>
@@ -236,7 +268,7 @@ function Stepper() {
                   style={{
                     padding: "5px",
                   }}
-                  className="absolute top-2 right-2 text-[#FC8150] "
+                  className="absolute top-2 right-2 text-[#FC8150]  "
                 >
                   <X size={24} />
                 </button>
@@ -270,12 +302,23 @@ function Stepper() {
           </motion.div>
         )}
       </AnimatePresence>
-      <button
-        onClick={openPopup}
-        className="absolute right-[5%] bottom-[7%] inline-flex items-center text-white py-2 px-4 rounded-md"
-      >
-        <MessageCircleQuestionIcon size={35} />
-      </button>
+
+      <div className="relative inline-flex items-center text-white py-2 px-4 rounded-md justify-end">
+        <Tooltip
+          title={"Show Details"}
+          color="#121212"
+          placement="top"
+          overlayInnerStyle={{
+            border: "1px solid transparent",
+            borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+            borderImageSlice: 1,
+          }}
+        >
+          <button onClick={openPopup} className="sticky mr-5 ">
+            <MessageCircleQuestionIcon size={35} />
+          </button>
+        </Tooltip>
+      </div>
     </div>
   );
 }

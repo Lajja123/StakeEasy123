@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import TransactionDetails from "./TransactionDetails";
+import { Tooltip } from "antd";
+import { Info } from "lucide-react";
 
 const StakingInterface: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("");
@@ -31,7 +33,7 @@ const StakingInterface: React.FC = () => {
     } else if (selectedPeriod === "1 Year") {
       return 1;
     } else {
-      return Number((Number(customPeriod) / 365 * 1).toFixed(5));
+      return Number(((Number(customPeriod) / 365) * 1).toFixed(5));
     }
   };
 
@@ -88,7 +90,9 @@ const StakingInterface: React.FC = () => {
             className="border p-2 rounded w-24 text-white bg-[#161515]"
           />
           <span className="ml-0 pl-0">days</span>
-          <span className="font-bold">{Number(Number(customPeriod)/365 * 1).toFixed(5)} SSV</span>
+          <span className="font-bold">
+            {Number((Number(customPeriod) / 365) * 1).toFixed(5)} SSV
+          </span>
         </div>
       </div>
 
@@ -106,15 +110,57 @@ const StakingInterface: React.FC = () => {
       </h3>
       <div className="space-y-2">
         <div className="flex justify-between">
-          <span>Operator fee</span>
+          <span className="flex items-center ">
+            Operator fee
+            <Tooltip
+              title="Estimated amount of days the cluster balance is sufficient to run all it’s validators"
+              color="#121212"
+              overlayInnerStyle={{
+                border: "1px solid transparent",
+                borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+                borderImageSlice: 1,
+                fontSize: "12px",
+              }}
+            >
+              <Info size={10} className="ml-1" />
+            </Tooltip>
+          </span>
           <span>6 SSV</span>
         </div>
         <div className="flex justify-between">
-          <span>Network fee</span>
+          <span className="flex items-center ">
+            Network fee
+            <Tooltip
+              title="Estimated amount of days the cluster balance is sufficient to run all it’s validators"
+              color="#121212"
+              overlayInnerStyle={{
+                border: "1px solid transparent",
+                borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+                borderImageSlice: 1,
+                fontSize: "12px",
+              }}
+            >
+              <Info size={10} className="ml-1" />
+            </Tooltip>
+          </span>
           <span>{getNetworkFee()} SSV</span>
         </div>
         <div className="flex justify-between">
-          <span>Liquidation collateral</span>
+          <span className="flex items-center ">
+            Liquidation collateral{" "}
+            <Tooltip
+              title="Estimated amount of days the cluster balance is sufficient to run all it’s validators"
+              color="#121212"
+              overlayInnerStyle={{
+                border: "1px solid transparent",
+                borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+                borderImageSlice: 1,
+                fontSize: "12px",
+              }}
+            >
+              <Info size={10} className="ml-1" />
+            </Tooltip>
+          </span>
           <span>1 SSV</span>
         </div>
         <div className="w-[calc(100%+48px)] border-b-2 border-gray-400 mt-4 -ml-6"></div>
@@ -124,7 +170,7 @@ const StakingInterface: React.FC = () => {
             {/* here 7 is sum amount of static Liquidation collateral and static operator fee */}
             {7 +
               (selectedPeriod === "Custom Period"
-                ? Number((Number(customPeriod) / 365 * 1).toFixed(5))
+                ? Number(((Number(customPeriod) / 365) * 1).toFixed(5))
                 : selectedPeriod === "6 Months"
                 ? 0.5
                 : selectedPeriod === "1 Year"

@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { Copy, CheckCircle } from "lucide-react";
 import Operator from "./Operator";
+import { Info } from "lucide-react";
+import { Tooltip } from "antd";
 
 const Tx: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -54,15 +56,57 @@ const Tx: React.FC = () => {
             Funding Summary
           </h2>
           <div className="flex justify-between">
-            <span>Operator fee</span>
+            <span className="flex items-center">
+              Operator fee
+              <Tooltip
+                title="Estimated amount of days the cluster balance is sufficient to run all it’s validators"
+                color="#121212"
+                overlayInnerStyle={{
+                  border: "1px solid transparent",
+                  borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+                  borderImageSlice: 1,
+                  fontSize: "12px",
+                }}
+              >
+                <Info size={10} className="ml-1" />
+              </Tooltip>
+            </span>
             <span>0.0 SSV</span>
           </div>
           <div className="flex justify-between">
-            <span>Network fee</span>
+            <span className="flex items-center">
+              Network fee
+              <Tooltip
+                title="Estimated amount of days the cluster balance is sufficient to run all it’s validators"
+                color="#121212"
+                overlayInnerStyle={{
+                  border: "1px solid transparent",
+                  borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+                  borderImageSlice: 1,
+                  fontSize: "12px",
+                }}
+              >
+                <Info size={10} className="ml-1" />
+              </Tooltip>
+            </span>
             <span>0.5 SSV</span>
           </div>
           <div className="flex justify-between">
-            <span>Liquidation collateral</span>
+            <span className="flex items-center">
+              Liquidation collateral
+              <Tooltip
+                title="Estimated amount of days the cluster balance is sufficient to run all it’s validators"
+                color="#121212"
+                overlayInnerStyle={{
+                  border: "1px solid transparent",
+                  borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+                  borderImageSlice: 1,
+                  fontSize: "12px",
+                }}
+              >
+                <Info size={10} className="ml-1" />
+              </Tooltip>
+            </span>
             <span>1.0 SSV</span>
           </div>
           <div className="w-[calc(100%+32px)] border-b-2 border-gray-400 mt-2 -ml-4"></div>
