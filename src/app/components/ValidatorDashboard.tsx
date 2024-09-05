@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import OperatorCard from "../components/OperatorCard";
+import OperatorCard from "./OperatorCard";
 import Footer from "@/app/components/Footer";
 import Navbar from "@/app/components/Navbar";
 import { Copy, Info, CheckCircle } from "lucide-react";
@@ -38,7 +38,7 @@ const operators = [
   },
 ];
 
-const ClusterDashboard = () => {
+const ValidatorDashboard = () => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -238,4 +238,4 @@ const ClusterDashboard = () => {
   );
 };
 
-export default ClusterDashboard;
+export default ValidatorDashboard;

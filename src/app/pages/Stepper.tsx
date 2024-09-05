@@ -39,7 +39,7 @@ function Stepper() {
       setCurrentStep(currentStep + 1);
     } else if (currentStep === steps.length - 1) {
       // Navigate to dashboard when on the last step
-      router.push("/dashboard"); // Adjust the path as needed
+      router.push("/join/success"); // Adjust the path as needed
     }
   };
 

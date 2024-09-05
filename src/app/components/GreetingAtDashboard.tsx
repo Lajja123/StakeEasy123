@@ -1,6 +1,14 @@
+'use client'
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
-const GreetingAtDashboard: React.FC = () => {
+const GreetingAtDashboard = () => {
+
+  const router = useRouter();
+
+  const handleClusterDashboard = () => {
+      router.push("/my-account/clusters-dashboard");
+  }
 
   return (
     <div className="flex items-center justify-center bg-white bg-opacity-50 z-50">
@@ -43,13 +51,14 @@ const GreetingAtDashboard: React.FC = () => {
             background: "linear-gradient(to right, #DA619C, #FF844A)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
-          }}>
+          }}
+          onClick={handleClusterDashboard}>
             Manage Cluster
           </button>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default GreetingAtDashboard;
