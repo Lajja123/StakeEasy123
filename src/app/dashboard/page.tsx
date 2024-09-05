@@ -1,7 +1,11 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import OperatorCard from "../components/OperatorCard";
 import Footer from "@/app/components/Footer";
 import Navbar from "@/app/components/Navbar";
+import { Copy, Info, CheckCircle } from "lucide-react";
+import icon from "../assets/icon.png";
+import Image from "next/image";
 
 const operators = [
   {
@@ -35,78 +39,201 @@ const operators = [
 ];
 
 const ClusterDashboard = () => {
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = () => {
+    // navigator.clipboard.writeText(address);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
   return (
     <>
-      <Navbar />
-      <div className=" flex items-center justify-center p-8 h-[100vh]">
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white w-full max-w-5xl">
-          {/* Header */}
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold">Cluster | 6040...7c3e</h2>
-          </div>
+      <div className="main">
+        <Navbar />
+        <div className=" flex items-center justify-center p-8 ">
+          <div className=" p-6 rounded-lg  text-white w-full max-w-7xl">
+            {/* Header */}
+            <div className="mb-6 flex">
+              <Image
+                src={icon}
+                alt=""
+                className=" p-1 mr-3"
+                style={{
+                  border: "1px solid #A6A6A6",
 
-          {/* Operator Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-            {operators.map((operator, index) => (
-              <OperatorCard key={index} {...operator} />
-            ))}
-          </div>
-
-          {/* Balance & Validators Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Balance Card */}
-            <div className="bg-gray-700 p-4 rounded-lg shadow-md">
-              <div className="mb-4">
-                <h3 className="text-sm font-semibold">Balance</h3>
-                <p className="text-xl font-bold">1.49 SSV</p>
-              </div>
-              <div className="mb-4">
-                <h3 className="text-sm font-semibold">
-                  Est. Operational Runway
-                </h3>
-                <p className="text-xl font-bold">182 days</p>
-              </div>
-              <div className="flex justify-between">
-                <button className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
-                  Deposit
-                </button>
-                <button className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 focus:outline-none">
-                  Withdraw
-                </button>
-              </div>
+                  borderRadius: "20px",
+                  textAlign: "center",
+                  color: "white",
+                  background: "linear-gradient(to right, #121212, #252525)",
+                }}
+              />
+              <h2
+                className="text-xl font-semibold"
+                style={{ letterSpacing: "1px", fontSize: "20px" }}
+              >
+                Cluster | <span style={{ fontSize: "12px" }}>6040...7c3e</span>
+              </h2>
             </div>
 
-            {/* Validators Card */}
-            <div className="md:col-span-2 bg-gray-700 p-4 rounded-lg shadow-md">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-sm font-semibold">Validators</h3>
-                <button className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
-                  Add Validator +
-                </button>
+            {/* Operator Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+              {operators.map((operator, index) => (
+                <OperatorCard key={index} {...operator} />
+              ))}
+            </div>
+
+            {/* Balance & Validators Section */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Balance Card */}
+              <div
+                className="rounded-lg shadow-md"
+                style={{
+                  border: "1px solid #A6A6A6",
+                  borderRadius: "10px",
+
+                  color: "white",
+                  background: "linear-gradient(to right, #171717, #252525)",
+                }}
+              >
+                <div className=" p-5">
+                  <h3 className="text-sm font-semibold text-[#A6A6A6] mb-3">
+                    Balance
+                  </h3>
+                  <p className="text-md font-bold">1.49 SSV</p>
+                </div>
+                <div style={{ borderBottom: "1px solid #A6A6A6" }}></div>
+
+                <div className="text-xs flex items-center p-4">
+                  <span className="mr-1 text-sm font-semibold ">
+                    {" "}
+                    Est. Operational Runway
+                  </span>
+                  <Info size={10} />
+                </div>
+                <p className="text-md font-bold p-4 pt-0">
+                  182 <span className="text-[#A6A6A6] font-[300] ">days</span>
+                </p>
+
+                <div className="flex justify-between p-4">
+                  <button
+                    className=" text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none"
+                    style={{
+                      border: "1px solid transparent",
+                      borderImage:
+                        "linear-gradient(to right, #DA619C , #FF844A )",
+                      borderImageSlice: 1,
+                      background: "linear-gradient(to right, #DA619C, #FF844A)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    Deposit
+                  </button>
+                  <button
+                    className=" text-white py-2 px-4 rounded-md hover:bg-gray-700 focus:outline-none"
+                    style={{
+                      border: "1px solid transparent",
+                      borderImage:
+                        "linear-gradient(to right, #DA619C , #FF844A )",
+                      borderImageSlice: 1,
+                      background: "linear-gradient(to right, #DA619C, #FF844A)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    Withdraw
+                  </button>
+                </div>
               </div>
-              <div className="bg-gray-800 p-4 rounded-lg">
-                <div className="flex justify-between items-center mb-2">
-                  <p className="text-sm">Public Key</p>
-                  <p className="text-sm">Status</p>
+
+              {/* Validators Card */}
+              <div
+                className="md:col-span-2 bg-gray-700 p-4 rounded-lg shadow-md"
+                style={{
+                  border: "1px solid #A6A6A6",
+                  borderRadius: "10px",
+
+                  color: "white",
+                  background: "linear-gradient(to right, #171717, #252525)",
+                }}
+              >
+                <div className="flex justify-between items-center ">
+                  <h3
+                    className="text-xl font-semibold"
+                    style={{ letterSpacing: "1px" }}
+                  >
+                    Validators{" "}
+                  </h3>
+                  <button
+                    className=" text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none"
+                    style={{
+                      border: "1px solid transparent",
+                      borderImage:
+                        "linear-gradient(to right, #DA619C , #FF844A )",
+                      borderImageSlice: 1,
+                      background: "linear-gradient(to right, #DA619C, #FF844A)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    Add Validator +
+                  </button>
                 </div>
-                <div className="flex justify-between items-center">
-                  <p className="text-sm text-gray-400">0xa6...f581</p>
-                  <p className="text-sm text-red-500">Inactive</p>
-                </div>
-                <div className="flex justify-end mt-2 space-x-4">
+                <div
+                  className="bg-gray-800  m-2 mt-7"
+                  style={{
+                    border: "1px solid #A6A6A6",
+                    borderRadius: "10px",
+                    background: "linear-gradient(to right, #1d1d1d, #0f0f0f)",
+                  }}
+                >
+                  <div className="flex justify-between items-center  p-4">
+                    <p className="text-sm">Public Key</p>
+                    <div className="text-xs flex items-center">
+                      <span className="mr-1 text-sm font-semibold">Status</span>
+                      <Info size={10} />
+                    </div>
+                  </div>
+                  <div style={{ borderBottom: "1px solid #A6A6A6" }}></div>
+
+                  <div className="flex justify-between items-cente p-3">
+                    <div className="text-xs flex items-center">
+                      <span className="mr-2 text-sm font-semibold">
+                        76668699....887797
+                      </span>
+
+                      <button
+                        className={`text-[#FC8150] transition-colors ${
+                          copied ? "text-[#FC8150]" : ""
+                        }`}
+                        onClick={copyToClipboard}
+                      >
+                        {copied ? (
+                          <CheckCircle className="w-3 h-3" />
+                        ) : (
+                          <Copy className="w-3 h-3" />
+                        )}
+                      </button>
+                    </div>
+                    <div className="text-xs text-green-500 bg-[#D5F5E3] rounded-[5px] p-[5px] ">
+                      Active
+                    </div>
+                  </div>
+                  {/* <div className="flex justify-end mt-2 space-x-4">
                   <button className="text-blue-500 hover:underline">
                     Edit
                   </button>
                   <button className="text-blue-500 hover:underline">
                     Settings
                   </button>
+                </div> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 };
