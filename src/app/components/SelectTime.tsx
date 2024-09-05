@@ -25,6 +25,16 @@ const StakingInterface: React.FC = () => {
     return <TransactionDetails />;
   }
 
+  const getNetworkFee = () => {
+    if (selectedPeriod === "6 Months") {
+      return 0.5;
+    } else if (selectedPeriod === "1 Year") {
+      return 1;
+    } else {
+      return Number((Number(customPeriod) / 365 * 1).toFixed(5));
+    }
+  };
+
   return (
     <div className="max-w-lg mx-auto text-white shadow-md rounded-lg border-2 border-gray-200 p-6">
       <h2 className="text-2xl font-bold mb-4">
@@ -47,7 +57,7 @@ const StakingInterface: React.FC = () => {
             />
             <span>6 Months</span>
           </label>
-          <span className="font-bold">3.5 SSV</span>
+          <span className="font-bold">0.5 SSV</span>
         </div>
         <div className="flex justify-between items-center border-2 border-gray-300 p-2 rounded-[8px]">
           <label className="flex items-center">
@@ -59,7 +69,7 @@ const StakingInterface: React.FC = () => {
             />
             <span>1 Year</span>
           </label>
-          <span className="font-bold">7 SSV</span>
+          <span className="font-bold">1 SSV</span>
         </div>
         <div className="flex justify-between items-center border-2 border-gray-300 p-2 rounded-[8px]">
           <label className="flex items-center">
@@ -78,12 +88,11 @@ const StakingInterface: React.FC = () => {
             className="border p-2 rounded w-24 text-white bg-[#161515]"
           />
           <span className="ml-0 pl-0">days</span>
-          <span className="font-bold">{Number(customPeriod) * 0.02} SSV</span>
+          <span className="font-bold">{Number(Number(customPeriod)/365 * 1).toFixed(5)} SSV</span>
         </div>
       </div>
 
-      <div className="w-[calc(100%+48px)] border-b-2 border-gray-400 mt-4 -ml-6">
-      </div>
+      <div className="w-[calc(100%+48px)] border-b-2 border-gray-400 mt-4 -ml-6"></div>
 
       <h3
         className="text-xl font-bold mt-3"
@@ -102,16 +111,27 @@ const StakingInterface: React.FC = () => {
         </div>
         <div className="flex justify-between">
           <span>Network fee</span>
-          <span>1 SSV</span>
+          <span>{getNetworkFee()} SSV</span>
         </div>
         <div className="flex justify-between">
           <span>Liquidation collateral</span>
           <span>1 SSV</span>
         </div>
-        <div className="w-[calc(100%+48px)] border-b-2 border-gray-600 mt-4 -ml-6"></div>
+        <div className="w-[calc(100%+48px)] border-b-2 border-gray-400 mt-4 -ml-6"></div>
         <div className="flex justify-between font-bold">
           <span>Total</span>
-          <span className="">{8 + Number(customPeriod) * 0.02} SSV</span>
+          <span className="">
+            {/* here 7 is sum amount of static Liquidation collateral and static operator fee */}
+            {7 +
+              (selectedPeriod === "Custom Period"
+                ? Number((Number(customPeriod) / 365 * 1).toFixed(5))
+                : selectedPeriod === "6 Months"
+                ? 0.5
+                : selectedPeriod === "1 Year"
+                ? 1
+                : 0)}{" "}
+            SSV
+          </span>
         </div>
       </div>
 

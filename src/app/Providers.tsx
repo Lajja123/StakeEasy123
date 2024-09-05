@@ -51,7 +51,7 @@ const myCustomTheme = {
   },
   radii: {
     actionButton: "4px",
-    connectButton: "0px",
+    connectButton: "4px",
     menuButton: "4px",
     modal: "8px",
     modalMobile: "8px",
