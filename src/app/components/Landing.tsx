@@ -10,12 +10,8 @@ const Landing = () => {
         alt=""
         className="w-70 h-70 absolute bottom-16 left-0"
       /> */}
-      <div
-        className="text-white flex flex-col items-center justify-center gap-4 relative mx-auto transition-all duration-300 w-[80%]"
-      >
-        <h1 className="text-5xl">
-          Stake, Earn, Spend
-        </h1>
+      <div className="text-white flex flex-col items-center justify-center gap-4 relative mx-auto transition-all duration-300 w-[80%]">
+        <h1 className="text-5xl">Stake, Earn, Spend</h1>
         <h3 className="text-2xl">
           Stake ETH, get eETH - the liquid restaking token that rewards you more
           across DeFi.
@@ -47,7 +43,7 @@ const Landing = () => {
               WebkitTextFillColor: "transparent",
             }}
           >
-            Don't have SSV faucets? Click here to get it
+            Do not have SSV faucets? Click here to get it
           </a>
 
           <a
