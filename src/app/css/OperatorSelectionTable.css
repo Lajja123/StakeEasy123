@@ -48,8 +48,8 @@ h2 {
 .search-container input {
   width: 100%;
   padding: 0.5rem 1rem 0.5rem 2.5rem;
-  background-color: #2d3748;
-  border: none;
+  background-color: #171717;
+  border: 1px solid gray;
   color: white;
 }
 
@@ -102,7 +102,7 @@ tbody tr:hover {
   background-color: #2d3748;
   border-width: 2px;
   border-style: solid;
-  border-color: linear-gradient(180deg, #A257EC 0%, #DA619C 100%);
+  border-color: linear-gradient(180deg, #a257ec 0%, #da619c 100%);
   border-radius: 0.25rem;
 }
 

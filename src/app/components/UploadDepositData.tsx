@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { CheckCircle, Eye, EyeOff, CloudUpload, X, Info } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  CheckCircle,
+  Eye,
+  MessageCircleQuestionIcon,
+  CloudUpload,
+  X,
+  Info,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 function UploadDepositData() {
@@ -7,6 +14,7 @@ function UploadDepositData() {
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const popupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("hasSeenUploadPopup");
@@ -43,6 +51,26 @@ function UploadDepositData() {
   const openPopup = () => {
     setShowPopup(true);
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
+        closePopup();
+      }
+    };
+
+    if (showPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopup]);
 
   return (
     <div
@@ -63,6 +91,7 @@ function UploadDepositData() {
             className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
           >
             <motion.div
+              ref={popupRef}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -74,32 +103,35 @@ function UploadDepositData() {
                 textAlign: "center",
                 background: "linear-gradient(to right, #121212, #252525)",
                 boxShadow: "18px 26px 70px 0px rgba(255, 231, 105, 0.09);",
-                padding: "4rem 3rem",
+                padding: "3rem 2rem",
               }}
               className=" rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative"
             >
               <div className="flex justify-between items-center mb-4 ">
-                <div
-                  className="inline-block 3 py-1  text-sm mb-3"
+                <h1
+                  className=" py-1  text-sm "
                   style={{
                     borderRadius: "8px",
                     fontSize: "1.7rem",
                     textAlign: "justify",
+                    lineHeight: "3rem",
+                    background: "linear-gradient(to right, #DA619C, #FF844A)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
                   }}
                 >
                   Upload Deposit Data
-                </div>
-
-                <button
-                  onClick={closePopup}
-                  style={{
-                    padding: "5px",
-                  }}
-                  className="absolute top-2 right-2 text-[#FC8150] "
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                </h1>
               </div>
+              <button
+                onClick={closePopup}
+                style={{
+                  padding: "5px",
+                }}
+                className="absolute top-2 right-2 text-[#FC8150] "
+              >
+                <X className="w-5 h-5" />
+              </button>
 
               <div style={{ textAlign: "justify", paddingBottom: "10px" }}>
                 Here, you have to upload the deposit file and confirm the
@@ -113,7 +145,7 @@ function UploadDepositData() {
                   background: "linear-gradient(to right, #A257EC, #D360A6)",
                   textAlign: "center",
                   color: "white",
-                  marginTop: "30px",
+                  marginTop: "10px",
                 }}
                 className=" text-white py-2 px-4 rounded-md shadow-lg text-center"
               >
@@ -123,34 +155,39 @@ function UploadDepositData() {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="relative text-white rounded-xl shadow-sm p-4 mx-auto">
+      <div className="relative text-white rounded-xl  p-4 mx-auto">
         <div
           className={`grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 ${
             showPopup ? "blur-sm" : ""
           }`}
         >
-          <div className="flex flex-col justify-center">
-            <h2
-              className="text-2xl font-bold mb-3"
-              style={{
-                background: "linear-gradient(to right, #DA619C, #FF844A)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Upload Deposit Data
-            </h2>
+          <div className="flex flex-col justify-between">
+            <div>
+              <h2 className="text-2xl font-bold mb-3">Upload Deposit Data</h2>
 
-            <p className="text-white text-md">
-              Learn how to seamlessly upload deposit data, ensuring your
-              validator registration is complete and processed on the stake-easy
-              network
-            </p>
+              <p className="text-white text-md">
+                Upload deposit file which you had generated in step 2 <br />(
+                Via CLI )
+              </p>
+            </div>
+
+            <button
+              onClick={openPopup}
+              className="text-[#FC8150] flex items-center space-x-2 text-sm mt-3"
+            >
+              <MessageCircleQuestionIcon className="w-4 h-4" />
+              <span>Learn more about Deposit Data</span>
+            </button>
           </div>
 
           <div className="space-y-6">
-            <div>
-              <div className="flex flex-col items-center justify-center bg-[#161515] rounded-md overflow-hidden p-6 transition-all duration-300 focus-within:ring-1 focus-within:ring-blue-500">
+            <div className="flex flex-col gap-6">
+              <div
+                style={{
+                  boxShadow: " rgb(43 43 43) 0px 4px 6px",
+                }}
+                className="flex flex-col items-center justify-center  rounded-md overflow-hidden p-6 transition-all duration-300 focus-within:ring-1 focus-within:ring-blue-500"
+              >
                 <label
                   htmlFor="file-upload"
                   className="cursor-pointer flex flex-col items-center"
@@ -172,6 +209,19 @@ function UploadDepositData() {
                   id="file-upload"
                 />
               </div>
+              <button
+                style={{
+                  border: "1px solid transparent",
+                  borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+                  borderImageSlice: 1,
+                  background: "linear-gradient(to right, #DA619C, #FF844A)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+                className="mx-auto w-[40%] grow text-white py-[6px] px-4 rounded-[6px] focus:outline-none focus:ring-1 focus:ring-orange-600 focus:ring-opacity-50 font-bold"
+              >
+                Stake
+              </button>
             </div>
           </div>
         </div>

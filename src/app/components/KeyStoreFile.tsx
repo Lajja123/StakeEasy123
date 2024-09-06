@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { CheckCircle, Eye, EyeOff, CloudUpload, X, Info, ArrowLeft } from "lucide-react";
+import {
+  CheckCircle,
+  Eye,
+  EyeOff,
+  CloudUpload,
+  X,
+  Info,
+  ArrowLeft,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import SelectTime from "./SelectTime";
 
 interface KeyStoreFileProps {
-  goBack: () => void; 
+  goBack: () => void;
 }
 
 function KeyStoreFile({ goBack }: KeyStoreFileProps) {
@@ -24,7 +32,6 @@ function KeyStoreFile({ goBack }: KeyStoreFileProps) {
   };
 
   const handleSelectTime = () => {
-    
     setShowSelectTime(true);
   };
 
@@ -57,8 +64,9 @@ function KeyStoreFile({ goBack }: KeyStoreFileProps) {
           </h2>
 
           <p className="text-md text-white">
-            Programmatically generate an Eigenpod address for users, reducing
-            manual setup and enhancing convenience
+            Add keystore file and password which you had generated in step 2 (
+            Via CLI )
+            <br />( Ensuring you are a authentic user )
           </p>
         </div>
 

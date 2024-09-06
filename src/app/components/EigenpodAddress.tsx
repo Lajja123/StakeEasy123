@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from "react";
-import {
-  Copy,
-  CheckCircle,
-  X,
-  Info,
-  MessageCircleQuestionIcon,
-} from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Copy, CheckCircle, X, MessageCircleQuestionIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-function EigenpodAddress() {
-  const [address, setAddress] = useState("EigenPod Address not created yet");
+import { toast, Toaster } from "react-hot-toast";
+import { useAccount } from "wagmi";
+import { BrowserProvider, Contract } from "ethers";
+import eigenPodManagerAbi from "../../abi.json";
+interface WindowWithEthereum extends Window {
+  ethereum?: any;
+}
+declare let window: WindowWithEthereum;
+const EigenpodAddress: React.FC = () => {
+  const { address, isConnected } = useAccount();
+  const [contract, setContract] = useState<Contract | null>(null);
+  const [podAddress, setPodAddress] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [creatingLoading, setCreatingLoading] = useState(false);
+  const [gettingLoading, setGettingLoading] = useState(false);
+  const [currentAddress, setCurrentAddress] = useState(
+    "EigenPod Address not created yet"
+  );
   const [showPopup, setShowPopup] = useState(false);
-
+  const popupRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("hasSeenEigenPodPopup");
     if (!hasSeenPopup) {
@@ -21,36 +28,162 @@ function EigenpodAddress() {
       localStorage.setItem("hasSeenEigenPodPopup", "true");
     }
   }, []);
-
-  const createPodAddress = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setAddress("0x1234...5678");
-      setLoading(false);
-    }, 1000);
+  useEffect(() => {
+    const initializeContract = async () => {
+      if (typeof window !== "undefined" && window.ethereum) {
+        try {
+          const provider = new BrowserProvider(window.ethereum);
+          await window.ethereum.request({ method: "eth_requestAccounts" });
+          const signer = await provider.getSigner();
+          const contractInstance = new Contract(
+            process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as string,
+            eigenPodManagerAbi,
+            signer
+          );
+          setContract(contractInstance);
+        } catch (error) {
+          const err = error as { code?: number; message?: string };
+          if (err.code === -32002) {
+            console.error(
+              "A request to connect your wallet is already pending. Please check your MetaMask extension."
+            );
+          } else {
+            console.error("An error occurred:", error);
+          }
+        }
+      } else {
+        console.error("Ethereum wallet is not detected.");
+      }
+    };
+    initializeContract();
+  }, []);
+  useEffect(() => {
+    if (!isConnected) {
+      setCurrentAddress("EigenPod Address not created yet");
+    } else if (podAddress) {
+      setCurrentAddress(podAddress);
+    }
+  }, [isConnected, podAddress]);
+  const createPod = async (): Promise<string | null> => {
+    if (!contract) {
+      console.error("Contract not available");
+      return null;
+    }
+    try {
+      const podExists = await contract.hasPod(address);
+      if (podExists) {
+        const existingPod = await contract.getPod(address);
+        toast.success(`Pod already exists! Pod address: ${existingPod}`);
+        setPodAddress(existingPod);
+        return existingPod;
+      }
+      const tx = await contract.createPod();
+      const receipt = await tx.wait();
+      const newPodAddress = await contract.getPod(address);
+      toast.success(`Pod created successfully! Pod address: ${newPodAddress}`);
+      setPodAddress(newPodAddress);
+      return newPodAddress;
+    } catch (error) {
+      console.error("Error creating EigenPod:", error);
+      toast.error("Error creating EigenPod. Check the console for details.");
+      return null;
+    }
   };
-
-  const getPodAddress = () => {
-    alert(`Current EigenPod Address: ${address}`);
+  const getPodAddress = async (): Promise<string | null> => {
+    if (!contract || !address) {
+      console.error("Contract or address not available");
+      return null;
+    }
+    try {
+      const podExists = await contract.hasPod(address);
+      if (podExists) {
+        const existingPod = await contract.getPod(address);
+        setPodAddress(existingPod);
+        return existingPod;
+      } else {
+        toast.error("No EigenPod Address found.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error retrieving pod information:", error);
+      return null;
+    }
   };
-
+  const saveAddresses = async (
+    walletAddress: string | undefined,
+    eigenPodAddress: string
+  ) => {
+    try {
+      const response = await fetch("/api/storeAddress", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ walletAddress, eigenPodAddress }),
+      });
+      if (!response.ok) {
+        console.error("Failed to store addresses:", response.statusText);
+        toast.error("Error storing addresses.");
+      } else {
+        console.log("Addresses stored successfully.");
+      }
+    } catch (error) {
+      console.error("Error in storing addresses:", error);
+      toast.error("Error in storing addresses.");
+    }
+  };
+  const handleCreatePodAddress = async () => {
+    setCreatingLoading(true);
+    const newPodAddress = await createPod();
+    if (newPodAddress) {
+      await saveAddresses(address, newPodAddress);
+      setCurrentAddress(newPodAddress);
+    }
+    setCreatingLoading(false);
+  };
+  const handleGetPodAddress = async () => {
+    setGettingLoading(true);
+    const existingAddress = await getPodAddress();
+    if (existingAddress) {
+      await saveAddresses(address, existingAddress);
+      setCurrentAddress(existingAddress);
+      toast.success(`Current EigenPod Address: ${existingAddress}`);
+    }
+    setGettingLoading(false);
+  };
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(address);
+    navigator.clipboard.writeText(currentAddress);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+    toast.success("Address copied to clipboard!");
   };
-
   const closePopup = () => {
     setShowPopup(false);
   };
-
   const openPopup = () => {
     setShowPopup(true);
   };
-
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
+        closePopup();
+      }
+    };
+    if (showPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopup]);
   return (
     <div
-      className="relative mx-auto transition-all duration-300 w-[70%]"
+      className="relative mx-auto transition-all duration-300 w-[80%]"
       style={{
         background: "linear-gradient(to right, #1D1D1D 0%, #191919 100%)",
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
@@ -67,6 +200,7 @@ function EigenpodAddress() {
             className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
           >
             <motion.div
+              ref={popupRef}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -78,38 +212,37 @@ function EigenpodAddress() {
                 textAlign: "center",
                 background: "linear-gradient(to right, #121212, #252525)",
                 boxShadow: "18px 26px 70px 0px rgba(255, 231, 105, 0.09);",
-                padding: "4rem 3rem",
+                padding: "3rem 2rem",
               }}
               className=" rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative"
             >
               <div className="flex justify-between items-center mb-4 ">
-                <div
-                  className="inline-block 3 py-1  text-sm mb-3"
+                <h1
+                  className=" py-1  text-sm "
                   style={{
                     borderRadius: "8px",
                     fontSize: "1.7rem",
                     textAlign: "justify",
+                    lineHeight: "3rem",
+                    background: "linear-gradient(to right, #DA619C, #FF844A)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
                   }}
                 >
                   Eigenpod Address
-                </div>
-
-                <button
-                  onClick={closePopup}
-                  style={{
-                    padding: "5px",
-                  }}
-                  className="absolute top-2 right-2 text-[#FC8150] "
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                </h1>
               </div>
-
-              <div style={{ textAlign: "justify" }}>
+              <button
+                onClick={closePopup}
+                className="absolute top-2 right-2 text-[#FC8150] p-1"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div style={{ textAlign: "justify" }} className="flex ">
                 You will generate an EigenPod address, which will serve as the
                 withdrawal address for any amounts restaked by your validator.
                 This address is used to manage the funds restaked between
-                different operators
+                different operators.
               </div>
               <button
                 onClick={closePopup}
@@ -117,7 +250,7 @@ function EigenpodAddress() {
                   background: "linear-gradient(to right, #A257EC, #D360A6)",
                   textAlign: "center",
                   color: "white",
-                  marginTop: "30px",
+                  marginTop: "10px",
                 }}
                 className=" text-white py-2 px-4 rounded-md shadow-lg text-center"
               >
@@ -127,7 +260,6 @@ function EigenpodAddress() {
           </motion.div>
         )}
       </AnimatePresence>
-      {/* Main Content with Blur Effect */}
       <div
         className={`grid grid-cols-1 md:grid-cols-2 gap-8 items-center transition-all duration-300 ${
           showPopup ? "blur-sm" : ""
@@ -136,7 +268,7 @@ function EigenpodAddress() {
         <div className="space-y-4">
           <h2
             className="text-2xl font-bold text-white mb-7"
-            style={{ letterSpacing: "1px", fontWeight: "bold " }}
+            style={{ letterSpacing: "1px", fontWeight: "bold" }}
           >
             EigenPod Address Creation
           </h2>
@@ -144,17 +276,23 @@ function EigenpodAddress() {
             className="text-white leading-relaxed w-[70%]"
             style={{ fontWeight: "200", fontSize: "14px" }}
           >
-            Programmatically generate an EigenPod address for users, reducing
-            manual setup and enhancing convenience.
+            You will generate an EigenPod address, which will serve as the
+            withdrawal address for any amounts restaked by your validator.
           </p>
+          <button
+            onClick={openPopup}
+            className="text-[#FC8150] flex items-center space-x-2 text-sm"
+          >
+            <MessageCircleQuestionIcon className="w-4 h-4" />
+            <span>Learn more about AigenPod Address</span>
+          </button>
         </div>
-
         <div className="space-y-6">
           <div>
             <label
-              className="block text-sm font-medium text-[#CACACA] mb-2 "
+              className="block text-sm font-medium text-[#CACACA] mb-2"
               style={{
-                fontWeight: "200",
+                fontWeight: "400",
                 fontSize: "15px",
                 letterSpacing: "1px",
               }}
@@ -164,7 +302,7 @@ function EigenpodAddress() {
             <div className="flex items-center bg-[#161515] border focus:outline-none rounded-md overflow-hidden transition-all duration-300 focus-within:ring-1 ">
               <input
                 type="text"
-                value={address}
+                value={currentAddress}
                 readOnly
                 className="flex-grow bg-transparent px-4 py-3 focus:outline-none"
                 style={{ color: "rgba(202, 202, 202, 0.40)" }}
@@ -183,13 +321,14 @@ function EigenpodAddress() {
               </button>
             </div>
           </div>
-
           <div className="flex space-x-4">
             <button
-              onClick={createPodAddress}
-              disabled={loading}
+              onClick={handleCreatePodAddress}
+              disabled={creatingLoading || !isConnected}
               className={`flex-1 bg-[#161515] text-white font-bold py-3 px-4 rounded-md text-sm transition-all duration-300 ${
-                loading ? "opacity-75 cursor-not-allowed" : ""
+                creatingLoading || !isConnected
+                  ? "opacity-75 cursor-not-allowed"
+                  : ""
               }`}
               style={{
                 border: "1px solid transparent",
@@ -200,10 +339,11 @@ function EigenpodAddress() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              {loading ? "Creating..." : "Create Pod Address"}
+              {creatingLoading ? "Creating..." : "Create Pod Address"}
             </button>
             <button
-              onClick={getPodAddress}
+              onClick={handleGetPodAddress}
+              disabled={gettingLoading || !isConnected}
               style={{
                 border: "1px solid transparent",
                 borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
@@ -212,15 +352,29 @@ function EigenpodAddress() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
-              className="flex-1 font-bold py-3 px-4 rounded-md text-sm transition-all duration-300"
+              className={`flex-1 bg-[#161515] text-white font-bold py-3 px-4 rounded-md text-sm transition-all duration-300 ${
+                gettingLoading || !isConnected
+                  ? "opacity-75 cursor-not-allowed"
+                  : ""
+              }`}
             >
-              Get Pod Address
+              {gettingLoading ? "Getting..." : "Get Pod Address"}
             </button>
           </div>
         </div>
       </div>
+      <Toaster
+        toastOptions={{
+          style: {
+            border: "1px solid transparent",
+            borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+            borderImageSlice: 1,
+            background: "black",
+            color: "white",
+          },
+        }}
+      />
     </div>
   );
-}
-
+};
 export default EigenpodAddress;

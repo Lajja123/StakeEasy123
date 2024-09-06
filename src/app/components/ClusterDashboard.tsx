@@ -2,6 +2,7 @@
 import React from "react";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Tooltip } from "antd";
 
 const ClusterDashboard: React.FC = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ const ClusterDashboard: React.FC = () => {
 
   const handleAddCluster = () => {
     router.push("/join");
-  }
+  };
 
   return (
     <div
@@ -48,20 +49,31 @@ const ClusterDashboard: React.FC = () => {
           >
             Fee Address
           </button> */}
-          <button
-            className="text-white px-4 py-2 rounded-lg"
-            style={{
+          <Tooltip
+            title={"Add new set of operators"}
+            color="#121212"
+            placement="top"
+            overlayInnerStyle={{
               border: "1px solid transparent",
-              borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+              borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
               borderImageSlice: 1,
-              background: "linear-gradient(to right, #DA619C, #FF844A)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
             }}
-            onClick={handleAddCluster}
           >
-            Add Cluster +
-          </button>
+            <button
+              className="text-white px-4 py-2 rounded-lg"
+              style={{
+                border: "1px solid transparent",
+                borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
+                borderImageSlice: 1,
+                background: "linear-gradient(to right, #DA619C, #FF844A)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+              onClick={handleAddCluster}
+            >
+              Add Cluster +
+            </button>
+          </Tooltip>
         </div>
       </div>
 
