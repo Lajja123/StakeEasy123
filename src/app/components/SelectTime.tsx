@@ -203,7 +203,6 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
         <div className="flex justify-between font-bold">
           <span>Total</span>
           <span className="">
-            {/* here 7 is sum amount of static Liquidation collateral and static operator fee */}
             {totalOperatorFees + 1 +
               (selectedPeriod === "Custom Period"
                 ? Number(((Number(customPeriod) / 365) * 1).toFixed(5))
@@ -218,7 +217,6 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
       </div>
 
       <button
-        // className="mt-6 w-full bg-blue-500 text-white py-2 rounded"
         onClick={handleTxDeatils}
         style={{
           border: "1px solid transparent",
