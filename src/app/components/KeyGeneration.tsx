@@ -500,7 +500,7 @@ function KeyGeneration() {
                     }}
                   />
                   <p className="mb-2 text-gray-300">
-                    Go to Releases Pages of GitHub repo:
+                    Go to Release Pages of GitHub repo:
                   </p>
                 </div>
 
@@ -762,7 +762,11 @@ function KeyGeneration() {
                   </a>
                   <button
                     className="text-gray-400 hover:text-white"
-                    onClick={() => handleCopy("https://wagyu.gg/")}
+                    onClick={() =>
+                      handleCopy(
+                        "https://wagyu.gg/"
+                      )
+                    }
                   >
                     <Copy size={20} />
                   </button>

@@ -19,7 +19,7 @@ body {
   font-style: normal;
 }
 body::-webkit-scrollbar {
-  width: var(--sb-size);
+  width: 4px;
 }
 
 body::-webkit-scrollbar-track {
@@ -30,6 +30,10 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 10px;
+}
+
+selected-operators::-webkit-scrollbar {
+  width: var(--sb-size);
 }
 
 .main {

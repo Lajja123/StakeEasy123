@@ -6,14 +6,14 @@ import { Info } from "lucide-react";
 import { Tooltip } from "antd";
 
 interface TransactionProps {
-  goBack: () => void; 
+  goBack: () => void;
 }
 
 const Tx = ({ goBack }: TransactionProps) => {
   const [copied, setCopied] = useState(false);
 
-  const copyToClipboard = () => {
-    // navigator.clipboard.writeText(address);
+  const handleCopy = async (text: any) => {
+    await navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -32,17 +32,23 @@ const Tx = ({ goBack }: TransactionProps) => {
           <h1 className="text-xl font-bold mb-2">Transaction Details</h1>
           <p className="text-sm">Validator Public Key</p>
           <div
-            onClick={copyToClipboard}
             className="text-xs flex justify-between items-center gap-2 mt-1 py-4 px-2 bg-gray-950 rounded-[8px]"
           >
             <span>
               0xa61ffd0c41b28e12b3ce64b85193cd31630505699bf5637b94c998
             </span>
-            {copied ? (
-              <CheckCircle className="w-4 h-4" />
-            ) : (
-              <Copy className="w-4 h-4" />
-            )}
+            <button
+              className="text-gray-400 hover:text-white"
+              onClick={() => {handleCopy(
+                "0xa61ffd0c41b28e12b3ce64b85193cd31630505699bf5637b94c998"
+              )}}
+            >
+              {copied ? (
+                <CheckCircle className="w-4 h-4 text-green-500" />
+              ) : (
+                <Copy className="w-4 h-4" />
+              )}
+            </button>
           </div>
         </div>
         <div className="p-4">
