@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import "../css/Landing.css";
 import { useRouter } from "next/navigation";
-import { X, HelpCircle } from "lucide-react";
+import { X, HelpCircle, Copy, ChevronRight } from "lucide-react";
+import copy from "copy-to-clipboard";
+import { toast, Toaster } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Landing = () => {
@@ -22,8 +24,14 @@ const Landing = () => {
   const closePopup = () => {
     setShowPopup(false);
   };
+
   const openPopup = () => {
     setShowPopup(true);
+  };
+
+  const handleCopy = (addr: string) => {
+    copy(addr);
+    toast("Copied 🎊🎉");
   };
 
   return (
@@ -46,131 +54,183 @@ const Landing = () => {
         </button>
 
         <AnimatePresence>
-        {showPopup && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
-          >
+          {showPopup && (
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              style={{
-                border: "1px solid transparent",
-                borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
-                borderImageSlice: 1,
-                color: "white",
-                textAlign: "center",
-                background: "linear-gradient(to right, #121212, #252525)",
-                boxShadow: "18px 26px 70px 0px rgba(255, 231, 105, 0.09);",
-                padding: "4rem 3rem",
-              }}
-              className="rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
             >
-              <div className="flex justify-between items-center mb-2 ">
-                <h1
-                  className="inline-block py-1 text-sm"
-                  style={{
-                    borderRadius: "8px",
-                    fontSize: "1.7rem",
-                    textAlign: "justify",
-                  }}
-                >
-                  Prerequisite 1
-                </h1>
-                <button
-                  onClick={closePopup}
-                  style={{
-                    padding: "5px",
-                  }}
-                  className="absolute top-2 right-2 text-[#FC8150] "
-                >
-                  <X size={24} />
-                </button>
-              </div>
-
-              <div className="text-justify">
-               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus vero nihil voluptates aliquam qui, debitis placeat officiis cumque, nobis molestias voluptas nostrum aspernatur pariatur nulla.
-              </div>
-
-              <div className="flex justify-between items-center mb-2 mt-10">
-                <h1
-                  className="inline-block py-1  text-sm"
-                  style={{
-                    borderRadius: "8px",
-                    fontSize: "1.7rem",
-                    textAlign: "justify",
-                  }}
-                >
-                  Prerequisite 2
-                </h1>
-                <button
-                  onClick={closePopup}
-                  style={{
-                    padding: "5px",
-                  }}
-                  className="absolute top-2 right-2 text-[#FC8150] "
-                >
-                  <X size={24} />
-                </button>
-              </div>
-
-              <div className="space-y-4 text-justify">
-               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus vero nihil voluptates aliquam qui, debitis placeat officiis cumque, nobis molestias voluptas nostrum aspernatur pariatur nulla.
-              </div>
-
-              <button
-                onClick={closePopup}
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
                 style={{
-                  background: "linear-gradient(to right, #A257EC, #D360A6)",
-                  textAlign: "center",
+                  border: "1px solid transparent",
+                  borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+                  borderImageSlice: 1,
                   color: "white",
-                  marginTop: "30px",
+                  textAlign: "center",
+                  background: "linear-gradient(to right, #121212, #252525)",
+                  boxShadow: "18px 26px 70px 0px rgba(255, 231, 105, 0.09);",
+                  padding: "4rem 3rem",
                 }}
-                className=" text-white py-2 px-4 rounded-md shadow-lg text-center"
+                className="rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative"
               >
-                Got it
-              </button>
+                <div className="flex justify-between items-center mb-4">
+                  <h1
+                    className="inline-block py-1 text-sm"
+                    style={{
+                      borderRadius: "8px",
+                      fontSize: "1.7rem",
+                      textAlign: "justify",
+                      background: "linear-gradient(to right, #DA619C, #FF844A)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    Prerequisite 1
+                  </h1>
+                  <button
+                    onClick={closePopup}
+                    style={{
+                      padding: "5px",
+                    }}
+                    className="absolute top-2 right-2 text-[#FC8150] "
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                <div className="flex gap-2 items-center">
+                  <ChevronRight
+                    className="mb-[4px] text-[#FFA800]"
+                    size={16}
+                    style={{
+                      border: "1px solid #FFA800",
+                      borderRadius: "10px",
+                    }}
+                  />
+                  <h3 className="text-justify mb-1 text-lg">Get SSV Tokens</h3>
+                </div>
+
+                <div className="text-justify mb-2">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Possimus vero nihil voluptates aliquam qui, debitis placeat
+                  officiis cumque, nobis molestias voluptas nostrum aspernatur
+                  pariatur nulla.
+                </div>
+
+                <div className="bg-black p-3 rounded-xl flex justify-between items-center mb-[5px]">
+                  <a
+                    href="https://faucet.ssv.network/"
+                    target="blank"
+                    style={{ color: "#A257EC" }}
+                  >
+                    https://faucet.ssv.network/
+                  </a>
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => handleCopy("https://faucet.ssv.network/")}
+                    title="Copy"
+                  >
+                    <Copy size={20} className="cursor-pointer" />
+                  </span>
+                </div>
+
+                <div className="flex justify-between items-center mb-4 mt-10">
+                  <h1
+                    className="inline-block py-1  text-sm"
+                    style={{
+                      borderRadius: "8px",
+                      fontSize: "1.7rem",
+                      textAlign: "justify",
+                      background: "linear-gradient(to right, #DA619C, #FF844A)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    Prerequisite 2
+                  </h1>
+                  <button
+                    onClick={closePopup}
+                    style={{
+                      padding: "5px",
+                    }}
+                    className="absolute top-2 right-2 text-[#FC8150] "
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                <div className="flex gap-2 items-center">
+                  <ChevronRight
+                    className="mb-[4px] text-[#FFA800]"
+                    size={16}
+                    style={{
+                      border: "1px solid #FFA800",
+                      borderRadius: "10px",
+                    }}
+                  />
+                  <h3 className="text-justify mb-1 text-lg">Download Wagyu</h3>
+                </div>
+
+                <div className="mb-2 text-justify">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Possimus vero nihil voluptates aliquam qui, debitis placeat
+                  officiis cumque, nobis molestias voluptas nostrum aspernatur
+                  pariatur nulla.
+                </div>
+
+                <div className="bg-black p-3 rounded-xl flex justify-between items-center mb-[5px]">
+                  <a
+                    href="https://wagyu.gg/"
+                    target="blank"
+                    style={{ color: "#A257EC" }}
+                  >
+                    https://wagyu.gg/
+                  </a>
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => handleCopy("https://wagyu.gg/")}
+                    title="Copy"
+                  >
+                    <Copy size={20} className="cursor-pointer" />
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => handleMainSteps("/join")}
+                  style={{
+                    background: "linear-gradient(to right, #A257EC, #D360A6)",
+                    textAlign: "center",
+                    color: "white",
+                    marginTop: "30px",
+                  }}
+                  className="w-[30%] text-white hover:scale-110 duration-500 py-2 px-4 rounded-md shadow-lg text-center"
+                >
+                  Stake
+                </button>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
 
-        <div className="flex items-center gap-3">
-          {/* Sepolia Faucet Redirect */}
-          {/* <div className="relative group flex-2/3 flex items-center gap-1">
-            <button
-              onClick={() => handleNavigation("https://faucet.ssv.network/")}
-              className="text-center font-bold text-white py-2 pr-8 pl-3 rounded border border-white"
-            >
-              <p>Don&apos;t have SSV faucets? Click here to get it</p>
-            </button>
-            <HelpCircle className="w-5 h-5 text-white cursor-pointer absolute right-2" />
-
-            <div className="absolute bottom-full mb-2 left-0 w-48 p-2 bg-gray-800 text-white text-sm rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
-              You will further need SSV tokens to run your validator
-            </div>
-          </div> */}
-
-          {/* Wagyu Download Redirect */}
-          {/* <div className="relative group flex-1 flex items-center gap-1">
-            <button
-              onClick={() => handleNavigation("https://wagyu.gg/")}
-              className="text-center font-bold text-white py-2 pr-8 pl-3 rounded border border-white"
-            >
-              Download Wagyu
-            </button>
-            <HelpCircle className="w-5 h-5 text-white cursor-pointer absolute right-2" />
-
-            <div className="absolute bottom-full mb-2 left-0 w-48 p-2 bg-gray-800 text-white text-sm rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
-              Please download the app first because for the generation of the
-              validator keys you will need it further
-            </div>
-          </div> */}
-        </div>
+        <div className="flex items-center gap-3 bg-[#f28357]"></div>
       </div>
+      <Toaster
+        toastOptions={{
+          style: {
+            fontSize: "18px",
+            backgroundColor: "#f28357",
+            opacity: "0.7",
+            color: "#fff",
+            boxShadow: "none",
+            borderRadius: "12px",
+            padding: "6px 10px",
+          },
+        }}
+      />
     </div>
   );
 };

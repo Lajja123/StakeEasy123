@@ -6,7 +6,7 @@ import { Tooltip } from "antd";
 import { Info } from "lucide-react";
 
 interface SelectTimeProps {
-  goBack: () => void; 
+  goBack: () => void;
 }
 
 const StakingInterface = ({ goBack }: SelectTimeProps) => {
@@ -14,15 +14,17 @@ const StakingInterface = ({ goBack }: SelectTimeProps) => {
   const [customPeriod, setCustomPeriod] = useState<number | string>(0);
   const [showTxDetails, setShowTxDetails] = useState(false);
 
-  const handlePeriodChange = (period: string) => {
-    setSelectedPeriod(period);
-  };
-
   const handleCustomPeriodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Remove leading zeros
     const sanitizedValue = value.replace(/^0+/, "");
     setCustomPeriod(sanitizedValue ? Number(sanitizedValue) : "");
+  };
+
+  const handlePeriodChange = (period: string) => {
+    setSelectedPeriod(period);
+    if (period !== "Custom Period") {
+      setCustomPeriod(""); // Reset custom period input when other options are selected
+    }
   };
 
   const handleTxDeatils = () => {
@@ -47,6 +49,16 @@ const StakingInterface = ({ goBack }: SelectTimeProps) => {
     }
   };
 
+  const handleRowClick = (period: string) => {
+    if (selectedPeriod === period) {
+      // Unselect if the same period is clicked
+      setSelectedPeriod("");
+    } else {
+      // Select the clicked period
+      setSelectedPeriod(period);
+    }
+  };
+
   return (
     <div className="max-w-lg mx-auto text-white shadow-md rounded-lg border-2 border-gray-200 p-6">
       <button onClick={goBack} className="flex items-center mb-4 text-white ">
@@ -63,7 +75,10 @@ const StakingInterface = ({ goBack }: SelectTimeProps) => {
       </p>
 
       <div className="space-y-4">
-        <div className="flex justify-between items-center border-2 border-gray-300 p-2 rounded-[8px]">
+        <div
+          className="flex justify-between items-center border-2 border-gray-300 p-2 rounded-[8px] cursor-pointer"
+          onClick={() => handleRowClick("6 Months")}
+        >
           <label className="flex items-center">
             <input
               type="checkbox"
@@ -75,7 +90,10 @@ const StakingInterface = ({ goBack }: SelectTimeProps) => {
           </label>
           <span className="font-bold">0.5 SSV</span>
         </div>
-        <div className="flex justify-between items-center border-2 border-gray-300 p-2 rounded-[8px]">
+        <div
+          className="flex justify-between items-center border-2 border-gray-300 p-2 rounded-[8px] cursor-pointer"
+          onClick={() => handleRowClick("1 Year")}
+        >
           <label className="flex items-center">
             <input
               type="checkbox"
@@ -87,7 +105,10 @@ const StakingInterface = ({ goBack }: SelectTimeProps) => {
           </label>
           <span className="font-bold">1 SSV</span>
         </div>
-        <div className="flex justify-between items-center border-2 border-gray-300 p-2 rounded-[8px]">
+        <div
+          className="flex justify-between items-center border-2 border-gray-300 p-2 rounded-[8px] cursor-pointer"
+          onClick={() => handleRowClick("Custom Period")}
+        >
           <label className="flex items-center">
             <input
               type="checkbox"
@@ -95,7 +116,7 @@ const StakingInterface = ({ goBack }: SelectTimeProps) => {
               onChange={() => handlePeriodChange("Custom Period")}
               className="mr-2 custom-checkbox"
             />
-            <span>Custom Period</span>
+            <span className="cursor-pointer">Custom Period</span>
           </label>
           <input
             type="number"

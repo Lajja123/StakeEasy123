@@ -92,10 +92,9 @@ function KeyGeneration() {
             >
               <div className="flex justify-between items-center mb-4 ">
                 <div
-                  className="inline-block 3 py-1  text-sm mb-3"
+                  className="inline-block 3 py-1 text-lg mb-3"
                   style={{
                     borderRadius: "8px",
-                    fontSize: "1.7rem",
                     textAlign: "justify",
                   }}
                 >
@@ -949,7 +948,7 @@ function KeyGeneration() {
         {!showTerminalSteps && !showGUISteps && (
           <div className="space-y-4">
             <h1
-              className="text-xl font-semibold text-white mb-4 text-center"
+              className="text-3xl font-semibold text-white mb-4 text-center"
               style={{ letterSpacing: "1px", fontWeight: "bold " }}
             >
               Generate Keys

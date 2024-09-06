@@ -150,7 +150,8 @@ export default function OperatorSelectionTable() {
   return (
     <div className="operator-selection-container z-10">
       <div className="table-container">
-        <div className="flex justify-between">
+        <h1 className="text-2xl font-semibold">Select Operators</h1>
+        <div className="flex justify-between items-center">
           <h2>Pick the cluster of network operators to run your validator</h2>
           <div className="cluster-size-selector">
             {[4, 7, 10, 13].map((size) => (
@@ -159,10 +160,12 @@ export default function OperatorSelectionTable() {
                 onClick={() => setClusterSize(size)}
                 style={{
                   border: "1px solid transparent",
-                  borderImage: "linear-gradient(to right, #A257EC 0% , #DA619C 60%)",
+                  borderImage:
+                    "linear-gradient(to right, #A257EC 0% , #DA619C 60%)",
                   borderImageSlice: 1,
                   color: "white",
-                  background: "linear-gradient(to right, #121212 0%, #252525 60%)",
+                  background:
+                    "linear-gradient(to right, #121212 0%, #252525 60%)",
                 }}
                 className={clusterSize === size ? "active" : ""}
               >
@@ -247,14 +250,21 @@ export default function OperatorSelectionTable() {
             {filteredAndSortedOperators.map((operator) => (
               <tr
                 key={operator.id}
-                // onClick={() => handleRowSelection(operator)}
+                onClick={() => handleRowSelection(operator)}
                 className="border border-gray-400 cursor-none"
               >
                 <td>
                   <input
-                    onClick={() => handleRowSelection(operator)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent triggering row click
+                      handleRowSelection(operator); // Manually trigger the selection logic
+                    }}
                     type="checkbox"
                     className="mr-2 custom-checkbox"
+                    checked={selectedOperators.some(
+                      (op) => op.id === operator.id
+                    )}
+                    onChange={() => {}}
                   />
                 </td>
                 <td>{operator.id}</td>
