@@ -13,9 +13,10 @@ import SelectTime from "./SelectTime";
 
 interface KeyStoreFileProps {
   goBack: () => void;
+  totalOperatorFees: number;
 }
 
-function KeyStoreFile({ goBack }: KeyStoreFileProps) {
+function KeyStoreFile({ goBack, totalOperatorFees }: KeyStoreFileProps) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -40,7 +41,7 @@ function KeyStoreFile({ goBack }: KeyStoreFileProps) {
   };
 
   if (showSelectTime) {
-    return <SelectTime goBack={goBackToSelectTime} />;
+    return <SelectTime goBack={goBackToSelectTime} totalOperatorFees={totalOperatorFees} />;
   }
 
   return (

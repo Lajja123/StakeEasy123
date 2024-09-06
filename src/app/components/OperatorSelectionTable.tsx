@@ -182,7 +182,7 @@ export default function OperatorSelectionTable() {
   };
 
   if (showKeystoreUpload) {
-    return <KeyStoreFile goBack={goBackToOperatorSelection} />;
+    return <KeyStoreFile goBack={goBackToOperatorSelection} totalOperatorFees={totalFee} />;
   }
 
   return (
