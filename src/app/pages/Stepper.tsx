@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useRef,useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Tooltip } from "antd";
@@ -106,8 +106,8 @@ function Stepper() {
   
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-
-  const router = useRouter();
+  const popupRef = useRef<HTMLDivElement>(null);
+ const router = useRouter();
 
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -137,6 +137,24 @@ function Stepper() {
   };
 
   const CurrentStepComponent = steps[currentStep].component;
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+        closePopup();
+      }
+    };
+
+    if (showPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopup]);
 
   return (
     <div className="w-full my-[10px] bg-transparent rounded-xl flex flex-col justify-between ">
@@ -197,6 +215,7 @@ function Stepper() {
       </div>
 
       <div>
+        
         <CurrentStepComponent />
       </div>
 
@@ -241,6 +260,7 @@ function Stepper() {
             className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
           >
             <motion.div
+            ref={popupRef}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -254,7 +274,7 @@ function Stepper() {
                 boxShadow: "18px 26px 70px 0px rgba(255, 231, 105, 0.09);",
                 padding: "4rem 3rem",
               }}
-              className=" rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative"
+              className=" rounded-lg max-w-2xl w-full  relative"
             >
               <div className="flex justify-between items-center mb-4 ">
                 <h1

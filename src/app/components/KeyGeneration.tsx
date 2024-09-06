@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { X, Copy, CheckCircle, ArrowLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -8,6 +8,8 @@ function KeyGeneration() {
   const [popupType, setPopupType] = useState("");
   const [showTerminalSteps, setShowTerminalSteps] = useState(false);
   const [showGUISteps, setShowGUISteps] = useState(false);
+  const popupRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     // Check if the user has already seen the main popup
@@ -55,6 +57,24 @@ function KeyGeneration() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+        closePopup();
+      }
+    };
+
+    if (showPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopup]);
 
   return (
     <div
@@ -149,6 +169,7 @@ function KeyGeneration() {
             exit={{ opacity: 0 }}
           >
             <motion.div
+            ref={popupRef}
               style={{
                 border: "1px solid transparent",
                 borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
