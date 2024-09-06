@@ -52,9 +52,9 @@ function KeyStoreFile({ goBack, totalOperatorFees }: KeyStoreFileProps) {
       </button>
       {/* Main Content with Blur Effect */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 ">
-        <div className="flex flex-col justify-center">
+        <div className=" flex-col justify-center mt-5">
           <h2
-            className="text-2xl font-bold mb-3"
+            className="text-2xl font-bold text-white"
             style={{
               background: "linear-gradient(to right, #DA619C, #FF844A)",
               WebkitBackgroundClip: "text",
