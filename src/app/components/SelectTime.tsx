@@ -7,9 +7,10 @@ import { Info } from "lucide-react";
 
 interface SelectTimeProps {
   goBack: () => void;
+  totalOperatorFees: number;
 }
 
-const StakingInterface = ({ goBack }: SelectTimeProps) => {
+const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("");
   const [customPeriod, setCustomPeriod] = useState<number | string>(0);
   const [showTxDetails, setShowTxDetails] = useState(false);
@@ -160,7 +161,7 @@ const StakingInterface = ({ goBack }: SelectTimeProps) => {
               <Info size={10} className="ml-1" />
             </Tooltip>
           </span>
-          <span>6 SSV</span>
+          <span>{totalOperatorFees}</span>
         </div>
         <div className="flex justify-between">
           <span className="flex items-center ">
@@ -202,8 +203,7 @@ const StakingInterface = ({ goBack }: SelectTimeProps) => {
         <div className="flex justify-between font-bold">
           <span>Total</span>
           <span className="">
-            {/* here 7 is sum amount of static Liquidation collateral and static operator fee */}
-            {7 +
+            {totalOperatorFees + 1 +
               (selectedPeriod === "Custom Period"
                 ? Number(((Number(customPeriod) / 365) * 1).toFixed(5))
                 : selectedPeriod === "6 Months"
@@ -217,7 +217,6 @@ const StakingInterface = ({ goBack }: SelectTimeProps) => {
       </div>
 
       <button
-        // className="mt-6 w-full bg-blue-500 text-white py-2 rounded"
         onClick={handleTxDeatils}
         style={{
           border: "1px solid transparent",
