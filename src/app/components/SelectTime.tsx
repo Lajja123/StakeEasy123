@@ -66,7 +66,14 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
         <ArrowLeft className="w-5 h-5 mr-2" />
         Back
       </button>
-      <h2 className="text-2xl font-bold mb-4">
+      <h2
+        className="text-2xl font-bold mb-4"
+        style={{
+          background: "linear-gradient(to right, #DA619C, #FF844A)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
         Select your validator funding period
       </h2>
       <p className="mb-4">
@@ -203,7 +210,8 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
         <div className="flex justify-between font-bold">
           <span>Total</span>
           <span className="">
-            {totalOperatorFees + 1 +
+            {totalOperatorFees +
+              1 +
               (selectedPeriod === "Custom Period"
                 ? Number(((Number(customPeriod) / 365) * 1).toFixed(5))
                 : selectedPeriod === "6 Months"

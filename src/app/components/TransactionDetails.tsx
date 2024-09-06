@@ -4,6 +4,7 @@ import { Copy, CheckCircle, ArrowLeft } from "lucide-react";
 import Operator from "./Operator";
 import { Info } from "lucide-react";
 import { Tooltip } from "antd";
+import { toast, Toaster } from "react-hot-toast";
 
 interface TransactionProps {
   goBack: () => void;
@@ -15,6 +16,7 @@ const Tx = ({ goBack }: TransactionProps) => {
   const handleCopy = async (text: any) => {
     await navigator.clipboard.writeText(text);
     setCopied(true);
+    toast("Copied 🎊🎉");
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -29,25 +31,30 @@ const Tx = ({ goBack }: TransactionProps) => {
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back
           </button>
-          <h1 className="text-xl font-bold mb-2">Transaction Details</h1>
-          <p className="text-sm">Validator Public Key</p>
-          <div
-            className="text-xs flex justify-between items-center gap-2 mt-1 py-4 px-2 bg-gray-950 rounded-[8px]"
+          <h1
+            className="text-xl font-bold mb-2"
+            style={{
+              background: "linear-gradient(to right, #DA619C, #FF844A)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
           >
+            Transaction Details
+          </h1>
+          <p className="text-sm">Validator Public Key</p>
+          <div className="text-xs flex justify-between items-center gap-2 mt-1 py-4 px-2 bg-gray-950 rounded-[8px]">
             <span>
               0xa61ffd0c41b28e12b3ce64b85193cd31630505699bf5637b94c998
             </span>
             <button
               className="text-gray-400 hover:text-white"
-              onClick={() => {handleCopy(
-                "0xa61ffd0c41b28e12b3ce64b85193cd31630505699bf5637b94c998"
-              )}}
+              onClick={() => {
+                handleCopy(
+                  "0xa61ffd0c41b28e12b3ce64b85193cd31630505699bf5637b94c998"
+                );
+              }}
             >
-              {copied ? (
-                <CheckCircle className="w-4 h-4 text-green-500" />
-              ) : (
-                <Copy className="w-4 h-4" />
-              )}
+              <Copy className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -148,6 +155,17 @@ const Tx = ({ goBack }: TransactionProps) => {
           </button>
         </div>
       </div>
+      <Toaster
+        toastOptions={{
+          style: {
+            border: "1px solid transparent",
+            borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
+            borderImageSlice: 1,
+            background: "black",
+            color: "white",
+          },
+        }}
+      />
     </div>
   );
 };

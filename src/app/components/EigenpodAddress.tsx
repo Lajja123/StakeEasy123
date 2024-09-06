@@ -284,7 +284,7 @@ const EigenpodAddress: React.FC = () => {
             className="text-[#FC8150] flex items-center space-x-2 text-sm"
           >
             <MessageCircleQuestionIcon className="w-4 h-4" />
-            <span>Learn more about AigenPod Address</span>
+            <span>Learn more about EigenPod Address</span>
           </button>
         </div>
         <div className="space-y-6">

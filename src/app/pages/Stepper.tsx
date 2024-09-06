@@ -110,6 +110,7 @@ function Stepper() {
   const router = useRouter();
 
   const [currentStep, setCurrentStep] = useState(0);
+  const isNextDisabled = currentStep === 2; // Disable when on step 3 (index 2)
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
@@ -239,7 +240,10 @@ function Stepper() {
         </button>
         <button
           onClick={nextStep}
-          className="px-6 py-2  disabled:opacity-50 transition-colors flex items-center"
+          disabled={isNextDisabled}
+          className={`px-6 py-2 transition-colors flex items-center ${
+            isNextDisabled ? "opacity-50 cursor-not-allowed" : ""
+          }`}
           style={{
             border: "1px solid transparent",
             borderImage: "linear-gradient(to right, #A257EC , #DA619C )",
