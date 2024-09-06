@@ -7,6 +7,66 @@
   font-family: Arial, sans-serif;
 }
 
+/* For the operator table */
+.operator-table {
+  max-height: 400px; /* Adjust the height as per your design */
+  overflow-y: auto;
+}
+
+/* For the selected operators section */
+.selected-operators {
+  max-height: 400px; /* Adjust the height as per your design */
+  overflow-y: auto;
+}
+
+.scroll {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Scrollbar Styles for the Operator Table */
+.operator-table::-webkit-scrollbar {
+  width: 3px;
+}
+
+.operator-table::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 10px;
+}
+
+.operator-table::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 10px;
+}
+
+/* Scrollbar Styles for the Selected Operators Section */
+.selected-operators::-webkit-scrollbar {
+  width: 3px;
+}
+
+.selected-operators::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 10px;
+}
+
+.selected-operators::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 10px;
+}
+
+.selected-operators {
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  padding-right: 16px; /* Add padding to prevent clipping at the right edge */
+  box-sizing: border-box; /* Ensure padding is included in the element's width */
+}
+
+/* Prevent Horizontal Scrollbars */
+.operator-table,
+.selected-operators {
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
 .table-container {
   flex-grow: 1;
 }
@@ -108,4 +168,28 @@ tbody tr:hover {
 
 .empty-operator {
   border: 1px dashed #4a5568;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #A257EC;
+  background: #161515;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination-button:hover {
+  background: linear-gradient(to right, #A257EC, #DA619C);
+}
+
+.pagination-button.active {
+  background: linear-gradient(to right, #A257EC, #DA619C);
 }

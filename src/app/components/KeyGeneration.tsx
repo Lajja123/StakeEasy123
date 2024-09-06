@@ -393,7 +393,7 @@ function KeyGeneration() {
                     }}
                   />
                   <p className="mb-2 text-gray-300">
-                    Go to Releases Pages of GitHub repo:
+                    Go to Release Pages of GitHub repo:
                   </p>
                 </div>
 
@@ -641,7 +641,7 @@ function KeyGeneration() {
                     className="text-gray-400 hover:text-white"
                     onClick={() =>
                       handleCopy(
-                        "./deposit new-mnemonic --language english --num_validators 1 --chain mainnet --eth1_withdrawal_address <ETH1 ADDRESS>"
+                        "https://wagyu.gg/"
                       )
                     }
                   >
