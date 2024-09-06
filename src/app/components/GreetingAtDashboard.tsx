@@ -57,7 +57,7 @@ const GreetingAtDashboard = () => {
             WebkitTextFillColor: "transparent",
           }}
         >
-          Welcome to the SSV Network!
+          Welcome to the StakeEasy!
         </h2>
         <p className="mb-4 text-base font-light">
           Your new validator is managed by the following cluster:
