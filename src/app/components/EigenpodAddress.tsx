@@ -19,15 +19,15 @@ const EigenpodAddress: React.FC = () => {
   const [currentAddress, setCurrentAddress] = useState(
     "EigenPod Address not created yet"
   );
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
   const popupRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const hasSeenPopup = localStorage.getItem("hasSeenEigenPodPopup");
-    if (!hasSeenPopup) {
-      setShowPopup(true);
-      localStorage.setItem("hasSeenEigenPodPopup", "true");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const hasSeenPopup = localStorage.getItem("hasSeenEigenPodPopup");
+  //   if (!hasSeenPopup) {
+  //     setShowPopup(true);
+  //     localStorage.setItem("hasSeenEigenPodPopup", "true");
+  //   }
+  // }, []);
   useEffect(() => {
     const initializeContract = async () => {
       if (typeof window !== "undefined" && window.ethereum) {

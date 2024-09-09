@@ -12,22 +12,22 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function KeyGeneration() {
   const [showPopup, setShowPopup] = useState(false);
-  const [showPopupBlur, setShowPopupBlur] = useState(false);
+  const [showPopupBlur, setShowPopupBlur] = useState(true);
   const [popupType, setPopupType] = useState("");
   const [showTerminalSteps, setShowTerminalSteps] = useState(false);
   const [showGUISteps, setShowGUISteps] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Check if the user has already seen the main popup
-    const hasSeenPopup = localStorage.getItem("hasSeenKeyGenPopup");
-    if (!hasSeenPopup) {
-      setPopupType("main");
+  // useEffect(() => {
+  //   // Check if the user has already seen the main popup
+  //   const hasSeenPopup = localStorage.getItem("hasSeenKeyGenPopup");
+  //   if (!hasSeenPopup) {
+  //     setPopupType("main");
 
-      setShowPopupBlur(true);
-      localStorage.setItem("hasSeenKeyGenPopup", "true");
-    }
-  }, []);
+  //     setShowPopupBlur(true);
+  //     localStorage.setItem("hasSeenKeyGenPopup", "true");
+  //   }
+  // }, []);
 
   const closePopup = () => {
     setShowPopup(false);
@@ -762,11 +762,7 @@ function KeyGeneration() {
                   </a>
                   <button
                     className="text-gray-400 hover:text-white"
-                    onClick={() =>
-                      handleCopy(
-                        "https://wagyu.gg/"
-                      )
-                    }
+                    onClick={() => handleCopy("https://wagyu.gg/")}
                   >
                     <Copy size={20} />
                   </button>

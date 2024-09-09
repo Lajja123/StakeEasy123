@@ -13,16 +13,16 @@ function UploadDepositData() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
   const popupRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const hasSeenPopup = localStorage.getItem("hasSeenUploadPopup");
-    if (!hasSeenPopup) {
-      setShowPopup(true);
-      localStorage.setItem("hasSeenUploadPopup", "true");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const hasSeenPopup = localStorage.getItem("hasSeenUploadPopup");
+  //   if (!hasSeenPopup) {
+  //     setShowPopup(true);
+  //     localStorage.setItem("hasSeenUploadPopup", "true");
+  //   }
+  // }, []);
 
   const generateValidatorKey = () => {
     console.log("Generating validator key with password:", password);

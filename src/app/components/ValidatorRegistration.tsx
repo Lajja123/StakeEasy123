@@ -10,16 +10,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import OperatorSelectionTable from "./OperatorSelectionTable";
 
 function ValidatorRegistration() {
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
   const popupRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const hasSeenPopup = localStorage.getItem("hasSeenRegisrationPopup");
-    if (!hasSeenPopup) {
-      setShowPopup(true);
-      localStorage.setItem("hasSeenRegisrationPopup", "true");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const hasSeenPopup = localStorage.getItem("hasSeenRegisrationPopup");
+  //   if (!hasSeenPopup) {
+  //     setShowPopup(true);
+  //     localStorage.setItem("hasSeenRegisrationPopup", "true");
+  //   }
+  // }, []);
 
   const closePopup = () => {
     setShowPopup(false);
