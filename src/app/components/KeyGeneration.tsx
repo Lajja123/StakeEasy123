@@ -12,22 +12,22 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function KeyGeneration() {
   const [showPopup, setShowPopup] = useState(false);
-  const [showPopupBlur, setShowPopupBlur] = useState(true);
+  const [showPopupBlur, setShowPopupBlur] = useState(false);
   const [popupType, setPopupType] = useState("");
   const [showTerminalSteps, setShowTerminalSteps] = useState(false);
   const [showGUISteps, setShowGUISteps] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   // Check if the user has already seen the main popup
-  //   const hasSeenPopup = localStorage.getItem("hasSeenKeyGenPopup");
-  //   if (!hasSeenPopup) {
-  //     setPopupType("main");
+  useEffect(() => {
+    // Check if the user has already seen the main popup
+    const hasSeenPopup = localStorage.getItem("hasSeenKeyGenPopup");
+    if (!hasSeenPopup) {
+      setPopupType("main");
 
-  //     setShowPopupBlur(true);
-  //     localStorage.setItem("hasSeenKeyGenPopup", "true");
-  //   }
-  // }, []);
+      setShowPopupBlur(true);
+      localStorage.setItem("hasSeenKeyGenPopup", "true");
+    }
+  }, []);
 
   const closePopup = () => {
     setShowPopup(false);

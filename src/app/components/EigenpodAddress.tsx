@@ -19,15 +19,15 @@ const EigenpodAddress: React.FC = () => {
   const [currentAddress, setCurrentAddress] = useState(
     "EigenPod Address not created yet"
   );
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
-  // useEffect(() => {
-  //   const hasSeenPopup = localStorage.getItem("hasSeenEigenPodPopup");
-  //   if (!hasSeenPopup) {
-  //     setShowPopup(true);
-  //     localStorage.setItem("hasSeenEigenPodPopup", "true");
-  //   }
-  // }, []);
+  useEffect(() => {
+    const hasSeenPopup = localStorage.getItem("hasSeenEigenPodPopup");
+    if (!hasSeenPopup) {
+      setShowPopup(true);
+      localStorage.setItem("hasSeenEigenPodPopup", "true");
+    }
+  }, []);
   useEffect(() => {
     const initializeContract = async () => {
       if (typeof window !== "undefined" && window.ethereum) {
@@ -73,14 +73,14 @@ const EigenpodAddress: React.FC = () => {
       const podExists = await contract.hasPod(address);
       if (podExists) {
         const existingPod = await contract.getPod(address);
-        toast.success(`Pod already exists!`);
+        toast.success(`Pod already exists! Pod address: ${existingPod}`);
         setPodAddress(existingPod);
         return existingPod;
       }
       const tx = await contract.createPod();
       const receipt = await tx.wait();
       const newPodAddress = await contract.getPod(address);
-      toast.success(`Pod created successfully!`);
+      toast.success(`Pod created successfully! Pod address: ${newPodAddress}`);
       setPodAddress(newPodAddress);
       return newPodAddress;
     } catch (error) {
