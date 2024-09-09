@@ -8,9 +8,11 @@ import { toast, Toaster } from "react-hot-toast";
 
 interface TransactionProps {
   goBack: () => void;
+  networkFee: number;
+  totalOperatorFees: number;
 }
 
-const Tx = ({ goBack }: TransactionProps) => {
+const Tx = ({ goBack, networkFee, totalOperatorFees }: TransactionProps) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async (text: any) => {
@@ -95,7 +97,7 @@ const Tx = ({ goBack }: TransactionProps) => {
                 <Info size={10} className="ml-1" />
               </Tooltip>
             </span>
-            <span>0.0 SSV</span>
+            <span>{totalOperatorFees}</span>
           </div>
           <div className="flex justify-between">
             <span className="flex items-center">
@@ -113,7 +115,7 @@ const Tx = ({ goBack }: TransactionProps) => {
                 <Info size={10} className="ml-1" />
               </Tooltip>
             </span>
-            <span>0.5 SSV</span>
+            <span>{networkFee}</span>
           </div>
           <div className="flex justify-between">
             <span className="flex items-center">
@@ -131,12 +133,16 @@ const Tx = ({ goBack }: TransactionProps) => {
                 <Info size={10} className="ml-1" />
               </Tooltip>
             </span>
-            <span>1.0 SSV</span>
+            <span>1 SSV</span>
           </div>
           <div className="w-[calc(100%+32px)] border-b-2 border-gray-400 mt-2 -ml-4"></div>
           <div className="flex justify-between mt-2">
             <span>Total</span>
-            <span>1.5 SSV</span>
+            <span className="">
+            {totalOperatorFees +
+              1 + networkFee}{" "}
+            SSV
+          </span>
           </div>
         </div>
         <div className="flex justify-center p-4 gap-4">

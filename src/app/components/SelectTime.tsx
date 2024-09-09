@@ -36,10 +36,6 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
     setShowTxDetails(false);
   };
 
-  if (showTxDetails) {
-    return <TransactionDetails goBack={goBackToTransactionDetails} />;
-  }
-
   const getNetworkFee = () => {
     if (selectedPeriod === "6 Months") {
       return 0.5;
@@ -59,6 +55,10 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
       setSelectedPeriod(period);
     }
   };
+
+  if (showTxDetails) {
+    return <TransactionDetails goBack={goBackToTransactionDetails} networkFee={getNetworkFee()} totalOperatorFees={totalOperatorFees} />;
+  }
 
   return (
     <div className="max-w-lg mx-auto text-white shadow-md rounded-lg border-2 border-gray-200 p-6">
