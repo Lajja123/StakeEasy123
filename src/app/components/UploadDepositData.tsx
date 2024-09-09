@@ -8,13 +8,103 @@ import {
   Info,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAccount } from 'wagmi'
+import { Contract, ethers, BrowserProvider } from 'ethers';
+import depositContractABI from "../utils/depositABI.json";
+import { prefix0X, TransactionStatus } from "../utils/helpers";
+
+const DEPOSIT_CONTRACT_ADDRESS = '0x4242424242424242424242424242424242424242';
+const PRICE_PER_VALIDATOR = 32;
+
+interface WindowWithEthereum extends Window {
+  ethereum?: any;
+}
+
+declare let window: WindowWithEthereum;
 
 function UploadDepositData() {
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [depositData, setDepositData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isDepositLoading, setIsDepositLoading] = useState(false);
+  const [isDepositSuccess, setIsDepositSuccess] = useState(false);
+  const [txHash, setTxHash] = useState<string | null>(null);
   const popupRef = useRef<HTMLDivElement>(null);
+
+  const { address, isConnected, chain } = useAccount();
+
+  const updateTransactionStatus = (
+    pubkey: string,
+    status: TransactionStatus,
+    txHash?: string
+  ) => {
+    // update transaction status
+  };
+
+  const startDepositTransaction = async () => {
+    const provider = new BrowserProvider(window.ethereum);
+    const signer = await provider.getSigner();
+
+    const contract = new Contract(
+      DEPOSIT_CONTRACT_ADDRESS,
+      depositContractABI,
+      signer
+    );
+    setError(null);
+    setIsDepositLoading(true);
+    setIsDepositSuccess(false);
+    setTxHash(null);
+
+    if (depositData.pubkey === null || depositData.withdrawal_credentials === null || depositData.signature === null || depositData.deposit_data_root === null) {
+      setError("Invalid JSON file. Please upload a valid deposit data file.");
+      setIsDepositLoading(false);
+      return;
+    }
+
+    if (chain?.id !== 17000) {
+      setError("Please connect to the Holesky testnet to continue.");
+      setIsDepositLoading(false);
+      return;
+    }
+
+    try {
+      console.log("Deposit data:", depositData);
+      const gasPrice = (await provider.getFeeData()).gasPrice;
+
+      const pubkey = prefix0X(depositData[0].pubkey);
+      const withdrawal_credentials = prefix0X(depositData[0].withdrawal_credentials);
+      const signature = prefix0X(depositData[0].signature);
+      const deposit_data_root = prefix0X(depositData[0].deposit_data_root);
+
+      const tx = await contract.deposit(
+        ethers.getBytes(pubkey),
+        ethers.getBytes(withdrawal_credentials),
+        ethers.getBytes(signature),
+        deposit_data_root,
+        {
+          gasPrice: gasPrice,
+          value: ethers.parseEther(PRICE_PER_VALIDATOR.toString()),
+        }
+      );
+
+      setTxHash(tx.hash);
+      updateTransactionStatus(depositData.pubkey, TransactionStatus.PENDING, tx.hash);
+
+      const receipt = await tx.wait();
+      if (receipt.status) {
+        setIsDepositSuccess(true);
+        updateTransactionStatus(depositData.pubkey, TransactionStatus.SUCCEEDED, tx.hash);
+      } else {
+        updateTransactionStatus(depositData.pubkey, TransactionStatus.FAILED, tx.hash);
+      }
+    } catch (error) {
+      console.error("Error initiating deposit transaction:", error);
+      setError("Failed to initiate deposit transaction. Please try again.");
+      setIsDepositLoading(false);
+      setIsDepositSuccess(false);
+    } 
+  }
 
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("hasSeenUploadPopup");
@@ -24,25 +114,27 @@ function UploadDepositData() {
     }
   }, []);
 
-  const generateValidatorKey = () => {
-    console.log("Generating validator key with password:", password);
-    if (file) {
-      console.log("File uploaded:", file.name);
-      // You would typically make an API call here
-    } else {
-      console.log("No file uploaded");
-    }
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setFile(event.target.files[0]);
     }
   };
+
+  useEffect(() => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const jsonContent = JSON.parse(event.target?.result as string);
+          setDepositData(jsonContent);
+        } catch (error) {
+          console.error("Error parsing JSON file:", error);
+          setError("Invalid JSON file. Please upload a valid deposit data file.");
+        }
+      };
+      reader.readAsText(file);
+    }
+  }, [file]);
 
   const closePopup = () => {
     setShowPopup(false);
@@ -210,6 +302,8 @@ function UploadDepositData() {
                 />
               </div>
               <button
+                onClick={startDepositTransaction}
+                disabled={!file || !isConnected || isDepositLoading}
                 style={{
                   border: "1px solid transparent",
                   borderImage: "linear-gradient(to right, #DA619C , #FF844A )",
@@ -218,10 +312,16 @@ function UploadDepositData() {
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
-                className="mx-auto w-[40%] grow text-white py-[6px] px-4 rounded-[6px] focus:outline-none focus:ring-1 focus:ring-orange-600 focus:ring-opacity-50 font-bold"
+                className=" grow text-white py-[6px] px-4 rounded-[6px] focus:outline-none focus:ring-1 focus:ring-orange-600 focus:ring-opacity-50 font-bold"
               >
-                Stake
+                {isDepositLoading ? 'Staking...' : 'Stake ETH'}
               </button>
+              {isDepositSuccess && (
+                <p className="text-green-500">Stake successful! Transaction hash: {txHash}</p>
+              )}
+              {error && (
+                <p className="text-red-500">{error}</p>
+              )}
             </div>
           </div>
         </div>
