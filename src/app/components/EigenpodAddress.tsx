@@ -73,14 +73,14 @@ const EigenpodAddress: React.FC = () => {
       const podExists = await contract.hasPod(address);
       if (podExists) {
         const existingPod = await contract.getPod(address);
-        toast.success(`Pod already exists! Pod address: ${existingPod}`);
+        toast.success(`Pod already exists!`);
         setPodAddress(existingPod);
         return existingPod;
       }
       const tx = await contract.createPod();
       const receipt = await tx.wait();
       const newPodAddress = await contract.getPod(address);
-      toast.success(`Pod created successfully! Pod address: ${newPodAddress}`);
+      toast.success(`Pod created successfully!`);
       setPodAddress(newPodAddress);
       return newPodAddress;
     } catch (error) {

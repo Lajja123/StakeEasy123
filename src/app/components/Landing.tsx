@@ -12,8 +12,8 @@ const Landing = () => {
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
 
-  const handleMainSteps = (url: string) => {
-    router.push(url);
+  const handleMainSteps = () => {
+    router.push("/join");
   };
 
   const closePopup = () => {
@@ -216,7 +216,7 @@ const Landing = () => {
                 </div>
 
                 <button
-                  onClick={() => handleMainSteps("/join")}
+                  onClick={handleMainSteps}
                   style={{
                     background: "linear-gradient(to right, #A257EC, #D360A6)",
                     textAlign: "center",
