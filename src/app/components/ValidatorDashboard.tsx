@@ -142,6 +142,37 @@ const ValidatorDashboard = () => {
     fetchData();
   }, []);
 
+  const router = useRouter();
+  
+  const itemsPerPage = 4;
+  const pages = Math.ceil(operators.length / itemsPerPage);
+
+  const slides = [];
+  for (let i = 0; i < pages; i++) {
+    const startIndex = i * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentItems = operators.slice(startIndex, endIndex);
+
+    slides.push(
+      <div key={i}>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          {currentItems.map((operator) => (
+            <OperatorCard key={operator.id} {...operator} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText("  76668699....887797");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const goBack = () => {
+    router.push("clusters-dashboard");
+  };
+
   if (loading) {
     return (
       <div className="main">
@@ -273,36 +304,6 @@ const ValidatorDashboard = () => {
       </div>
     );
   }
-
-  const router = useRouter();
-  const itemsPerPage = 4;
-  const pages = Math.ceil(operators.length / itemsPerPage);
-
-  const slides = [];
-  for (let i = 0; i < pages; i++) {
-    const startIndex = i * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentItems = operators.slice(startIndex, endIndex);
-
-    slides.push(
-      <div key={i}>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          {currentItems.map((operator) => (
-            <OperatorCard key={operator.id} {...operator} />
-          ))}
-        </div>
-      </div>
-    );
-  }
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText("  76668699....887797");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const goBack = () => {
-    router.push("clusters-dashboard");
-  };
 
   return (
     <>
