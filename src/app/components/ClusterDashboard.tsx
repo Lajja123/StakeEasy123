@@ -38,7 +38,7 @@ const ClusterDashboard: React.FC = () => {
         background: "linear-gradient(274.46deg, #1D1D1D 3.75%, #191919 95.45%)",
         boxShadow: "0px 3.18px 42.01px 0px rgba(0, 0, 0, 0.25)",
         border: "0.4px solid #A6A6A6",
-        borderRadius: "27px",
+        borderRadius: "20px",
       }}
     >
       <button onClick={goBack} className="flex items-center mb-4 text-white">

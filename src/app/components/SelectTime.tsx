@@ -57,7 +57,13 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
   };
 
   if (showTxDetails) {
-    return <TransactionDetails goBack={goBackToTransactionDetails} networkFee={getNetworkFee()} totalOperatorFees={totalOperatorFees} />;
+    return (
+      <TransactionDetails
+        goBack={goBackToTransactionDetails}
+        networkFee={getNetworkFee()}
+        totalOperatorFees={totalOperatorFees}
+      />
+    );
   }
 
   return (
@@ -131,6 +137,7 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
             value={customPeriod}
             onChange={handleCustomPeriodChange}
             className="border p-2 rounded w-24 text-white bg-[#161515]"
+            min="0" // Prevent negative values
           />
           <span className="ml-0 pl-0">days</span>
           <span className="font-bold">

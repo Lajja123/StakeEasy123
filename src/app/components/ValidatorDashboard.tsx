@@ -160,7 +160,13 @@ const ValidatorDashboard = () => {
     <>
       <div className="main">
         <div className=" flex items-center justify-center p-8 ">
-          <div className=" p-6 rounded-lg  text-white w-full max-w-7xl">
+          <div className=" p-6 rounded-lg  text-white w-full max-w-7xl"
+          style={{
+            background: "linear-gradient(to right, #1D1D1D 0%, #191919 100%)",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            padding: "30px 40px",
+            borderRadius: "20px",
+          }}>
             <button
               onClick={goBack}
               className="flex items-center mb-4 text-white "
