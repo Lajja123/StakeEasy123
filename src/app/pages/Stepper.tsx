@@ -240,7 +240,7 @@ function Stepper() {
         </button>
         <button
           onClick={nextStep}
-          disabled={isNextDisabled}
+          // disabled={isNextDisabled}
           className={`px-6 py-2 transition-colors flex items-center ${
             isNextDisabled ? "opacity-50 cursor-not-allowed" : ""
           }`}

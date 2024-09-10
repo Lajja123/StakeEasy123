@@ -5,24 +5,25 @@ import DownArrow2 from "../assets/DownArrow2.png";
 import UpDownArrow from "../assets/UpDownArrow.png";
 import Filter from "../assets/Filter.png";
 import "../css/OperatorSelectionTable.css";
-import KeyStoreFile from "./KeyStoreFile";
+import UploadKeystoreData from "./UploadKeystoreData";
 import Image from "next/image";
 import icon from "../assets/icon.png";
 
-// Define the type for an operator
 interface Operator {
   id: number;
+  address: string;
   name: string;
   validators: number;
   performance: string;
   yearlyFee: string;
   mev: number;
+  image: string;
 }
 
 export default function OperatorSelectionTable() {
   const [operators, setOperators] = useState<Operator[]>([]);
-  const [selectedOperators, setSelectedOperators] = useState<Operator[]>([]);
   const [showKeystoreUpload, setShowKeystoreUpload] = useState(false);
+  const [selectedOperators, setSelectedOperators] = useState<Operator[]>([]);
   const [clusterSize, setClusterSize] = useState<number>(4);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortConfig, setSortConfig] = useState<{
@@ -42,10 +43,13 @@ export default function OperatorSelectionTable() {
   const [operatorsPerPage] = useState(10);
 
   useEffect(() => {
-    if (selectedOperators.length > clusterSize) {
-      // If selected operators exceed the new cluster size, trim the list
-      setSelectedOperators(selectedOperators.slice(0, clusterSize));
-    }
+    setSelectedOperators((prevSelectedOperators) => {
+      if (prevSelectedOperators.length > clusterSize) {
+        // If selected operators exceed the new cluster size, trim the list
+        return prevSelectedOperators.slice(0, clusterSize);
+      }
+      return prevSelectedOperators;
+    });
   }, [clusterSize]);
 
   useEffect(() => {
@@ -64,11 +68,13 @@ export default function OperatorSelectionTable() {
         if (data.operators && Array.isArray(data.operators)) {
           const transformedOperators = data.operators.map((op: any) => ({
             id: op.id,
+            address: op.public_key,
             name: op.name,
-            validators: 0,
+            validators: op.validators_count,
             performance: `${op.performance["30d"].toFixed(2)}%`,
             yearlyFee: `${(parseInt(op.fee) / 1e9).toFixed(2)} SSV`,
             mev: 0,
+            image: op.logo
           }));
 
           setOperators(transformedOperators);
@@ -173,6 +179,8 @@ export default function OperatorSelectionTable() {
   };
 
   const handleKeystoreUpload = () => {
+
+    console.log("selcetedOperators: ", selectedOperators);
     setShowKeystoreUpload(true);
   };
 
@@ -182,7 +190,7 @@ export default function OperatorSelectionTable() {
   };
 
   if (showKeystoreUpload) {
-    return <KeyStoreFile goBack={goBackToOperatorSelection} totalOperatorFees={totalFee} />;
+    return <UploadKeystoreData goBack={goBackToOperatorSelection} operatorsData={selectedOperators} totalFee={totalFee}/>;
   }
 
   return (
@@ -346,7 +354,8 @@ export default function OperatorSelectionTable() {
                           }}
                         >
                           <Image
-                            src={icon}
+                            src={operator.image || icon}
+                            // src={icon}
                             alt=""
                             style={{
                               borderRadius: "20px",
@@ -390,7 +399,7 @@ export default function OperatorSelectionTable() {
               Page {currentPage} of {totalPages}
             </span>
             <button
-              onClick={nextPage}
+              onClick={nextPage} 
               disabled={currentPage === totalPages}
               className="pagination-button"
             >

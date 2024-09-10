@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import TransactionDetails from "./TransactionDetails";
 import { Tooltip } from "antd";
@@ -7,13 +7,33 @@ import { Info } from "lucide-react";
 
 interface SelectTimeProps {
   goBack: () => void;
-  totalOperatorFees: number;
+  parsedPayload: any;
+  operatorsData: any;
+  totalFee: number;
 }
 
-const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
+const StakingInterface = ({ goBack, parsedPayload, operatorsData, totalFee }: SelectTimeProps) => {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("");
   const [customPeriod, setCustomPeriod] = useState<number | string>(0);
   const [showTxDetails, setShowTxDetails] = useState(false);
+  const [netFee, setNetFee] = useState(0);
+  const [nDays, setNDays] = useState(0);
+
+  useEffect(() => {
+    if (selectedPeriod === "6 Months") {
+      setNetFee(0.5);
+      setNDays(182);
+    } else if (selectedPeriod === "1 Year") {
+      setNetFee(1);
+      setNDays(365);
+    } else if (selectedPeriod === "Custom Period" && customPeriod) {
+      setNetFee(Number(((Number(customPeriod) / 365) * 1).toFixed(5)));
+      setNDays(Number(customPeriod));
+    } else {
+      setNetFee(0);
+      setNDays(0);
+    }
+  }, [selectedPeriod, customPeriod]);
 
   const handleCustomPeriodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -36,15 +56,21 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
     setShowTxDetails(false);
   };
 
-  const getNetworkFee = () => {
-    if (selectedPeriod === "6 Months") {
-      return 0.5;
-    } else if (selectedPeriod === "1 Year") {
-      return 1;
-    } else {
-      return Number(((Number(customPeriod) / 365) * 1).toFixed(5));
-    }
-  };
+  // const getNetworkFee = () => {
+  //   if (selectedPeriod === "6 Months") {
+  //     setNetFee(0.5);
+  //     setNDays(182);
+  //   } else if (selectedPeriod === "1 Year") {
+  //     setNetFee(1);
+  //     setNDays(365);
+  //   } else {
+  //     setNetFee(Number(((Number(customPeriod) / 365) * 1).toFixed(5)));
+  //     setNDays(Number(customPeriod));  
+  //   }
+  //   // console.log("netFee: ", netFee);
+  //   // console.log("nDays: ", nDays);
+  //   return netFee;
+  // };
 
   const handleRowClick = (period: string) => {
     if (selectedPeriod === period) {
@@ -57,7 +83,9 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
   };
 
   if (showTxDetails) {
-    return <TransactionDetails goBack={goBackToTransactionDetails} networkFee={getNetworkFee()} totalOperatorFees={totalOperatorFees} />;
+    // console.log("netFee: ", netFee);
+    // console.log("nDays: ", nDays);
+    return <TransactionDetails goBack={goBackToTransactionDetails} parsedPayload={parsedPayload} operatorsData={operatorsData}  totalFee={totalFee} networkFee={netFee} noDays={nDays}/>;
   }
 
   return (
@@ -131,6 +159,7 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
             value={customPeriod}
             onChange={handleCustomPeriodChange}
             className="border p-2 rounded w-24 text-white bg-[#161515]"
+            min="0"
           />
           <span className="ml-0 pl-0">days</span>
           <span className="font-bold">
@@ -168,7 +197,7 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
               <Info size={10} className="ml-1" />
             </Tooltip>
           </span>
-          <span>{totalOperatorFees}</span>
+          <span>{totalFee}</span>
         </div>
         <div className="flex justify-between">
           <span className="flex items-center ">
@@ -186,7 +215,7 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
               <Info size={10} className="ml-1" />
             </Tooltip>
           </span>
-          <span>{getNetworkFee()} SSV</span>
+          <span>{netFee} SSV</span>
         </div>
         <div className="flex justify-between">
           <span className="flex items-center ">
@@ -210,7 +239,7 @@ const StakingInterface = ({ goBack, totalOperatorFees }: SelectTimeProps) => {
         <div className="flex justify-between font-bold">
           <span>Total</span>
           <span className="">
-            {totalOperatorFees +
+            {totalFee +
               1 +
               (selectedPeriod === "Custom Period"
                 ? Number(((Number(customPeriod) / 365) * 1).toFixed(5))

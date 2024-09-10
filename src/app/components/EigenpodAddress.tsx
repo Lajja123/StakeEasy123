@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast, Toaster } from "react-hot-toast";
 import { useAccount } from "wagmi";
 import { BrowserProvider, Contract } from "ethers";
-import eigenPodManagerAbi from "../../abi.json";
+import eigenPodManagerAbi from "../utils/eigenpodABI.json";
 interface WindowWithEthereum extends Window {
   ethereum?: any;
 }
