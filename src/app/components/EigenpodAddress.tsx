@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast, Toaster } from "react-hot-toast";
 import { useAccount } from "wagmi";
 import { BrowserProvider, Contract } from "ethers";
-import eigenPodManagerAbi from "../../abi.json";
+import eigenPodManagerAbi from "../utils/eigenpodABI.json";
 interface WindowWithEthereum extends Window {
   ethereum?: any;
 }
@@ -73,14 +73,14 @@ const EigenpodAddress: React.FC = () => {
       const podExists = await contract.hasPod(address);
       if (podExists) {
         const existingPod = await contract.getPod(address);
-        toast.success(`Pod already exists!`);
+        toast.success(`Pod already exists! Pod address: ${existingPod}`);
         setPodAddress(existingPod);
         return existingPod;
       }
       const tx = await contract.createPod();
       const receipt = await tx.wait();
       const newPodAddress = await contract.getPod(address);
-      toast.success(`Pod created successfully!`);
+      toast.success(`Pod created successfully! Pod address: ${newPodAddress}`);
       setPodAddress(newPodAddress);
       return newPodAddress;
     } catch (error) {

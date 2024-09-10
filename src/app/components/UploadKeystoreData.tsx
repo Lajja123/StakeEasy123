@@ -11,29 +11,108 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import SelectTime from "./SelectTime";
 
-interface KeyStoreFileProps {
-  goBack: () => void;
-  totalOperatorFees: number;
+enum STEPS {
+  START = 0,
+  ENTER_PASSWORD = 1,
+  DECRYPT_KEYSTORE = 2,
+  ENCRYPT_SHARES = 3,
+  FINISH = 4,
 }
 
-function KeyStoreFile({ goBack, totalOperatorFees }: KeyStoreFileProps) {
-  const [password, setPassword] = useState("");
+interface UploadKeystoreDataProps {
+  goBack: () => void;
+  operatorsData: any;
+  totalFee: number;
+}
+
+function UploadKeystoreData({
+  goBack,
+  operatorsData,
+  totalFee,
+}: UploadKeystoreDataProps) {
+  const [password, setPassword] = useState("lamprost");
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [showSelectTime, setShowSelectTime] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const [step, setStep] = useState<STEPS>(STEPS.START);
+  const [keySharesData, setKeyShares] = useState<string>("");
+  const [finalPayload, setFinalPayload] = useState<string>("");
+  const [keystoreFile, setKeystoreFile] = useState<string>("");
+  const [parsedPayload, setParsedPayload] = useState<any>({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSelectTime = async () => {
+    setIsLoading(true);
+    setStep(STEPS.DECRYPT_KEYSTORE);
+
+    try {
+      const response = await fetch("/api/process-key", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ keystoreFile, password, operatorsData }),
+      });
+      console.log("response: ", response);
+
+      if (!response.ok) {
+        throw new Error("Failed to process keystore");
+      }
+
+      const responseText = await response.text();
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("JSON parse error:", parseError);
+        throw new Error("Invalid JSON response from server");
+      }
+
+      console.log("Parsed data:", data);
+
+      setFinalPayload(JSON.stringify(data.payload));
+      setKeyShares(JSON.stringify(data.keyShares));
+      console.log("KeyShares and Payload received from API");
+
+      const parsedPayload = data.payload;
+      setParsedPayload(parsedPayload);
+      // const publicKey = parsedPayload.publicKey;
+      // const operatorIds = parsedPayload.operatorIds;
+      // const shares = parsedPayload.sharesData;
+
+      setStep(STEPS.FINISH);
+    } catch (e) {
+      console.error("Error in handleSelectTime:", e);
+      alert((e as Error).message);
+      setStep(STEPS.ENTER_PASSWORD);
+    } finally {
+      setIsLoading(false); // Set loading to false when generation is done
+    }
+
+    setShowSelectTime(true);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      setFile(event.target.files[0]);
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const result = e.target?.result;
+        if (typeof result === "string") {
+          setKeystoreFile(result);
+        }
+      };
+
+      reader.readAsText(file);
+      setFile(file);
     }
   };
 
-  const handleSelectTime = () => {
-    setShowSelectTime(true);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const goBackToSelectTime = () => {
@@ -41,25 +120,32 @@ function KeyStoreFile({ goBack, totalOperatorFees }: KeyStoreFileProps) {
   };
 
   if (showSelectTime) {
-    return <SelectTime goBack={goBackToSelectTime} totalOperatorFees={totalOperatorFees} />;
+    return (
+      <SelectTime
+        goBack={goBackToSelectTime}
+        parsedPayload={parsedPayload}
+        operatorsData={operatorsData}
+        totalFee={totalFee}
+      />
+    );
   }
 
   return (
     <div className="">
-      <button onClick={goBack} className="flex items-center mb-4 text-white ">
+      <button onClick={goBack} className="flex items-center text-white ">
         <ArrowLeft className="w-5 h-5 mr-2" />
         Back
       </button>
       {/* Main Content with Blur Effect */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 ">
-        <div className=" flex-col justify-center mt-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 items-center">
+        <div className=" flex-col justify-center">
           <h2
             className="text-2xl font-bold text-white"
-            style={{
-              background: "linear-gradient(to right, #DA619C, #FF844A)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
+            // style={{
+            //   background: "linear-gradient(to right, #DA619C, #FF844A)",
+            //   WebkitBackgroundClip: "text",
+            //   WebkitTextFillColor: "transparent",
+            // }}
           >
             Key Store File
           </h2>
@@ -134,7 +220,7 @@ function KeyStoreFile({ goBack, totalOperatorFees }: KeyStoreFileProps) {
                 }}
                 className=" grow text-white py-[6px] px-4 rounded-[6px] focus:outline-none focus:ring-1 focus:ring-orange-600 focus:ring-opacity-50 font-bold"
               >
-                Next
+                {isLoading ? "Generating..." : "Generate"}
               </button>
             </div>
           </div>
@@ -144,4 +230,4 @@ function KeyStoreFile({ goBack, totalOperatorFees }: KeyStoreFileProps) {
   );
 }
 
-export default KeyStoreFile;
+export default UploadKeystoreData;
